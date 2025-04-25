@@ -684,11 +684,13 @@ st.markdown("</div>", unsafe_allow_html=True)
 # ... (Rest of the code unchanged)
 
 elevenlabs_embed_code = """
-<elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
-<script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+<div style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: #f8f9fa; padding: 10px; box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1); z-index: 1000;">
+    <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
+    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+</div>
 """
 
-components.html(elevenlabs_embed_code, height=600, scrolling=True) # Adjust height as needed
+components.html(elevenlabs_embed_code, height=150) # Adjust height as needed
 
 #st.markdown("</div>", unsafe_allow_html=True)
 
