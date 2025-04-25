@@ -9,6 +9,14 @@ from collections import defaultdict
 import concurrent.futures # To fetch city data concurrently
 import math
 
+
+elevenlabs_embed_code = """
+<elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
+<script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+"""
+
+components.html(elevenlabs_embed_code, height=600, scrolling=True) # Adjust height as needed
+
 # -----------------------------------------------------------------------------
 # Page Configuration
 # -----------------------------------------------------------------------------
