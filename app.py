@@ -667,12 +667,12 @@ We utilize data from various APIs including:
 # --- Developer Profile --- UPDATED ---
 # ... (Previous code unchanged until the Developer Profile section)
 
-#st.markdown('<div class="data-container">', unsafe_allow_html=True)
+st.markdown('<div class="data-container">', unsafe_allow_html=True)
 st.subheader("Developer Profile")
 try:
-    st.image(
-        "Developer_MD_Mahbubur_Rahman_Photo_Covar.png",
-        width=8735  # Set a fixed width that fits well in the container
+    st.markdown(
+        '<div style="text-align:center;"><img src="Developer_MD_Mahbubur_Rahman_Photo_Covar.png" style="max-width:100%; height:auto;"></div>',
+        unsafe_allow_html=True
     )
 except Exception as e:
     st.error(f"Error loading profile image: {e}. Make sure 'Developer_MD_Mahbubur_Rahman_Photo_Covar.png' is in the correct path.")
