@@ -10,13 +10,6 @@ import concurrent.futures # To fetch city data concurrently
 import math
 
 
-elevenlabs_embed_code = """
-<elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
-<script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-"""
-
-components.html(elevenlabs_embed_code, height=600, scrolling=True) # Adjust height as needed
-
 # -----------------------------------------------------------------------------
 # Page Configuration
 # -----------------------------------------------------------------------------
@@ -689,75 +682,15 @@ except Exception as e:
 st.markdown("</div>", unsafe_allow_html=True)
 
 # ... (Rest of the code unchanged)
-# Add Website Search functionality
-# Custom styling
-st.markdown("""
-    <style>
-        .custom-button {
-            background-color: #D72660;
-            color: white;
-            padding: 10px 24px;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-        }
-        .custom-button:hover {
-            background-color: #b71d4b;
-        }
-        .custom-input input {
-            background-color: #12133E;
-            color: white;
-            border: 2px solid #D72660;
-            border-radius: 12px;
-            padding: 10px;
-            font-size: 16px;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
-# Header box
-st.markdown("""
-    <div style="background-color: #0D0F28; padding: 20px; border-radius: 20px; margin-top: 30px;">
-        <h2 style="color: white; font-family: 'Arial Black'; text-align: center;">Talk to AI Agent</h2>
-    </div>
-""", unsafe_allow_html=True)
+elevenlabs_embed_code = """
+<elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
+<script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+"""
 
-# Input area
-col1, col2 = st.columns([5, 1])
+components.html(elevenlabs_embed_code, height=600, scrolling=True) # Adjust height as needed
 
-with col1:
-    website_url = st.text_input(" ", placeholder="http://elevenlabs.io/", label_visibility="collapsed", key="url_input")
-
-with col2:
-    search = st.button("Search", key="search_button")
-
-# Robot loading animation URL (can change to your own GIF link if needed)
-robot_gif_url = "https://media.giphy.com/media/6brH8WmJ8nFfq/giphy.gif"
-
-# Logic for loading and showing website
-if search:
-    if website_url:
-        with st.spinner("🤖 AI Agent is thinking..."):
-            st.markdown(f"""
-                <div style='text-align:center;'>
-                    <img src="{robot_gif_url}" width="200">
-                    <p style='font-size:20px; color:#D72660; font-weight:bold;'>Fetching website content...</p>
-                </div>
-            """, unsafe_allow_html=True)
-            time.sleep(3)
-
-        st.success(f"Website Loaded: {website_url}")
-        st.markdown(f"[Open in Browser]({website_url})", unsafe_allow_html=True)
-
-        # Embed website inside app
-        components.iframe(website_url, height=700, scrolling=True)
-    else:
-        st.error("Please enter a valid website URL.")
-
-st.markdown("</div>", unsafe_allow_html=True)
+#st.markdown("</div>", unsafe_allow_html=True)
 
 st.subheader("Frequently Asked Questions (FAQ)")
 faq_list = [ {"q": "What is the Air Quality Index (AQI)?", "a": "The Air Quality Index (AQI) is a system for communicating air pollution levels (0-500), indicating air cleanliness and health risks. Higher numbers mean worse quality. Values are grouped into six categories (Good to Hazardous)."}, {"q": "How does air quality affect my health?", "a": "Poor air quality can cause respiratory issues, trigger allergies, and worsen conditions like asthma or heart disease."}, {"q": "What pollutants does the app monitor?", "a": "Aims to track key pollutants like PM2.5, PM10, CO, NO2, SO2, and Ozone (O3). Data availability depends on API sources."}, {"q": "How often is air quality data updated?", "a": "Update frequency depends on the API source, often aiming for near real-time updates."}, {"q": "What does the Air Quality Index (AQI) mean?", "a": "AQI measures air pollution. Lower values (0-50) indicate safer air; higher values (100+) suggest levels harmful to health."}, {"q": "Can the app warn me about unhealthy air?", "a": "Future versions could incorporate alerts. This version focuses on displaying data."}, {"q": "How can I reduce health risks from poor air quality?", "a": "When pollution is high, stay indoors, use air purifiers, avoid strenuous outdoor activity, and wear masks (N95) if going out."}, {"q": "Is the app helpful for asthma patients?", "a": "Yes, by providing current/forecast data, it helps identify high pollution days or triggers, aiding activity planning."}, {"q": "Why should I check air quality daily?", "a": "Daily checks help understand exposure, make informed decisions about activities, and protect health."} ]
