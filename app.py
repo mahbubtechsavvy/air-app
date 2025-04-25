@@ -666,8 +666,7 @@ We utilize data from various APIs including:
 """) # Removed openAQ mention, added note about OWM history limitation
 # --- Developer Profile --- UPDATED ---
 # ... (Previous code unchanged until the Developer Profile section)
-
-st.markdown('<div class="data-container">', unsafe_allow_html=True)
+#st.markdown('<div class="data-container">', unsafe_allow_html=True)
 st.subheader("Developer Profile")
 try:
     st.markdown('<div style="display:flex; justify-content:center;">', unsafe_allow_html=True)
