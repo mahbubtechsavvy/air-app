@@ -684,35 +684,49 @@ st.markdown("</div>", unsafe_allow_html=True)
 st.markdown('<div class="data-container">', unsafe_allow_html=True)
 st.subheader("Search a Website")
 
+# Center the search bar and button with a max-width
+st.markdown('<div style="max-width:600px; margin:auto; padding:20px;">', unsafe_allow_html=True)
+
 # Custom CSS for styling the search bar and button
 st.markdown(
     """
     <style>
-    /* Style the text input */
+    /* Style the text input container */
     div[data-baseweb="input"] > div {
-        background-color: #1A2526;
-        border-radius: 8px;
-        padding: 10px;
+        background-color: #1A2526 !important;
+        border-radius: 8px !important;
+        padding: 10px !important;
+        border: none !important;
     }
+    /* Style the text input itself */
     div[data-baseweb="input"] input {
         color: white !important;
         background-color: #1A2526 !important;
         border: none !important;
+        font-size: 16px !important;
+    }
+    /* Style the placeholder text */
+    div[data-baseweb="input"] input::placeholder {
+        color: #B0BEC5 !important;
+        opacity: 1 !important;
     }
     /* Style the button */
     div.stButton > button {
-        background-color: #C2185B;
-        color: white;
-        border-radius: 8px;
-        padding: 10px 20px;
-        font-weight: bold;
-        text-transform: uppercase;
-        border: none;
-        width: 100%;
-        height: 48px;  /* Match the height of the input field */
+        background-color: #C2185B !important;
+        color: white !important;
+        border-radius: 8px !important;
+        padding: 10px 20px !important;
+        font-weight: bold !important;
+        text-transform: uppercase !important;
+        border: none !important;
+        width: 100% !important;
+        height: 48px !important;  /* Match the height of the input field */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
     div.stButton > button:hover {
-        background-color: #D81B60;
+        background-color: #D81B60 !important;
     }
     </style>
     """,
