@@ -672,7 +672,7 @@ st.subheader("Developer Profile")
 try:
     st.image(
         "Developer_MD_Mahbubur_Rahman_Photo_Covar.png",
-        use_container_width=True  # Set a fixed width that fits well in the container
+        width=1200  # Set a fixed width that fits well in the container
     )
 except Exception as e:
     st.error(f"Error loading profile image: {e}. Make sure 'Developer_MD_Mahbubur_Rahman_Photo_Covar.png' is in the correct path.")
