@@ -112,13 +112,13 @@ st.markdown('<p class="header-subtext", style="text-align:center;">AIR means Air
 
 # ElevenLabs Conversation Widget at the top right
 elevenlabs_embed_code = """
-<div style="position: absolute; top: 20px; right: 100px; z-index: 100;">
+<div style="position: absolute; top: 20px; right: 80px; z-index: 100;">
     <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
     <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 </div>
 """
 
-components.html(elevenlabs_embed_code, height=30) # Adjust height as needed
+components.html(elevenlabs_embed_code, height=60) # Adjust height as needed
 
 # -----------------------------------------------------------------------------
 # API Call Functions --- REVERTED History to OWM ---
