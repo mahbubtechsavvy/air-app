@@ -665,20 +665,20 @@ We utilize data from various APIs including:
 *Please note that data accuracy depends on the respective API providers and sensor availability.*
 """) # Removed openAQ mention, added note about OWM history limitation
 # --- Developer Profile --- UPDATED ---
-#st.markdown('<div class="data-container">', unsafe_allow_html=True) # Keep the container for styling
-st.subheader("Developer Profile")
+# ... (Previous code unchanged until the Developer Profile section)
 
-# Add the image - make sure the image file is in the same folder as app.py
-# or provide the correct path.
+st.markdown('<div class="data-container">', unsafe_allow_html=True)
+st.subheader("Developer Profile")
 try:
     st.image(
         "Developer_MD_Mahbubur_Rahman_Photo_Covar.png",
-        use_container_width=True, # Make image fit container width
-        # caption="MD Mahbubur Rahman - Developer Profile" # Optional caption
+        width=800  # Set a fixed width that fits well in the container
     )
 except Exception as e:
     st.error(f"Error loading profile image: {e}. Make sure 'Developer_MD_Mahbubur_Rahman_Photo_Covar.png' is in the correct path.")
-st.markdown("</div>", unsafe_allow_html=True) # Close the container
+st.markdown("</div>", unsafe_allow_html=True)
+
+# ... (Rest of the code unchanged)
 st.subheader("Frequently Asked Questions (FAQ)")
 faq_list = [ {"q": "What is the Air Quality Index (AQI)?", "a": "The Air Quality Index (AQI) is a system for communicating air pollution levels (0-500), indicating air cleanliness and health risks. Higher numbers mean worse quality. Values are grouped into six categories (Good to Hazardous)."}, {"q": "How does air quality affect my health?", "a": "Poor air quality can cause respiratory issues, trigger allergies, and worsen conditions like asthma or heart disease."}, {"q": "What pollutants does the app monitor?", "a": "Aims to track key pollutants like PM2.5, PM10, CO, NO2, SO2, and Ozone (O3). Data availability depends on API sources."}, {"q": "How often is air quality data updated?", "a": "Update frequency depends on the API source, often aiming for near real-time updates."}, {"q": "What does the Air Quality Index (AQI) mean?", "a": "AQI measures air pollution. Lower values (0-50) indicate safer air; higher values (100+) suggest levels harmful to health."}, {"q": "Can the app warn me about unhealthy air?", "a": "Future versions could incorporate alerts. This version focuses on displaying data."}, {"q": "How can I reduce health risks from poor air quality?", "a": "When pollution is high, stay indoors, use air purifiers, avoid strenuous outdoor activity, and wear masks (N95) if going out."}, {"q": "Is the app helpful for asthma patients?", "a": "Yes, by providing current/forecast data, it helps identify high pollution days or triggers, aiding activity planning."}, {"q": "Why should I check air quality daily?", "a": "Daily checks help understand exposure, make informed decisions about activities, and protect health."} ]
 for item in faq_list:
