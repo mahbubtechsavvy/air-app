@@ -752,29 +752,39 @@ if search_button and query:
         if not url.startswith("http://") and not url.startswith("https://"):
             url = "https://" + url
         
-        # Attempt to access the website
-        response = requests.get(url, timeout=5)
+        # Attempt to access the website with a user-agent header
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        response = requests.get(url, timeout=5, headers=headers)
         
         if response.status_code == 200:
             # Website exists, parse the content
-            from bs4 import BeautifulSoup
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # Extract the page title
-            title = soup.title.string if soup.title else "No title available"
-            
-            # Extract a preview (e.g., meta description or first paragraph)
-            meta_desc = soup.find('meta', attrs={'name': 'description'})
-            preview = meta_desc['content'] if meta_desc and meta_desc.get('content') else ""
-            if not preview:
-                # If no meta description, try the first paragraph
-                first_p = soup.find('p')
-                preview = first_p.get_text(strip=True)[:200] + "..." if first_p else "No preview available."
-            
-            # Display the content within the app
-            st.markdown(f"**Website Found: {url}**")
-            st.markdown(f"**Title:** {title}")
-            st.markdown(f"**Preview:** {preview}")
+            try:
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # Extract the page title
+                title = soup.title.string if soup.title else "No title available"
+                
+                # Extract a preview (e.g., meta description or first paragraph)
+                meta_desc = soup.find('meta', attrs={'name': 'description'})
+                preview = meta_desc['content'] if meta_desc and meta_desc.get('content') else ""
+                if not preview:
+                    # Try the first paragraph
+                    first_p = soup.find('p')
+                    preview = first_p.get_text(strip=True)[:200] + "..." if first_p else ""
+                if not preview:
+                    # Fallback to any body text
+                    body_text = soup.body.get_text(strip=True)[:200] if soup.body else "No preview available."
+                    preview = body_text + "..." if body_text else "No preview available."
+                
+                # Display the content within the app
+                st.markdown(f"**Website Found: {url}**")
+                st.markdown(f"**Title:** {title}")
+                st.markdown(f"**Preview:** {preview}")
+            except Exception as parse_error:
+                st.error(f"Error parsing website content: {parse_error}. The website may have an unusual structure.")
         else:
             # Website doesn't exist or returned an error
             st.markdown(
