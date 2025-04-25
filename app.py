@@ -680,51 +680,89 @@ except Exception as e:
 st.markdown("</div>", unsafe_allow_html=True)
 
 # ... (Rest of the code unchanged)
-# Add Google Search functionality
+# Add Website Search functionality
 st.markdown('<div class="data-container">', unsafe_allow_html=True)
-st.subheader("Search the Web")
-# Center the search bar and buttons
-st.markdown('<div style="max-width:600px; margin:auto; padding:20px;">', unsafe_allow_html=True)
+st.subheader("Search a Website")
 
-# Add the search bar
-query = st.text_input(
-    label="",
-    placeholder="Search Google (e.g., regular show)",
-    key="google_search_input"
+# Custom CSS for styling the search bar and button
+st.markdown(
+    """
+    <style>
+    /* Style the text input */
+    div[data-baseweb="input"] > div {
+        background-color: #1A2526;
+        border-radius: 8px;
+        padding: 10px;
+    }
+    div[data-baseweb="input"] input {
+        color: white !important;
+        background-color: #1A2526 !important;
+        border: none !important;
+    }
+    /* Style the button */
+    div.stButton > button {
+        background-color: #C2185B;
+        color: white;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: none;
+        width: 100%;
+        height: 48px;  /* Match the height of the input field */
+    }
+    div.stButton > button:hover {
+        background-color: #D81B60;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
-# Add the buttons in a centered row
-col1, col2, col3 = st.columns([2, 1, 1])  # Adjust column widths to center buttons
+# Create a layout with columns for the search bar and button
+col1, col2 = st.columns([4, 1])  # 4:1 ratio to make the search bar wider
 with col1:
-    st.write("")  # Empty column for spacing
+    query = st.text_input(
+        label="",
+        placeholder="type what you are looking",
+        key="website_search_input"
+    )
 with col2:
-    search_button = st.button("Google Search")
-with col3:
-    lucky_button = st.button("I'm Feeling Lucky")
+    search_button = st.button("search")
 
-# Perform the search if a button is clicked
-if query and (search_button or lucky_button):
+# Perform the search if the button is clicked
+if search_button and query:
     try:
-        from googlesearch import search
-        # Fetch search results (top 5 for display)
-        results = list(search(query, num_results=5, lang="en"))
+        # Ensure the query has a proper URL format
+        url = query
+        if not url.startswith("http://") and not url.startswith("https://"):
+            url = "https://" + url
         
-        if not results:
-            st.warning("No results found.")
+        # Attempt to access the website
+        response = requests.get(url, timeout=5)
+        
+        if response.status_code == 200:
+            # Website exists, display a success message with a clickable link
+            st.markdown(
+                f"**Website Found!** Visit: <a href='{url}' target='_blank'>{url}</a>",
+                unsafe_allow_html=True
+            )
         else:
-            if lucky_button:
-                # Redirect to the top result for "I'm Feeling Lucky"
-                st.markdown(f'<meta http-equiv="refresh" content="0;URL={results[0]}" />', unsafe_allow_html=True)
-                st.write(f"Redirecting to: {results[0]}")
-            elif search_button:
-                # Display the top 5 results as clickable links
-                st.write("**Search Results:**")
-                for i, result in enumerate(results, 1):
-                    st.markdown(f"{i}. <a href='{result}' target='_blank'>{result}</a>", unsafe_allow_html=True)
-    except Exception as e:
-        st.error(f"Error performing search: {e}. Please try again later.")
+            # Website doesn't exist or returned an error
+            st.markdown(
+                "<h3 style='color:white; text-align:center;'>THIS PAGE DOESN'T SEEM TO EXIST.</h3>",
+                unsafe_allow_html=True
+            )
+            st.write("It looks like the link pointing here was faulty. Maybe try searching?")
+    except requests.exceptions.RequestException as e:
+        # Handle errors (e.g., connection error, timeout, invalid URL)
+        st.markdown(
+            "<h3 style='color:white; text-align:center;'>THIS PAGE DOESN'T SEEM TO EXIST.</h3>",
+            unsafe_allow_html=True
+        )
+        st.write("It looks like the link pointing here was faulty. Maybe try searching?")
 
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 st.subheader("Frequently Asked Questions (FAQ)")
 faq_list = [ {"q": "What is the Air Quality Index (AQI)?", "a": "The Air Quality Index (AQI) is a system for communicating air pollution levels (0-500), indicating air cleanliness and health risks. Higher numbers mean worse quality. Values are grouped into six categories (Good to Hazardous)."}, {"q": "How does air quality affect my health?", "a": "Poor air quality can cause respiratory issues, trigger allergies, and worsen conditions like asthma or heart disease."}, {"q": "What pollutants does the app monitor?", "a": "Aims to track key pollutants like PM2.5, PM10, CO, NO2, SO2, and Ozone (O3). Data availability depends on API sources."}, {"q": "How often is air quality data updated?", "a": "Update frequency depends on the API source, often aiming for near real-time updates."}, {"q": "What does the Air Quality Index (AQI) mean?", "a": "AQI measures air pollution. Lower values (0-50) indicate safer air; higher values (100+) suggest levels harmful to health."}, {"q": "Can the app warn me about unhealthy air?", "a": "Future versions could incorporate alerts. This version focuses on displaying data."}, {"q": "How can I reduce health risks from poor air quality?", "a": "When pollution is high, stay indoors, use air purifiers, avoid strenuous outdoor activity, and wear masks (N95) if going out."}, {"q": "Is the app helpful for asthma patients?", "a": "Yes, by providing current/forecast data, it helps identify high pollution days or triggers, aiding activity planning."}, {"q": "Why should I check air quality daily?", "a": "Daily checks help understand exposure, make informed decisions about activities, and protect health."} ]
