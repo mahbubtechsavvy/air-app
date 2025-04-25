@@ -112,7 +112,7 @@ st.markdown('<p class="header-subtext", style="text-align:center;">AIR means Air
 
 # ElevenLabs Conversation Widget
 elevenlabs_embed_code = """
-<div style="display: flex; justify-content: center; width: 100%;">
+<div style="display: flexible; justify-content: center; width: 50%;">
     <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
     <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 </div>
