@@ -681,124 +681,72 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 # ... (Rest of the code unchanged)
 # Add Website Search functionality
-st.markdown('<div class="data-container">', unsafe_allow_html=True)
-st.subheader("Search a Website")
-
-# Center the search bar and button with a max-width
-st.markdown('<div style="max-width:600px; margin:auto; padding:20px;">', unsafe_allow_html=True)
-
-# Custom CSS for styling the search bar and button
-st.markdown(
-    """
+# Custom styling
+st.markdown("""
     <style>
-    /* Style the text input container */
-    div[data-baseweb="input"] > div {
-        background-color: #1A2526 !important;
-        border-radius: 8px !important;
-        padding: 10px !important;
-        border: none !important;
-    }
-    /* Style the text input itself */
-    div[data-baseweb="input"] input {
-        color: white !important;
-        background-color: #1A2526 !important;
-        border: none !important;
-        font-size: 16px !important;
-    }
-    /* Style the placeholder text */
-    div[data-baseweb="input"] input::placeholder {
-        color: #B0BEC5 !important;
-        opacity: 1 !important;
-    }
-    /* Style the button */
-    div.stButton > button {
-        background-color: #C2185B !important;
-        color: white !important;
-        border-radius: 8px !important;
-        padding: 10px 20px !important;
-        font-weight: bold !important;
-        text-transform: uppercase !important;
-        border: none !important;
-        width: 100% !important;
-        height: 48px !important;  /* Match the height of the input field */
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-    div.stButton > button:hover {
-        background-color: #D81B60 !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Create a layout with columns for the search bar and button
-col1, col2 = st.columns([4, 1])  # 4:1 ratio to make the search bar wider
-with col1:
-    query = st.text_input(
-        label="",
-        placeholder="type what you are looking",
-        key="website_search_input"
-    )
-with col2:
-    search_button = st.button("search")
-
-# Perform the search if the button is clicked
-if search_button and query:
-    try:
-        # Ensure the query has a proper URL format
-        url = query
-        if not url.startswith("http://") and not url.startswith("https://"):
-            url = "https://" + url
-        
-        # Attempt to access the website with a user-agent header
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        .custom-button {
+            background-color: #D72660;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
         }
-        response = requests.get(url, timeout=5, headers=headers)
-        
-        if response.status_code == 200:
-            # Website exists, parse the content
-            try:
-                from bs4 import BeautifulSoup
-                soup = BeautifulSoup(response.text, 'html.parser')
-                
-                # Extract the page title
-                title = soup.title.string if soup.title else "No title available"
-                
-                # Extract a preview (e.g., meta description or first paragraph)
-                meta_desc = soup.find('meta', attrs={'name': 'description'})
-                preview = meta_desc['content'] if meta_desc and meta_desc.get('content') else ""
-                if not preview:
-                    # Try the first paragraph
-                    first_p = soup.find('p')
-                    preview = first_p.get_text(strip=True)[:200] + "..." if first_p else ""
-                if not preview:
-                    # Fallback to any body text
-                    body_text = soup.body.get_text(strip=True)[:200] if soup.body else "No preview available."
-                    preview = body_text + "..." if body_text else "No preview available."
-                
-                # Display the content within the app
-                st.markdown(f"**Website Found: {url}**")
-                st.markdown(f"**Title:** {title}")
-                st.markdown(f"**Preview:** {preview}")
-            except Exception as parse_error:
-                st.error(f"Error parsing website content: {parse_error}. The website may have an unusual structure.")
-        else:
-            # Website doesn't exist or returned an error
-            st.markdown(
-                "<h3 style='color:white; text-align:center;'>THIS PAGE DOESN'T SEEM TO EXIST.</h3>",
-                unsafe_allow_html=True
-            )
-            st.write("It looks like the link pointing here was faulty. Maybe try searching?")
-    except requests.exceptions.RequestException as e:
-        # Handle errors (e.g., connection error, timeout, invalid URL)
-        st.markdown(
-            "<h3 style='color:white; text-align:center;'>THIS PAGE DOESN'T SEEM TO EXIST.</h3>",
-            unsafe_allow_html=True
-        )
-        st.write("It looks like the link pointing here was faulty. Maybe try searching?")
+        .custom-button:hover {
+            background-color: #b71d4b;
+        }
+        .custom-input input {
+            background-color: #12133E;
+            color: white;
+            border: 2px solid #D72660;
+            border-radius: 12px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# Header box
+st.markdown("""
+    <div style="background-color: #0D0F28; padding: 20px; border-radius: 20px; margin-top: 30px;">
+        <h2 style="color: white; font-family: 'Arial Black'; text-align: center;">Talk to AI Agent</h2>
+    </div>
+""", unsafe_allow_html=True)
+
+# Input area
+col1, col2 = st.columns([5, 1])
+
+with col1:
+    website_url = st.text_input(" ", placeholder="http://elevenlabs.io/", label_visibility="collapsed", key="url_input")
+
+with col2:
+    search = st.button("Search", key="search_button")
+
+# Robot loading animation URL (can change to your own GIF link if needed)
+robot_gif_url = "https://media.giphy.com/media/6brH8WmJ8nFfq/giphy.gif"
+
+# Logic for loading and showing website
+if search:
+    if website_url:
+        with st.spinner("🤖 AI Agent is thinking..."):
+            st.markdown(f"""
+                <div style='text-align:center;'>
+                    <img src="{robot_gif_url}" width="200">
+                    <p style='font-size:20px; color:#D72660; font-weight:bold;'>Fetching website content...</p>
+                </div>
+            """, unsafe_allow_html=True)
+            time.sleep(3)
+
+        st.success(f"Website Loaded: {website_url}")
+        st.markdown(f"[Open in Browser]({website_url})", unsafe_allow_html=True)
+
+        # Embed website inside app
+        components.iframe(website_url, height=700, scrolling=True)
+    else:
+        st.error("Please enter a valid website URL.")
 
 st.markdown("</div>", unsafe_allow_html=True)
 
