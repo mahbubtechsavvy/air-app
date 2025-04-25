@@ -670,10 +670,10 @@ We utilize data from various APIs including:
 st.markdown('<div class="data-container">', unsafe_allow_html=True)
 st.subheader("Developer Profile")
 try:
-    st.markdown('<div style="text-align:center;">', unsafe_allow_html=True)
+    st.markdown('<div style="display:flex; justify-content:center;">', unsafe_allow_html=True)
     st.image(
         "Developer_MD_Mahbubur_Rahman_Photo_Covar.png",
-        width=800  # Adjust width as needed
+        width=800  # Set a fixed width that fits well in the container
     )
     st.markdown('</div>', unsafe_allow_html=True)
 except Exception as e:
