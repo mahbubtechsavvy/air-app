@@ -110,15 +110,15 @@ st.markdown('<H1 class="header-text", style="text-align:center;">AIR 13X</H1>', 
 st.markdown('<p class="header-subtext", style="text-align:center;">AIR means Air. 13 means SDG 3, 11, 13; these three represent air pollution, and X is the app\'s version.</p>', unsafe_allow_html=True)
 #st.markdown("---")
 
-# ElevenLabs Conversation Widget
+# ElevenLabs Conversation Widget at the top right
 elevenlabs_embed_code = """
-<div style="display: flexible; justify-content: center; width: 50%;">
+<div style="position: absolute; top: 20px; right: 20px; z-index: 100;">
     <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
     <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 </div>
 """
 
-components.html(elevenlabs_embed_code, height=600, scrolling=True) # Adjust height as needed
+components.html(elevenlabs_embed_code, height=150) # Adjust height as needed
 
 # -----------------------------------------------------------------------------
 # API Call Functions --- REVERTED History to OWM ---
