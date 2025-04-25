@@ -756,11 +756,25 @@ if search_button and query:
         response = requests.get(url, timeout=5)
         
         if response.status_code == 200:
-            # Website exists, display a success message with a clickable link
-            st.markdown(
-                f"**Website Found!** Visit: <a href='{url}' target='_blank'>{url}</a>",
-                unsafe_allow_html=True
-            )
+            # Website exists, parse the content
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Extract the page title
+            title = soup.title.string if soup.title else "No title available"
+            
+            # Extract a preview (e.g., meta description or first paragraph)
+            meta_desc = soup.find('meta', attrs={'name': 'description'})
+            preview = meta_desc['content'] if meta_desc and meta_desc.get('content') else ""
+            if not preview:
+                # If no meta description, try the first paragraph
+                first_p = soup.find('p')
+                preview = first_p.get_text(strip=True)[:200] + "..." if first_p else "No preview available."
+            
+            # Display the content within the app
+            st.markdown(f"**Website Found: {url}**")
+            st.markdown(f"**Title:** {title}")
+            st.markdown(f"**Preview:** {preview}")
         else:
             # Website doesn't exist or returned an error
             st.markdown(
