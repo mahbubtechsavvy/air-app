@@ -579,14 +579,15 @@ if st.session_state.view_data_clicked:
                 st.write(recommendation['details'])
 
             # Embed ElevenLabs inside same container
-            elevenlabs_embed_code = """
-            <div style="z-index: 100; margin-top: 20px;">
-                <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
-                <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+            # --- Insert the ElevenLabs widget code here ---
+            # Make sure this variable definition is included!
+            elevenlabs_embed_code_in_box = """
+            <div style="z-index: 100; margin-top: 20px;"> <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
+              <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
             </div>
             """
+            # Now use the defined variable
             st.markdown(elevenlabs_embed_code_in_box, unsafe_allow_html=True)
-
         else:
             st.info("Waiting for AQI data...")
 
