@@ -570,18 +570,10 @@ if st.session_state.view_data_clicked:
              else: st.info("AQI category unknown."); st.write(recommendation['details'])
         else: st.info("Waiting for AQI data...")
         st.markdown("</div>", unsafe_allow_html=True)
-# ElevenLabs Conversation Widget at the top right
-elevenlabs_embed_code = """
-<div style="position: Centered; top: 50px; right: 80px; z-index: 100;">
-    <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
-    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-</div>
-"""
 
-components.html(elevenlabs_embed_code, height=150) # Adjust height as needed
     # --- History Chart (#3) --- DISPLAY UPDATED ---
     #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-    st.subheader("3. Historic Air Quality Graph (PM2.5 - OWM)") # Title reflects source
+    st.subheader("Historic Air Quality Graph (PM2.5 - OWM)") # Title reflects source
     if not fetch_success and st.session_state.coordinates_error: st.warning("Cannot fetch history (Location Error).")
     elif st.session_state.history_error: st.error(f"{st.session_state.history_error}") # Display specific OWM error
     elif st.session_state.history_data is not None:
