@@ -559,8 +559,11 @@ if st.session_state.view_data_clicked:
     with colB: # --- Health Recommendations (#2) --- (Display unchanged)
     # Health Recommendations Box
     # st.markdown('<div class="data-container">', unsafe_allow_html=True)
+        st.markdown('<div style="background-color: #111827; padding: 20px; border-radius: 12px; margin-bottom: 20px;">', unsafe_allow_html=True)
+        
         st.subheader("Health Recommendations")
 
+        # Health content
         if st.session_state.aqi_error:
             st.warning("Cannot display recommendations (AQI error).")
         elif st.session_state.aqi_data:
@@ -571,7 +574,7 @@ if st.session_state.view_data_clicked:
             if category_label != "Unknown":
                 text_clr = "#000000" if category_label in ["Moderate", "Good"] else "#FFFFFF"
                 st.markdown(
-                    f'<span class="recommendation-category" style="background-color:{category_color}; color:{text_clr}; padding: 6px 12px; border-radius: 8px; display: inline-block;">{category_label} ({aqi_val})</span>',
+                    f'<div style="background-color:{category_color}; color:{text_clr}; padding: 6px 12px; border-radius: 8px; display: inline-block; margin-bottom: 10px;">{category_label} ({aqi_val})</div>',
                     unsafe_allow_html=True
                 )
                 st.markdown(f"<p style='margin-top: 10px; font-weight: bold;'>{recommendation['short']}</p>", unsafe_allow_html=True)
@@ -579,17 +582,15 @@ if st.session_state.view_data_clicked:
             else:
                 st.info("AQI category unknown.")
                 st.write(recommendation['details'])
-    
-            # 👉 Add the ElevenLabs widget nicely
+
+            # Embed ElevenLabs inside same container
             elevenlabs_embed_code = """
             <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px;">
-                <div style="background-color: #111827; padding: 10px; border-radius: 12px; box-shadow: 0px 0px 8px rgba(0,0,0,0.5);">
-                    <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
-                    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-                </div>
+                <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
+                <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
             </div>
             """
-            components.html(elevenlabs_embed_code, height=250)  # Increased height slightly for better fit
+            components.html(elevenlabs_embed_code, height=250)
 
         else:
             st.info("Waiting for AQI data...")
