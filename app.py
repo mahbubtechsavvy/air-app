@@ -558,9 +558,7 @@ if st.session_state.view_data_clicked:
         st.markdown("</div>", unsafe_allow_html=True)
     with colB: # --- Health Recommendations (#2) --- (Display unchanged)
     # Health Recommendations Box
-    # st.markdown('<div class="data-container">', unsafe_allow_html=True)
-        st.markdown('<div style="background-color: #111827; padding: 20px; border-radius: 12px; margin-bottom: 20px;">', unsafe_allow_html=True)
-        
+    # st.markdown('<div class="data-container">', unsafe_allow_html=True)        
         st.subheader("Health Recommendations")
 
         # Health content
@@ -572,25 +570,22 @@ if st.session_state.view_data_clicked:
             recommendation = HEALTH_RECOMMENDATIONS.get(category_label, HEALTH_RECOMMENDATIONS["Unknown"])
     
             if category_label != "Unknown":
-                text_clr = "#000000" if category_label in ["Moderate", "Good"] else "#FFFFFF"
-                st.markdown(
-                    f'<div style="background-color:{category_color}; color:{text_clr}; padding: 6px 12px; border-radius: 8px; display: inline-block; margin-bottom: 10px;">{category_label} ({aqi_val})</div>',
-                    unsafe_allow_html=True
-                )
-                st.markdown(f"<p style='margin-top: 10px; font-weight: bold;'>{recommendation['short']}</p>", unsafe_allow_html=True)
-                st.markdown(f'<div style="margin-bottom: 20px;">{recommendation["details"]}</div>', unsafe_allow_html=True)
+                text_clr = "#000000" if category_label in ["Moderate", "Good"] else "#FFFFFF";
+                st.markdown(f'<span class="recommendation-category" style="background-color:{category_color}; color:{text_clr};">{category_label} ({aqi_val})</span>', unsafe_allow_html=True)
+                st.markdown(f"**{recommendation['short']}**");
+                st.markdown(f'<div class="recommendation-details">{recommendation["details"]}</div>', unsafe_allow_html=True)
             else:
                 st.info("AQI category unknown.")
                 st.write(recommendation['details'])
 
             # Embed ElevenLabs inside same container
             elevenlabs_embed_code = """
-            <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+            <div style="z-index: 100; margin-top: 20px;">
                 <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
                 <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
             </div>
             """
-            components.html(elevenlabs_embed_code, height=250)
+            st.markdown(elevenlabs_embed_code_in_box, unsafe_allow_html=True)
 
         else:
             st.info("Waiting for AQI data...")
