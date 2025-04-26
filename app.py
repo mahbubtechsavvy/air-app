@@ -588,8 +588,8 @@ if st.session_state.view_data_clicked:
             </div>
             """
             # Now use the defined variable
-            st.markdown(elevenlabs_embed_code_in_box, unsafe_allow_html=True)
-            components.html(elevenlabs_embed_code_only_widget)
+            st.markdown(elevenlabs_embed_code_in_box)
+            
         else:
             st.info("Waiting for AQI data...")
 
