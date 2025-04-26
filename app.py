@@ -559,40 +559,40 @@ if st.session_state.view_data_clicked:
     with colB: # --- Health Recommendations (#2) --- (Display unchanged)
     # Health Recommendations Box
     # st.markdown('<div class="data-container">', unsafe_allow_html=True)
-    st.subheader("Health Recommendations")
+        st.subheader("Health Recommendations")
 
-    if st.session_state.aqi_error:
-        st.warning("Cannot display recommendations (AQI error).")
-    elif st.session_state.aqi_data:
-        aqi_val = st.session_state.aqi_data.get('aqi_us')
-        category_label, category_color = get_aqi_category(aqi_val)
-        recommendation = HEALTH_RECOMMENDATIONS.get(category_label, HEALTH_RECOMMENDATIONS["Unknown"])
+        if st.session_state.aqi_error:
+            st.warning("Cannot display recommendations (AQI error).")
+        elif st.session_state.aqi_data:
+            aqi_val = st.session_state.aqi_data.get('aqi_us')
+            category_label, category_color = get_aqi_category(aqi_val)
+            recommendation = HEALTH_RECOMMENDATIONS.get(category_label, HEALTH_RECOMMENDATIONS["Unknown"])
     
-        if category_label != "Unknown":
-            text_clr = "#000000" if category_label in ["Moderate", "Good"] else "#FFFFFF"
-            st.markdown(
-                f'<span class="recommendation-category" style="background-color:{category_color}; color:{text_clr}; padding: 6px 12px; border-radius: 8px; display: inline-block;">{category_label} ({aqi_val})</span>',
-                unsafe_allow_html=True
-            )
-            st.markdown(f"<p style='margin-top: 10px; font-weight: bold;'>{recommendation['short']}</p>", unsafe_allow_html=True)
-            st.markdown(f'<div class="recommendation-details" style="margin-bottom: 20px;">{recommendation["details"]}</div>', unsafe_allow_html=True)
+            if category_label != "Unknown":
+                text_clr = "#000000" if category_label in ["Moderate", "Good"] else "#FFFFFF"
+                st.markdown(
+                    f'<span class="recommendation-category" style="background-color:{category_color}; color:{text_clr}; padding: 6px 12px; border-radius: 8px; display: inline-block;">{category_label} ({aqi_val})</span>',
+                    unsafe_allow_html=True
+                )
+                st.markdown(f"<p style='margin-top: 10px; font-weight: bold;'>{recommendation['short']}</p>", unsafe_allow_html=True)
+                st.markdown(f'<div class="recommendation-details" style="margin-bottom: 20px;">{recommendation["details"]}</div>', unsafe_allow_html=True)
+            else:
+                st.info("AQI category unknown.")
+                st.write(recommendation['details'])
+    
+            # 👉 Add the ElevenLabs widget nicely
+            elevenlabs_embed_code = """
+            <div style="background-color: #111827; padding: 15px; border-radius: 12px; box-shadow: 0px 0px 8px rgba(0,0,0,0.3); text-align: center;">
+                <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
+                <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+            </div>
+            """
+            components.html(elevenlabs_embed_code, height=220)  # Increased height slightly for better fit
+
         else:
-            st.info("AQI category unknown.")
-            st.write(recommendation['details'])
-    
-        # 👉 Add the ElevenLabs widget nicely
-        elevenlabs_embed_code = """
-        <div style="background-color: #111827; padding: 15px; border-radius: 12px; box-shadow: 0px 0px 8px rgba(0,0,0,0.3); text-align: center;">
-            <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
-            <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-        </div>
-        """
-        components.html(elevenlabs_embed_code, height=220)  # Increased height slightly for better fit
+            st.info("Waiting for AQI data...")
 
-    else:
-        st.info("Waiting for AQI data...")
-
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     # --- History Chart (#3) --- DISPLAY UPDATED ---
     #st.markdown('<div class="data-container">', unsafe_allow_html=True)
