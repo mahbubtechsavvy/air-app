@@ -569,7 +569,8 @@ if st.session_state.view_data_clicked:
                  st.markdown(f"**{recommendation['short']}**"); st.markdown(f'<div class="recommendation-details">{recommendation["details"]}</div>', unsafe_allow_html=True)
              else: st.info("AQI category unknown."); st.write(recommendation['details'])
         else: st.info("Waiting for AQI data...")
-            # ElevenLabs Conversation Widget at the top right
+        st.markdown("</div>", unsafe_allow_html=True)
+# ElevenLabs Conversation Widget at the top right
 elevenlabs_embed_code = """
 <div style="position: Centered; top: 50px; right: 80px; z-index: 100;">
     <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
@@ -578,8 +579,6 @@ elevenlabs_embed_code = """
 """
 
 components.html(elevenlabs_embed_code, height=150) # Adjust height as needed
-        st.markdown("</div>", unsafe_allow_html=True)
-
     # --- History Chart (#3) --- DISPLAY UPDATED ---
     #st.markdown('<div class="data-container">', unsafe_allow_html=True)
     st.subheader("3. Historic Air Quality Graph (PM2.5 - OWM)") # Title reflects source
