@@ -582,7 +582,7 @@ if st.session_state.view_data_clicked:
     
             # 👉 Add the ElevenLabs widget nicely
             elevenlabs_embed_code = """
-            <div style="background-color: #111827; padding: 15px; border-radius: 12px; box-shadow: 0px 0px 8px rgba(0,0,0,0.3); text-align: center;">
+            #<div style="background-color: #111827; padding: 15px; border-radius: 12px; box-shadow: 0px 0px 8px rgba(0,0,0,0.3); text-align: center;">
                 <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
                 <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
             </div>
