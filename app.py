@@ -558,7 +558,7 @@ if st.session_state.view_data_clicked:
         st.markdown("</div>", unsafe_allow_html=True)
     with colB: # --- Health Recommendations (#2) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-        st.subheader("2. Health Recommendations")
+        st.subheader("Health Recommendations")
         # ... (display code unchanged) ...
         if st.session_state.aqi_error: st.warning("Cannot display recommendations (AQI error).")
         elif st.session_state.aqi_data:
@@ -569,6 +569,15 @@ if st.session_state.view_data_clicked:
                  st.markdown(f"**{recommendation['short']}**"); st.markdown(f'<div class="recommendation-details">{recommendation["details"]}</div>', unsafe_allow_html=True)
              else: st.info("AQI category unknown."); st.write(recommendation['details'])
         else: st.info("Waiting for AQI data...")
+            # ElevenLabs Conversation Widget at the top right
+elevenlabs_embed_code = """
+<div style="position: Centered; top: 50px; right: 80px; z-index: 100;">
+    <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
+    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+</div>
+"""
+
+components.html(elevenlabs_embed_code, height=150) # Adjust height as needed
         st.markdown("</div>", unsafe_allow_html=True)
 
     # --- History Chart (#3) --- DISPLAY UPDATED ---
