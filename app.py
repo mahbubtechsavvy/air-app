@@ -118,7 +118,7 @@ elevenlabs_embed_code = """
 </div>
 """
 
-components.html(elevenlabs_embed_code, height=60) # Adjust height as needed
+components.html(elevenlabs_embed_code, height=100) # Adjust height as needed
 
 # -----------------------------------------------------------------------------
 # API Call Functions --- REVERTED History to OWM ---
