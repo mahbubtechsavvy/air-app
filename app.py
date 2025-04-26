@@ -575,19 +575,21 @@ if st.session_state.view_data_clicked:
                     unsafe_allow_html=True
                 )
                 st.markdown(f"<p style='margin-top: 10px; font-weight: bold;'>{recommendation['short']}</p>", unsafe_allow_html=True)
-                st.markdown(f'<div class="recommendation-details" style="margin-bottom: 20px;">{recommendation["details"]}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div style="margin-bottom: 20px;">{recommendation["details"]}</div>', unsafe_allow_html=True)
             else:
                 st.info("AQI category unknown.")
                 st.write(recommendation['details'])
     
             # 👉 Add the ElevenLabs widget nicely
             elevenlabs_embed_code = """
-            #<div style="background-color: #111827; padding: 15px; border-radius: 12px; box-shadow: 0px 0px 8px rgba(0,0,0,0.3); text-align: center;">
-                <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
-                <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+                <div style="background-color: #111827; padding: 10px; border-radius: 12px; box-shadow: 0px 0px 8px rgba(0,0,0,0.5);">
+                    <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
+                    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+                </div>
             </div>
             """
-            components.html(elevenlabs_embed_code, height=220)  # Increased height slightly for better fit
+            components.html(elevenlabs_embed_code, height=250)  # Increased height slightly for better fit
 
         else:
             st.info("Waiting for AQI data...")
