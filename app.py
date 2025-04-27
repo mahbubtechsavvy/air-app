@@ -724,8 +724,6 @@ Built with **Streamlit**, designed for **2.5 billion people** in polluted region
 #st.markdown('<div class="data-container">', unsafe_allow_html=True)
 st.markdown('<h2 style="text-align: center; color: #FFFFFF;">AIR 13X Developer</h2>', unsafe_allow_html=True)
 
----
-
 try:
     st.markdown('<div style="display:flex; justify-content:center;">', unsafe_allow_html=True)
     st.image(
@@ -736,8 +734,6 @@ try:
 except Exception as e:
     st.error(f"Error loading profile image: {e}. Make sure 'Developer_MD_Mahbubur_Rahman_Photo_Covar.png' is in the correct path.")
 st.markdown("</div>", unsafe_allow_html=True)
-
----
 
 # ... (Rest of the code unchanged)
 
@@ -751,4 +747,4 @@ for item in faq_list:
 # -----------------------------------------------------------------------------
 # Footer (remains the same)
 # -----------------------------------------------------------------------------
-st.markdown('<div class="footer">Copyright © 2025 MD Mahbubur Rahman | Project - Air 13x</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer"; style="text-align: center; color: #FFFFFF;>Copyright © 2025 MD Mahbubur Rahman | Project - Air 13x</div>', unsafe_allow_html=True)
