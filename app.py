@@ -755,7 +755,8 @@ if st.session_state.view_data_clicked:
 
     # --- Display Location Header (Unchanged) ---
     st.markdown(f'<h3 style="color:#FFFFFF;">Showing Data for: {st.session_state.city}, {st.session_state.state_region}, {st.session_state.country}</h3>', unsafe_allow_html=True)
-
+    st.divider() # <--- ADD THIS LINE
+    
     # --- Data Visualization Sections ---
     colA, colB = st.columns(2)
     with colA: # --- AQI Gauge (#1) --- (Display unchanged)
@@ -809,7 +810,8 @@ if st.session_state.view_data_clicked:
             st.info("Waiting for AQI data...")
 
         st.markdown("</div>", unsafe_allow_html=True)
-
+        st.divider() # <--- ADD THIS LINE
+        
     # --- History Chart (#3) --- DISPLAY UPDATED ---
     #st.markdown('<div class="data-container">', unsafe_allow_html=True)
     st.markdown(f'<h3 style="color:#FFFFFF;">Historic Air Quality Graph (PM2.5 - OWM) for <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
@@ -824,7 +826,7 @@ if st.session_state.view_data_clicked:
              st.caption("Note: No historical data points returned by OWM API for the selected period.")
     elif fetch_success: st.info("Historical data loading (OWM)...")
     else: st.info("Historical data unavailable.")
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.divider() # <--- ADD THIS LINE
 
     # --- Layout for bottom features ---
     colC, colD = st.columns(2)
@@ -941,6 +943,7 @@ Built with **Streamlit**, designed for **2.5 billion people** in polluted region
 # --- Developer Profile --- UPDATED ---
 # ... (Previous code unchanged until the Developer Profile section)
 #st.markdown('<div class="data-container">', unsafe_allow_html=True)
+st.divider() # <--- ADD THIS LINE
 st.markdown('<h2 style="text-align: center; color: #FFFFFF;">AIR 13X Developer</h2>', unsafe_allow_html=True)
 
 try:
