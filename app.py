@@ -760,7 +760,7 @@ if st.session_state.view_data_clicked:
     colA, colB = st.columns(2)
     with colA: # --- AQI Gauge (#1) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-        st.markdown(f'<h3 style="color:#FFFFFF;">1. Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
+        st.markdown(f'<h3 style="color:#FFFFFF;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
         # ... (display code unchanged) ...
         if st.session_state.aqi_error: st.error(f"AQI Error: {st.session_state.aqi_error}")
         aqi_val = st.session_state.aqi_data.get('aqi_us') if st.session_state.aqi_data else None; st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
@@ -811,7 +811,7 @@ if st.session_state.view_data_clicked:
 
     # --- History Chart (#3) --- DISPLAY UPDATED ---
     #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-    st.subheader(f"Historic Air Quality Graph (PM2.5 - OWM) for {st.session_state.city}") # Title reflects source
+    st.markdown(f'<h3 style="color:#FFFFFF;">Historic Air Quality Graph (PM2.5 - OWM) for <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
     if not fetch_success and st.session_state.coordinates_error: st.warning("Cannot fetch history (Location Error).")
     elif st.session_state.history_error: st.error(f"{st.session_state.history_error}") # Display specific OWM error
     elif st.session_state.history_data is not None:
@@ -830,7 +830,7 @@ if st.session_state.view_data_clicked:
     with colC:
         # --- Nearby Stations (#4) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-        st.markdown(f'<h3 style="color:#FFFFFF;">4. Most Polluted Locations Near <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
+        st.markdown(f'<h3 style="color:#FFFFFF;">Most Polluted Locations Near <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
         # ... (display code unchanged) ...
         if not fetch_success and st.session_state.coordinates_error: st.warning("Cannot fetch nearby stations (Location Error).")
         elif st.session_state.nearby_error: st.error(f"{st.session_state.nearby_error}")
@@ -840,7 +840,7 @@ if st.session_state.view_data_clicked:
         st.markdown("</div>", unsafe_allow_html=True)
         # --- Top Cities (#7) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True);
-        st.markdown('<h3 style="color:#FFFFFF;">7. Live AQI - Selected Major Cities</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#FFFFFF;">Live AQI - Selected Major Cities</h3>', unsafe_allow_html=True)
         # ... (display code unchanged) ...
         if st.session_state.ranking_error: st.error(f"City Ranking Error: {st.session_state.ranking_error}")
         elif st.session_state.ranking_data is not None: st.plotly_chart(create_ranking_bar_chart(st.session_state.ranking_data, top_n=10), use_container_width=True)
@@ -849,7 +849,7 @@ if st.session_state.view_data_clicked:
     with colD:
          # --- Weather Report (#5) w/ Note --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True);
-        st.markdown(f'<h3 style="color:#FFFFFF;">5. Today\'s Weather Report in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
+        st.markdown(f'<h3 style="color:#FFFFFF;">Today\'s Weather in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
         # Note the escape character \' for the apostrophe inside the f-string
         # ... (display code unchanged) ...
         if st.session_state.weather_error: st.error(f"Weather Error: {st.session_state.weather_error}")
@@ -873,7 +873,7 @@ if st.session_state.view_data_clicked:
         st.markdown("</div>", unsafe_allow_html=True)
         # --- Forecast Table (#6) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True);
-        st.markdown(f'<h3 style="color:#FFFFFF;">6. 5-Day Weather & AQI Forecast for <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
+        st.markdown(f'<h3 style="color:#FFFFFF;">Five Day Weather & AQI Forecast for <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
         # ... (display code unchanged) ...
         if not fetch_success and st.session_state.coordinates_error: st.warning("Cannot fetch forecast (Location Error).")
         elif st.session_state.forecast_error: st.error(f"Forecast Error: {st.session_state.forecast_error}")
@@ -883,7 +883,7 @@ if st.session_state.view_data_clicked:
         st.markdown("</div>", unsafe_allow_html=True)
     # --- World Map (#8) --- (Display unchanged)
     #st.markdown('<div class="data-container">', unsafe_allow_html=True);
-    st.markdown('<h3 style="color:#FFFFFF;">8. World Live Air Pollution Map</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 style="color:#FFFFFF;">World Live Air Pollution Map</h3>', unsafe_allow_html=True)
     # ... (display code unchanged) ...
     if not st.session_state.mapbox_token: st.warning("Mapbox Access Token needed in sidebar.")
     elif st.session_state.map_error: st.error(f"{st.session_state.map_error}")
