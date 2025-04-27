@@ -124,6 +124,106 @@ st.markdown('<p class="header-subtext", style="text-align:center;">AIR means Air
 # API Call Functions --- REVERTED History to OWM ---
 # -----------------------------------------------------------------------------
 
+# -----------------------------------------------------------------------------
+# API Call Functions --- ADD THESE NEW FUNCTIONS ---
+# -----------------------------------------------------------------------------
+
+@st.cache_data(ttl=86400) # Cache for 1 day
+def get_iqair_countries(api_key):
+    """Fetches a list of supported countries from IQAir."""
+    if not api_key:
+        return [], "IQAir API Key missing."
+    base_url = "http://api.airvisual.com/v2/countries"
+    params = {"key": api_key}
+    try:
+        response = requests.get(base_url, params=params, timeout=15)
+        response.raise_for_status()
+        data = response.json()
+        if data.get("status") == "success":
+            countries = [item["country"] for item in data.get("data", [])]
+            return sorted(countries), None # Return sorted list of country names
+        else:
+            return [], f"IQAir Error (Countries): {data.get('data', {}).get('message', 'Unknown')}"
+    except requests.exceptions.HTTPError as http_err:
+        if response.status_code == 401: return [], "IQAir Error (Countries): Invalid API Key."
+        if response.status_code == 400: # Often indicates key issues too
+             try: error_msg = response.json().get("data", {}).get("message", str(http_err))
+             except: error_msg = str(http_err)
+             return [], f"IQAir Error (Countries): {error_msg}"
+        else: return [], f"IQAir Error (Countries): HTTP Error {response.status_code} - {http_err}"
+    except requests.exceptions.RequestException as err:
+        return [], f"IQAir Error (Countries): Request failed - {err}"
+    except Exception as e:
+        return [], f"IQAir Error (Countries): Unexpected error - {e}"
+
+@st.cache_data(ttl=3600) # Cache for 1 hour
+def get_iqair_states(api_key, country):
+    """Fetches a list of supported states for a given country from IQAir."""
+    if not api_key: return [], "IQAir API Key missing."
+    if not country: return [], "Country not selected."
+    base_url = "http://api.airvisual.com/v2/states"
+    params = {"country": country, "key": api_key}
+    try:
+        response = requests.get(base_url, params=params, timeout=15)
+        response.raise_for_status()
+        data = response.json()
+        if data.get("status") == "success":
+            states = [item["state"] for item in data.get("data", [])]
+            return sorted(states), None
+        else:
+            # Check for specific no_states_found error
+            if data.get("data", {}).get("message") == "no_states_found":
+                 return [], None # Return empty list, not an error
+            else:
+                 return [], f"IQAir Error (States): {data.get('data', {}).get('message', 'Unknown')}"
+    except requests.exceptions.HTTPError as http_err:
+        if response.status_code == 401: return [], "IQAir Error (States): Invalid API Key."
+        if response.status_code == 400: # Often indicates key/param issues
+             try: error_msg = response.json().get("data", {}).get("message", str(http_err))
+             except: error_msg = str(http_err)
+             return [], f"IQAir Error (States): {error_msg}"
+        else: return [], f"IQAir Error (States): HTTP Error {response.status_code} - {http_err}"
+    except requests.exceptions.RequestException as err:
+        return [], f"IQAir Error (States): Request failed - {err}"
+    except Exception as e:
+        return [], f"IQAir Error (States): Unexpected error - {e}"
+
+@st.cache_data(ttl=3600) # Cache for 1 hour
+def get_iqair_cities(api_key, country, state):
+    """Fetches a list of supported cities for a given country and state from IQAir."""
+    if not api_key: return [], "IQAir API Key missing."
+    if not country: return [], "Country not selected."
+    if not state: return [], "State/Region not selected."
+    base_url = "http://api.airvisual.com/v2/cities"
+    params = {"state": state, "country": country, "key": api_key}
+    try:
+        response = requests.get(base_url, params=params, timeout=15)
+        response.raise_for_status()
+        data = response.json()
+        if data.get("status") == "success":
+            cities = [item["city"] for item in data.get("data", [])]
+            return sorted(cities), None
+        else:
+            # Check for specific no_cities_found error
+            if data.get("data", {}).get("message") == "no_cities_found":
+                 return [], None # Return empty list, not an error
+            else:
+                 return [], f"IQAir Error (Cities): {data.get('data', {}).get('message', 'Unknown')}"
+    except requests.exceptions.HTTPError as http_err:
+        if response.status_code == 401: return [], "IQAir Error (Cities): Invalid API Key."
+        if response.status_code == 400: # Often indicates key/param issues
+             try: error_msg = response.json().get("data", {}).get("message", str(http_err))
+             except: error_msg = str(http_err)
+             return [], f"IQAir Error (Cities): {error_msg}"
+        else: return [], f"IQAir Error (Cities): HTTP Error {response.status_code} - {http_err}"
+    except requests.exceptions.RequestException as err:
+        return [], f"IQAir Error (Cities): Request failed - {err}"
+    except Exception as e:
+        return [], f"IQAir Error (Cities): Unexpected error - {e}"
+
+# --- Place these functions near your existing API functions like get_iqair_aqi ---
+# ... rest of your API functions ...
+
 # --- OWM History Function --- RE-ADDED ---
 # @st.cache_data(ttl=1800) # Example Caching (30 mins)
 def get_owm_history(api_key, lat, lon, days=7):
@@ -448,30 +548,141 @@ def generate_analytical_note(aqi_data, weather_data): # (Unchanged)
 # -----------------------------------------------------------------------------
 with st.sidebar:
     # ... (sidebar code unchanged) ...
-    st.header("Settings & Search"); st.subheader("API Keys"); st.caption("Enter personal API keys.")
-    st.session_state.iqair_api_key = st.text_input("IQAir API Key", type="password", value=st.session_state.iqair_api_key, placeholder="IQAir Key")
-    st.session_state.openweathermap_api_key = st.text_input("OpenWeatherMap API Key", type="password", value=st.session_state.openweathermap_api_key, placeholder="OpenWeatherMap Key")
-    st.session_state.waqi_api_key = st.text_input("WAQI API Key (aqicn.org)", type="password", value=st.session_state.waqi_api_key, placeholder="WAQI Key (Nearby/Map/Rank)")
-    st.session_state.mapbox_token = st.text_input("Mapbox Access Token", type="password", value=st.session_state.mapbox_token, placeholder="Mapbox Token (for Map)")
-    st.markdown("---"); st.subheader("Search Location"); st.caption("Enter location.")
-    st.session_state.country = st.text_input("Country", value=st.session_state.country, placeholder="e.g., Bangladesh")
-    st.session_state.state_region = st.text_input("State / Region", value=st.session_state.state_region, placeholder="e.g., Dhaka")
-    st.session_state.city = st.text_input("City", value=st.session_state.city, placeholder="e.g., Dhaka")
+    st.header("Settings & Search")
+    st.subheader("API Keys")
+    st.caption("Enter personal API keys from IQAir, OpenWeatherMap, WAQI (aqicn.org), and Mapbox.")
+
+    # --- API Key Inputs (Unchanged) ---
+    st.session_state.iqair_api_key = st.text_input("IQAir API Key", type="password", value=st.session_state.iqair_api_key, placeholder="Required for AQI & Location Lists")
+    st.session_state.openweathermap_api_key = st.text_input("OpenWeatherMap API Key", type="password", value=st.session_state.openweathermap_api_key, placeholder="Required for Weather & Forecasts")
+    st.session_state.waqi_api_key = st.text_input("WAQI API Key (aqicn.org)", type="password", value=st.session_state.waqi_api_key, placeholder="Required for Nearby, Map, Ranking")
+    st.session_state.mapbox_token = st.text_input("Mapbox Access Token", type="password", value=st.session_state.mapbox_token, placeholder="Required for World Map display")
+
+    st.markdown("---")
+    st.subheader("Search Location")
+    st.caption("Select location using the dropdowns below.")
+
+    # --- Dynamic Select Boxes ---
+    countries_list, country_error = get_iqair_countries(st.session_state.iqair_api_key)
+    states_list, state_error = [], None
+    cities_list, city_error = [], None
+
+    # Display error if fetching countries failed (and key was provided)
+    if country_error and st.session_state.iqair_api_key:
+        st.error(f"Could not load countries: {country_error}")
+
+    # --- Country Selection ---
+    # Find index of previously selected country, default to 0 if not found or list empty
+    try:
+        country_index = countries_list.index(st.session_state.country) if st.session_state.country in countries_list else 0
+    except ValueError:
+        country_index = 0 # Default if list is empty or selection invalid
+
+    selected_country = st.selectbox(
+        "Country",
+        options=countries_list,
+        index=country_index,
+        placeholder="Select Country...",
+        key='country_selector', # Use a distinct key
+        disabled=not st.session_state.iqair_api_key or not countries_list # Disable if no key or no countries
+    )
+
+    # --- State/Region Selection ---
+    # Only fetch states if a country is selected and IQAir key is valid
+    if selected_country and st.session_state.iqair_api_key:
+        states_list, state_error = get_iqair_states(st.session_state.iqair_api_key, selected_country)
+        if state_error:
+            st.error(f"Could not load states for {selected_country}: {state_error}")
+
+    # Find index of previously selected state
+    try:
+         state_index = states_list.index(st.session_state.state_region) if st.session_state.state_region in states_list else 0
+    except ValueError:
+         state_index = 0
+
+    selected_state = st.selectbox(
+        "State / Region",
+        options=states_list,
+        index=state_index,
+        placeholder="Select State/Region...",
+        key='state_selector',
+        disabled=not selected_country or not states_list # Disable if no country or no states
+    )
+
+    # --- City Selection ---
+    # Only fetch cities if a state and country are selected and IQAir key is valid
+    if selected_state and selected_country and st.session_state.iqair_api_key:
+        cities_list, city_error = get_iqair_cities(st.session_state.iqair_api_key, selected_country, selected_state)
+        if city_error:
+            st.error(f"Could not load cities for {selected_state}: {city_error}")
+
+    # Find index of previously selected city
+    try:
+        city_index = cities_list.index(st.session_state.city) if st.session_state.city in cities_list else 0
+    except ValueError:
+        city_index = 0
+
+    selected_city = st.selectbox(
+        "City",
+        options=cities_list,
+        index=city_index,
+        placeholder="Select City...",
+        key='city_selector',
+        disabled=not selected_state or not cities_list # Disable if no state or no cities
+    )
+
+    # --- Update session state when selections change ---
+    # Check if selections have actually changed to avoid unnecessary updates
+    if selected_country != st.session_state.country:
+        st.session_state.country = selected_country
+        # IMPORTANT: Reset state and city if country changes
+        st.session_state.state_region = ""
+        st.session_state.city = ""
+        # Force rerun to update dependent dropdowns
+        st.rerun()
+
+    if selected_state != st.session_state.state_region:
+        st.session_state.state_region = selected_state
+        # IMPORTANT: Reset city if state changes
+        st.session_state.city = ""
+        # Force rerun to update dependent dropdowns
+        st.rerun()
+
+    if selected_city != st.session_state.city:
+        st.session_state.city = selected_city
+        # Don't need to rerun here unless city change should trigger something immediately
+
+    # --- View Data Button ---
     if st.button("View Data", key="view_data_button"):
-        st.session_state.weather_data = None; st.session_state.weather_error = None; st.session_state.aqi_data = None; st.session_state.aqi_error = None
-        st.session_state.coordinates = None; st.session_state.coordinates_error = None; st.session_state.history_data = None; st.session_state.history_error = None
-        st.session_state.forecast_data = None; st.session_state.forecast_error = None; st.session_state.nearby_data = None; st.session_state.nearby_error = None
-        st.session_state.map_data = None; st.session_state.map_error = None; st.session_state.ranking_data = None; st.session_state.ranking_error = None
+        # Reset data and errors before fetching
+        st.session_state.weather_data = None; st.session_state.weather_error = None
+        st.session_state.aqi_data = None; st.session_state.aqi_error = None
+        st.session_state.coordinates = None; st.session_state.coordinates_error = None
+        st.session_state.history_data = None; st.session_state.history_error = None
+        st.session_state.forecast_data = None; st.session_state.forecast_error = None
+        st.session_state.nearby_data = None; st.session_state.nearby_error = None
+        st.session_state.map_data = None; st.session_state.map_error = None
+        st.session_state.ranking_data = None; st.session_state.ranking_error = None
+
+        # Validation
         valid = True
-        if not st.session_state.iqair_api_key: st.warning("Need IQAir Key."); valid = False
-        if not st.session_state.openweathermap_api_key: st.warning("Need OWM Key."); valid = False
-        if not st.session_state.waqi_api_key: st.warning("Need WAQI Key."); valid = False
-        if not st.session_state.mapbox_token: st.warning("Need Mapbox Token."); valid = False
-        if not st.session_state.country: st.warning("Need Country."); valid = False
-        if not st.session_state.state_region: st.warning("Need State/Region."); valid = False
-        if not st.session_state.city: st.warning("Need City."); valid = False
-        if valid: st.session_state.view_data_clicked = True; st.info("Fetching data...")
-        else: st.session_state.view_data_clicked = False
+        if not st.session_state.iqair_api_key: st.warning("IQAir API Key is required."); valid = False
+        if not st.session_state.openweathermap_api_key: st.warning("OpenWeatherMap API Key is required."); valid = False
+        if not st.session_state.waqi_api_key: st.warning("WAQI API Key is required."); valid = False
+        if not st.session_state.mapbox_token: st.warning("Mapbox Access Token is required."); valid = False
+        # Check if selections are made
+        if not st.session_state.country: st.warning("Please select a Country."); valid = False
+        if not st.session_state.state_region and states_list: st.warning("Please select a State/Region."); valid = False # Only require if states exist for the country
+        if not st.session_state.city and cities_list: st.warning("Please select a City."); valid = False # Only require if cities exist for the state
+
+        if valid:
+            st.session_state.view_data_clicked = True
+            st.info("Fetching data...")
+            # Rerun to clear warnings and start fetching in the main area
+            st.rerun()
+        else:
+            st.session_state.view_data_clicked = False
+# --- End of Sidebar Replacement ---
 
 # -----------------------------------------------------------------------------
 # Main Dashboard Area --- UPDATED FETCH LOGIC FOR #3 ---
