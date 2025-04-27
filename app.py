@@ -909,14 +909,6 @@ if st.session_state.view_data_clicked:
             # 3. Display Timestamp and Main Pollutant (if available) below the divider
         
 
-            if details_captions:
-                st.caption(" | ".join(details_captions)) # Join captions with a separator
-
-        else:
-            # Still loading or no data without error
-            st.info("AQI data loading...")
-            st.plotly_chart(create_aqi_gauge(None), use_container_width=True) # Show empty gauge while loading
-
     # st.markdown("</div>", unsafe_allow_html=True) # Remove if you were using container divs
     # --- ADD End: New AQI Display Block ---
 
