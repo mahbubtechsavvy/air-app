@@ -754,7 +754,7 @@ if st.session_state.view_data_clicked:
                  st.session_state.map_data, st.session_state.map_error = get_waqi_map_stations(st.session_state.waqi_api_key, map_lat1, map_lon1, map_lat2, map_lon2)
 
     # --- Display Location Header (Unchanged) ---
-    st.markdown(f'<h3 style="color:#CACACA;">Showing Data for: {st.session_state.country}, {st.session_state.state_region}, {st.session_state.city}</h3>', unsafe_allow_html=True)
+    st.markdown(f'<p style="color:#CACACA; margin-top: 0rem; margin-bottom: 0.5rem;">Showing Data for: {st.session_state.country}, {st.session_state.state_region}, {st.session_state.city}</p>', unsafe_allow_html=True)
    
     
     # --- Data Visualization Sections ---
