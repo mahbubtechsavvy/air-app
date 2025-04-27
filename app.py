@@ -699,8 +699,8 @@ Imagine a child in Dhaka struggling to breathe as smog chokes the city — **7 m
 - Today's weather & 7-day forecast
 - Top 10 most polluted cities globally
 - Live world air pollution map
-
 **Note:** Data accuracy depends on API providers and local sensor networks.
+
 ---
 
 💬 Life-Changing Advice
