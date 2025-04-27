@@ -761,8 +761,6 @@ if st.session_state.view_data_clicked:
     with colA: # --- AQI Gauge (#1) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True)
         st.markdown(f'<h3 style="color:#FFFFFF;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
-
-        ---
         
         # ... (display code unchanged) ...
         if st.session_state.aqi_error: st.error(f"AQI Error: {st.session_state.aqi_error}")
@@ -928,6 +926,8 @@ _"Limit outdoor activities when AQI >150."_
 
 🌟 Big Impact
 Supporting all **17 Sustainable Development Goals (SDGs)** and aiming to **cut 13%** of pollution-linked asthma cases (Anenberg et al., 2018).
+
+---
 
 🚀 Bright Future
 Built with **Streamlit**, designed for **2.5 billion people** in polluted regions by **2030** (UNEP, 2024).
