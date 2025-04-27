@@ -907,44 +907,7 @@ if st.session_state.view_data_clicked:
             st.divider() # Small divider before timestamp
 
             # 3. Display Timestamp and Main Pollutant (if available) below the divider
-            details_captions = []
-            # --- Start of colA ---
-            with colA: # --- AQI Gauge (#1) ---
-                st.markdown(f'<h3 style="color:#FFFFFF;">1. Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
-
-                if st.session_state.aqi_error:
-                    st.error(f"AQI Error: {st.session_state.aqi_error}")
-                    # Optionally display the empty gauge even on error, or just the error
-                    st.plotly_chart(create_aqi_gauge(None), use_container_width=True) # Display gauge showing N/A
-                elif st.session_state.aqi_data is not None:
-                     aqi_val = st.session_state.aqi_data.get('aqi_us') # Can be None if API returns weird data
-                     st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True) # Display the gauge
-
-                     # --- ADD THIS NEW BLOCK BELOW ---
-                     # Get category details again for display below gauge
-                     category_label, category_color = get_aqi_category(aqi_val)
-
-                     # Prepare display values, handling None case
-                     display_aqi_number = aqi_val if aqi_val is not None else "N/A"
-                     display_label = category_label # get_aqi_category handles None case, returns "Unknown"
-
-                     # Define text color (use your main text color variable)
-                     label_text_color = text_color # Should be #FFFFFF based on your CSS
-
-                     # Use markdown with HTML for mixed formatting and color
-                     # Apply styles directly to paragraph for better control than captions
-                     st.markdown(f'<p style="margin-bottom: 0.1rem; color:{label_text_color};">AQI: <b style="color:{category_color}; font-size: 1.1em;">{display_aqi_number}</b></p>', unsafe_allow_html=True)
-                     st.markdown(f'<p style="margin-top: 0.1rem; color:{label_text_color};">Condition: <b style="color:{category_color}; font-size: 1.1em;">{display_label}</b></p>', unsafe_allow_html=True)
-                     # --- END OF NEW BLOCK ---
         
-                elif fetch_success: # Check if fetch_success is relevant here, otherwise just use else
-                    st.info("AQI data loading...")
-                    # Display placeholder gauge while loading?
-                    # st.plotly_chart(create_aqi_gauge(None), use_container_width=True)
-
-                # st.markdown("</div>", unsafe_allow_html=True) # Remove if you had container divs
-
-            # --- End of colA ---
 
             if details_captions:
                 st.caption(" | ".join(details_captions)) # Join captions with a separator
