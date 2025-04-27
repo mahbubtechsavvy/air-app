@@ -701,7 +701,6 @@ Imagine a child in Dhaka struggling to breathe as smog chokes the city — **7 m
 - Live world air pollution map
 
 **Note:** Data accuracy depends on API providers and local sensor networks.
-""", unsafe_allow_html=True)
 
 ### 💬 Life-Changing Advice
 Our **Voice AI** gently guides you:  
@@ -717,6 +716,8 @@ Supporting all **17 Sustainable Development Goals (SDGs)** and aiming to **cut 1
 
 ### 🚀 Bright Future
 Built with **Streamlit**, designed for **2.5 billion people** in polluted regions by **2030** (UNEP, 2024).
+
+""", unsafe_allow_html=True)
 
 #st.markdown('</div></div>', unsafe_allow_html=True)
 
