@@ -106,7 +106,7 @@ st.markdown(f"""<style>
 # Header (remains the same)
 # -----------------------------------------------------------------------------
 # ... (Header markdown unchanged) ...
-st.markdown('<H1 class="header-text", style="text-align:center;">**AIR 13X**</H1>', unsafe_allow_html=True)
+st.markdown('<H1 class="header-text", style="text-align:center;">AIR 13X</H1>', unsafe_allow_html=True)
 st.markdown('<p class="header-subtext", style="text-align:center;">AIR means Air. 13 means SDG 3, 11, 13; these three represent air pollution, and X is the app\'s version.</p>', unsafe_allow_html=True)
 #st.markdown("---")
 
