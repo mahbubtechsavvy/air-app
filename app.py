@@ -553,10 +553,14 @@ with st.sidebar:
     st.caption("Enter personal API keys from IQAir, OpenWeatherMap, WAQI (aqicn.org), and Mapbox.")
 
     # --- API Key Inputs (Unchanged) ---
-    st.session_state.iqair_api_key = st.text_input("IQAir API Key", type="password", value=st.session_state.iqair_api_key, placeholder="Required for AQI & Location Lists")
+    st.session_state.iqair_api_key = st.text_input("IQAir API Key", type="password", value=st.session_state.iqair_api_key, placeholder="Required for AQI & Location Lists") 
+    st.caption("eg: 52f95a10-d7d8-4003-b919-7bad7a57cd08") # Added example hint
     st.session_state.openweathermap_api_key = st.text_input("OpenWeatherMap API Key", type="password", value=st.session_state.openweathermap_api_key, placeholder="Required for Weather & Forecasts")
+    st.caption("eg: 924f28bc729c8d8d37a0a9e0471a0b6d") # Added example hint
     st.session_state.waqi_api_key = st.text_input("WAQI API Key (aqicn.org)", type="password", value=st.session_state.waqi_api_key, placeholder="Required for Nearby, Map, Ranking")
+    st.caption("eg: 2fe106271126a1394205ba0ff5606c5bd165f20a") # Added example hint
     st.session_state.mapbox_token = st.text_input("Mapbox Access Token", type="password", value=st.session_state.mapbox_token, placeholder="Required for World Map display")
+    st.caption("eg: pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw") # Added example hint (matches Mapbox format)
 
     st.markdown("---")
     st.subheader("Search Location")
