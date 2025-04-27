@@ -699,21 +699,16 @@ Imagine a child in Dhaka struggling to breathe as smog chokes the city — **7 m
 - Today's weather & 7-day forecast
 - Top 10 most polluted cities globally
 - Live world air pollution map
-**Note:** Data accuracy depends on API providers and local sensor networks.
 
----
+**Note:** Data accuracy depends on API providers and local sensor networks.
 
 💬 Life-Changing Advice
 Our **Voice AI** gently guides you:  
 _"Drink 2–3 liters of fresh water daily."_  
 _"Limit outdoor activities when AQI >150."_
 
----
-
 🌟 Big Impact
 Supporting all **17 Sustainable Development Goals (SDGs)** and aiming to **cut 13%** of pollution-linked asthma cases (Anenberg et al., 2018).
-
----
 
 🚀 Bright Future
 Built with **Streamlit**, designed for **2.5 billion people** in polluted regions by **2030** (UNEP, 2024).
