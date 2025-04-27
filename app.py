@@ -747,4 +747,4 @@ for item in faq_list:
 # -----------------------------------------------------------------------------
 # Footer (remains the same)
 # -----------------------------------------------------------------------------
-st.markdown('<div class="footer"; style="text-align: center; color: #FFFFFF;>Copyright © 2025 MD Mahbubur Rahman | Project - Air 13x</div>', unsafe_allow_html=True)
+st.markdown('<h2 style="text-align: center; color: #FFFFFF;">Copyright © 2025 MD Mahbubur Rahman | Project - Air 13x</h2>', unsafe_allow_html=True)
