@@ -722,7 +722,7 @@ Built with **Streamlit**, designed for **2.5 billion people** in polluted region
 # --- Developer Profile --- UPDATED ---
 # ... (Previous code unchanged until the Developer Profile section)
 #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-st.markdown('<h2 style="text-align: center; color: #FFFFFF;">Developer</h2>', unsafe_allow_html=True)
+st.markdown('<h2 style="text-align: center; color: #FFFFFF;">AIR 13X Developer</h2>', unsafe_allow_html=True)
 try:
     st.markdown('<div style="display:flex; justify-content:center;">', unsafe_allow_html=True)
     st.image(
