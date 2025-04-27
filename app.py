@@ -764,49 +764,49 @@ if st.session_state.view_data_clicked:
         st.markdown(f'<h3 style="color:#FFFFFF;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
         
         # ... (display code unchanged) ...
-        if st.session_state.aqi_error:
-        st.error(f"AQI Error: {st.session_state.aqi_error}")
-        # Optionally display a placeholder or empty gauge
-        st.plotly_chart(create_aqi_gauge(None), use_container_width=True)
+            if st.session_state.aqi_error:
+            st.error(f"AQI Error: {st.session_state.aqi_error}")
+            # Optionally display a placeholder or empty gauge
+            st.plotly_chart(create_aqi_gauge(None), use_container_width=True)
 
-    elif st.session_state.aqi_data:
-        aqi_val = st.session_state.aqi_data.get('aqi_us')
-        category_label, category_color = get_aqi_category(aqi_val)
-        recommendation = HEALTH_RECOMMENDATIONS.get(category_label, HEALTH_RECOMMENDATIONS["Unknown"])
+        elif st.session_state.aqi_data:
+            aqi_val = st.session_state.aqi_data.get('aqi_us')
+            category_label, category_color = get_aqi_category(aqi_val)
+            recommendation = HEALTH_RECOMMENDATIONS.get(category_label, HEALTH_RECOMMENDATIONS["Unknown"])
 
-        # 1. Display the Gauge Chart
-        st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
+            # 1. Display the Gauge Chart
+            st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
 
-        # 2. Display Info Below Gauge (similar to target image layout)
-        st.markdown(f"""
-        <div style="line-height: 1.5;">
-            <span>AQI</span><span style="float: right; color:{category_color}; font-weight:bold;">{aqi_val if aqi_val is not None else 'N/A'}</span><br>
-            <span>Condition</span><span style="float: right; color:{category_color}; font-weight:bold;">{category_label}</span><br>
-            <span>Health Impacts</span><span style="float: right;">{recommendation['short']}</span>
-        </div>
-        """, unsafe_allow_html=True)
-        st.divider() # Small divider before timestamp
+            # 2. Display Info Below Gauge (similar to target image layout)
+            st.markdown(f"""
+            <div style="line-height: 1.5;">
+                <span>AQI</span><span style="float: right; color:{category_color}; font-weight:bold;">{aqi_val if aqi_val is not None else 'N/A'}</span><br>
+                <span>Condition</span><span style="float: right; color:{category_color}; font-weight:bold;">{category_label}</span><br>
+                <span>Health Impacts</span><span style="float: right;">{recommendation['short']}</span>
+            </div>
+            """, unsafe_allow_html=True)
+            st.divider() # Small divider before timestamp
 
-        # 3. Display Timestamp and Main Pollutant (if available) below the divider
-        details_captions = []
-        if st.session_state.aqi_data.get('main_pollutant_us'):
-             details_captions.append(f"Main Pollutant: **{st.session_state.aqi_data['main_pollutant_us'].upper()}**")
-        if st.session_state.aqi_data.get('pollutant_ts'):
-            try:
-                ts_dt = datetime.datetime.fromisoformat(st.session_state.aqi_data['pollutant_ts'].replace('Z', '+00:00'))
-                # Format to match target image: 2025-04-22 03:33:00 (UTC)
-                ts_str = ts_dt.strftime('%Y-%m-%d %H:%M:%S (UTC)')
-                details_captions.append(f"Last updated: {ts_str}")
-            except Exception: # Fallback if parsing fails
-                 details_captions.append(f"Observed: {st.session_state.aqi_data['pollutant_ts']}")
+            # 3. Display Timestamp and Main Pollutant (if available) below the divider
+            details_captions = []
+            if st.session_state.aqi_data.get('main_pollutant_us'):
+                 details_captions.append(f"Main Pollutant: **{st.session_state.aqi_data['main_pollutant_us'].upper()}**")
+            if st.session_state.aqi_data.get('pollutant_ts'):
+                try:
+                    ts_dt = datetime.datetime.fromisoformat(st.session_state.aqi_data['pollutant_ts'].replace('Z', '+00:00'))
+                    # Format to match target image: 2025-04-22 03:33:00 (UTC)
+                    ts_str = ts_dt.strftime('%Y-%m-%d %H:%M:%S (UTC)')
+                    details_captions.append(f"Last updated: {ts_str}")
+                except Exception: # Fallback if parsing fails
+                     details_captions.append(f"Observed: {st.session_state.aqi_data['pollutant_ts']}")
 
-        if details_captions:
-            st.caption(" | ".join(details_captions)) # Join captions with a separator
+            if details_captions:
+                st.caption(" | ".join(details_captions)) # Join captions with a separator
 
-    else:
-        # Still loading or no data without error
-        st.info("AQI data loading...")
-        st.plotly_chart(create_aqi_gauge(None), use_container_width=True) # Show empty gauge while loading
+        else:
+            # Still loading or no data without error
+            st.info("AQI data loading...")
+            st.plotly_chart(create_aqi_gauge(None), use_container_width=True) # Show empty gauge while loading
 
     # st.markdown("</div>", unsafe_allow_html=True) # Remove if you were using container divs
     # --- ADD End: New AQI Display Block ---
