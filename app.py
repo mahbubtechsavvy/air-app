@@ -691,9 +691,7 @@ Imagine a child in Dhaka struggling to breathe as smog chokes the city — **7 m
 
 **Air 30X** was born to change that story, delivering **real-time air quality and weather insights** to protect families worldwide, starting in Bangladesh. With **AI and APIs** like **IQAir** and **OpenWeatherMap**, we're rewriting futures, one breath at a time, while our **Voice Call AI Agent** offers hope with **instant medical advice**.
 
----
-
-### 🌍 Real-Time Insights
+🌍 Real-Time Insights
 - AQI (Air Quality Index)
 - Health recommendations
 - Historical air quality graphs
