@@ -722,7 +722,7 @@ Built with **Streamlit**, designed for **2.5 billion people** in polluted region
 # --- Developer Profile --- UPDATED ---
 # ... (Previous code unchanged until the Developer Profile section)
 #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-st.markdown('<h2 style="text-align: center; color: #FFFFFF;">Developer Profile</h2>', unsafe_allow_html=True)
+st.markdown('<h2 style="text-align: center; color: #FFFFFF;">Developer</h2>', unsafe_allow_html=True)
 try:
     st.markdown('<div style="display:flex; justify-content:center;">', unsafe_allow_html=True)
     st.image(
@@ -738,7 +738,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 #st.markdown("</div>", unsafe_allow_html=True)
 
-st.subheader("Frequently Asked Questions (FAQ)")
+st.markdown('<h2 style="text-align: left; color: #FFFFFF;">FAQ</h2>', unsafe_allow_html=True)
 faq_list = [ {"q": "What is the Air Quality Index (AQI)?", "a": "The Air Quality Index (AQI) is a system for communicating air pollution levels (0-500), indicating air cleanliness and health risks. Higher numbers mean worse quality. Values are grouped into six categories (Good to Hazardous)."}, {"q": "How does air quality affect my health?", "a": "Poor air quality can cause respiratory issues, trigger allergies, and worsen conditions like asthma or heart disease."}, {"q": "What pollutants does the app monitor?", "a": "Aims to track key pollutants like PM2.5, PM10, CO, NO2, SO2, and Ozone (O3). Data availability depends on API sources."}, {"q": "How often is air quality data updated?", "a": "Update frequency depends on the API source, often aiming for near real-time updates."}, {"q": "What does the Air Quality Index (AQI) mean?", "a": "AQI measures air pollution. Lower values (0-50) indicate safer air; higher values (100+) suggest levels harmful to health."}, {"q": "Can the app warn me about unhealthy air?", "a": "Future versions could incorporate alerts. This version focuses on displaying data."}, {"q": "How can I reduce health risks from poor air quality?", "a": "When pollution is high, stay indoors, use air purifiers, avoid strenuous outdoor activity, and wear masks (N95) if going out."}, {"q": "Is the app helpful for asthma patients?", "a": "Yes, by providing current/forecast data, it helps identify high pollution days or triggers, aiding activity planning."}, {"q": "Why should I check air quality daily?", "a": "Daily checks help understand exposure, make informed decisions about activities, and protect health."} ]
 for item in faq_list:
     with st.expander(item["q"]):
