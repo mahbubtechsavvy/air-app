@@ -430,7 +430,7 @@ def get_waqi_nearby_stations(api_key, lat, lon, radius_deg=1.5, max_stations=10)
 # Plotting and Display Functions
 # -----------------------------------------------------------------------------
 # --- History Chart --- UPDATED (Plotting function unchanged, but will use OWM data) ---
-def create_history_line_chart(history_data, value_key='pm25', y_axis_label='PM2.5 (µg/m³)', title='PM2.5 Concentration - Last 7 Days (OWM)'):
+def create_history_line_chart(history_data, value_key='pm25', y_axis_label='PM2.5 (µg/m³)', title=f'PM2.5 Concentration - Last 7 Days (OWM) for {st.session_state.city}'):
     """Creates a Plotly line chart for historical data, handling single points."""
     chart_title = title
     if not history_data:
@@ -760,7 +760,7 @@ if st.session_state.view_data_clicked:
     colA, colB = st.columns(2)
     with colA: # --- AQI Gauge (#1) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-        st.subheader("1. Air Quality Index")
+        st.subheader(f"1. Air Quality Index in {st.session_state.city}")
         # ... (display code unchanged) ...
         if st.session_state.aqi_error: st.error(f"AQI Error: {st.session_state.aqi_error}")
         aqi_val = st.session_state.aqi_data.get('aqi_us') if st.session_state.aqi_data else None; st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
@@ -811,7 +811,7 @@ if st.session_state.view_data_clicked:
 
     # --- History Chart (#3) --- DISPLAY UPDATED ---
     #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-    st.subheader("Historic Air Quality Graph (PM2.5 - OWM)") # Title reflects source
+    st.subheader(f"Historic Air Quality Graph (PM2.5 - OWM) for {st.session_state.city}") # Title reflects source
     if not fetch_success and st.session_state.coordinates_error: st.warning("Cannot fetch history (Location Error).")
     elif st.session_state.history_error: st.error(f"{st.session_state.history_error}") # Display specific OWM error
     elif st.session_state.history_data is not None:
@@ -830,7 +830,7 @@ if st.session_state.view_data_clicked:
     with colC:
         # --- Nearby Stations (#4) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-        st.subheader("4. Most Polluted Locations Nearby")
+        st.subheader(f"4. Most Polluted Locations Near {st.session_state.city}")
         # ... (display code unchanged) ...
         if not fetch_success and st.session_state.coordinates_error: st.warning("Cannot fetch nearby stations (Location Error).")
         elif st.session_state.nearby_error: st.error(f"{st.session_state.nearby_error}")
@@ -849,7 +849,7 @@ if st.session_state.view_data_clicked:
     with colD:
          # --- Weather Report (#5) w/ Note --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True);
-        st.subheader("5. Today's Weather Report")
+        st.subheader(f"5. Today's Weather Report in {st.session_state.city}")
         # ... (display code unchanged) ...
         if st.session_state.weather_error: st.error(f"Weather Error: {st.session_state.weather_error}")
         elif st.session_state.weather_data:
@@ -872,7 +872,7 @@ if st.session_state.view_data_clicked:
         st.markdown("</div>", unsafe_allow_html=True)
         # --- Forecast Table (#6) --- (Display unchanged)
         #st.markdown('<div class="data-container">', unsafe_allow_html=True);
-        st.subheader("6. 5-Day Weather & AQI Forecast")
+        st.subheader(f"6. 5-Day Weather & AQI Forecast for {st.session_state.city}")
         # ... (display code unchanged) ...
         if not fetch_success and st.session_state.coordinates_error: st.warning("Cannot fetch forecast (Location Error).")
         elif st.session_state.forecast_error: st.error(f"Forecast Error: {st.session_state.forecast_error}")
