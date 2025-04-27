@@ -691,7 +691,7 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 # Main Dashboard Area --- UPDATED FETCH LOGIC FOR #3 ---
 # -----------------------------------------------------------------------------
-st.header("Dashboard")
+st.markdown('<h1 style="text-align:center; color:#FFFFFF;">Dashboard</h1>', unsafe_allow_html=True)
 
 if st.session_state.view_data_clicked:
     # --- Fetch Data Sequentially ---
@@ -754,7 +754,7 @@ if st.session_state.view_data_clicked:
                  st.session_state.map_data, st.session_state.map_error = get_waqi_map_stations(st.session_state.waqi_api_key, map_lat1, map_lon1, map_lat2, map_lon2)
 
     # --- Display Location Header (Unchanged) ---
-    st.markdown(f'<h3 style="color:#FFFFFF;">Showing Data for: {st.session_state.city}, {st.session_state.state_region}, {st.session_state.country}</h3>', unsafe_allow_html=True)
+    st.markdown(f'<h3 style="color:#9d0e53; text-align:center;">Showing Data for: {st.session_state.city}, {st.session_state.state_region}, {st.session_state.country}</h3>', unsafe_allow_html=True)
     
     
     # --- Data Visualization Sections ---
@@ -927,8 +927,6 @@ _"Limit outdoor activities when AQI >150."_
 
 🌟 Big Impact
 Supporting all **17 Sustainable Development Goals (SDGs)** and aiming to **cut 13%** of pollution-linked asthma cases (Anenberg et al., 2018).
-
----
 
 🚀 Bright Future
 Built with **Streamlit**, designed for **2.5 billion people** in polluted regions by **2030** (UNEP, 2024).
