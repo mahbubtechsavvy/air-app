@@ -598,34 +598,33 @@ def create_aqi_gauge(aqi_value):
 
     # Add AQI category labels below the gauge (Good, Moderate, etc.) with colored backgrounds
     categories = [
-    {"label": "Good", "range": "0-50", "color": AQI_CATEGORIES[(0, 50)]["color"]},
-    {"label": "Moderate", "range": "51-100", "color": AQI_CATEGORIES[(51, 100)]["color"]},
-    {"label": "Unhealthy for Sensitive Groups", "range": "101-150", "color": AQI_CATEGORIES[(101, 150)]["color"]},
-    {"label": "Unhealthy", "range": "151-200", "color": AQI_CATEGORIES[(151, 200)]["color"]},
-    {"label": "Very Unhealthy", "range": "201-300", "color": AQI_CATEGORIES[(201, 300)]["color"]},
-    {"label": "Hazardous", "range": "301-500", "color": AQI_CATEGORIES[(301, 500)]["color"]}
-]
+        {"label": "Good", "range": "0-50", "color": AQI_CATEGORIES[(0, 50)]["color"]},
+        {"label": "Moderate", "range": "51-100", "color": AQI_CATEGORIES[(51, 100)]["color"]},
+        {"label": "Unhealthy for Sensitive Groups", "range": "101-150", "color": AQI_CATEGORIES[(101, 150)]["color"]},
+        {"label": "Unhealthy", "range": "151-200", "color": AQI_CATEGORIES[(151, 200)]["color"]},
+        {"label": "Very Unhealthy", "range": "201-300", "color": AQI_CATEGORIES[(201, 300)]["color"]},
+        {"label": "Hazardous", "range": "301-500", "color": AQI_CATEGORIES[(301, 500)]["color"]}
+    ]
 
-num_categories = len(categories)
-x_positions = [i / (num_categories - 1) if num_categories > 1 else 0.5 for i in range(num_categories)]
-y_position = -0.1
+    num_categories = len(categories)
+    x_positions = [i / (num_categories - 1) if num_categories > 1 else 0.5 for i in range(num_categories)]
+    y_position = -0.1
 
-for idx, category in enumerate(categories):
-    fig.add_annotation(
-        x=x_positions[idx],
-        y=y_position,
-        text=f"{category['label']}<br>{category['range']}",
-        showarrow=False,
-        font=dict(size=10, color="#FFFFFF"),
-        align="center",
-        bgcolor=category["color"],
-        bordercolor=category["color"],
-        borderwidth=1,
-        borderpad=4
+    for idx, category in enumerate(categories):
+        fig.add_annotation(
+            x=x_positions[idx],
+            y=y_position,
+            text=f"{category['label']}<br>{category['range']}",
+            showarrow=False,
+            font=dict(size=10, color="#FFFFFF"),
+            align="center",
+            bgcolor=category["color"],
+            bordercolor=category["color"],
+            borderwidth=1,
+            borderpad=4
         )
 
-    
-        return fig
+    return fig
 
 def display_forecast_table(weather_forecast, aqi_forecast): # (Unchanged)
     if not weather_forecast: st.info("Weather forecast data unavailable."); return
