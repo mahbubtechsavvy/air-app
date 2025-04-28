@@ -911,11 +911,16 @@ if st.session_state.view_data_clicked:
             st.error(f"AQI Error: {st.session_state.aqi_error}")
         elif st.session_state.aqi_data:
             # Get AQI value and category
-            current_aqi = st.session_state.aqi_data.get('aqi_us', 87)  # Fallback to 87 if None
+            current_aqi = st.session_state.aqi_data.get('aqi_us')
+            if current_aqi is None or current_aqi == 0:
+                current_aqi = 87  # Fallback to 87 if None or 0
+            current_aqi = int(current_aqi)  # Ensure it's an integer
             category_label, category_color = get_aqi_category(current_aqi)
 
+            # Debug: Display the current_aqi value to verify
+            st.write(f"Debug: Current AQI Value = {current_aqi}")
+
             # --- Dynamic Background Based on AQI Category ---
-            # Define gradient colors based on AQI category
             gradient_colors = {
                 "Good": ("#5EC445", "#3a8c2e"),
                 "Moderate": ("#F5E769", "#d1c457"),
@@ -968,7 +973,6 @@ if st.session_state.view_data_clicked:
             """, unsafe_allow_html=True)
 
             # --- Animated AQI Number ---
-            # Use JavaScript to animate the number counting from 0 to current_aqi
             animation_duration = 2000  # 2 seconds for the counting animation
             st.markdown(f"""
             <div class="aqi-container">
@@ -977,10 +981,19 @@ if st.session_state.view_data_clicked:
             </div>
             <script>
                 function animateNumber(target, duration) {{
+                    console.log("Starting animation with target: " + target + ", duration: " + duration);
                     let start = 0;
-                    const end = {current_aqi};
+                    const end = parseInt(target);
+                    if (isNaN(end)) {{
+                        console.error("Invalid target value for animation: " + target);
+                        return;
+                    }}
                     const increment = end / (duration / 16);  // Update every 16ms (~60fps)
                     const element = document.getElementById("aqi-number");
+                    if (!element) {{
+                        console.error("AQI number element not found");
+                        return;
+                    }}
                 
                     function updateNumber() {{
                         start += increment;
@@ -993,7 +1006,11 @@ if st.session_state.view_data_clicked:
                     }}
                     requestAnimationFrame(updateNumber);
                 }}
-                animateNumber({current_aqi}, {animation_duration});
+                try {{
+                    animateNumber({current_aqi}, {animation_duration});
+                }} catch (error) {{
+                    console.error("Error in animation: " + error);
+                }}
             </script>
             """, unsafe_allow_html=True)
 
@@ -1038,8 +1055,7 @@ if st.session_state.view_data_clicked:
                     <span>Last Updated: {dt_object.strftime('%Y-%m-%d %H:%M:%S UTC')}</span>
                 </div>
                 """, unsafe_allow_html=True)
-            
-        
+
 
     # st.markdown("</div>", unsafe_allow_html=True) # Remove if you were using container divs
     # --- ADD End: New AQI Display Block ---
