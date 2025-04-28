@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import requests
 import datetime
 import time
+import matplotlib.pyplot as plt
 import pandas as pd
 from collections import defaultdict
 import concurrent.futures # To fetch city data concurrently
