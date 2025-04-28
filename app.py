@@ -1134,56 +1134,56 @@ if st.session_state.view_data_clicked:
 
             # Display the recommendation in a styled box
             health_html = f"""
-            <style>
-                .health-card {{
-                width: 90%;
-                margin: auto;
-                padding: 30px 20px;
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(12px);
-                border-radius: 20px;
-                border: 1px solid rgba(255,255,255,0.2);
-                box-shadow: 0 4px 30px rgba(0,0,0,0.5);
-                text-align: center;
-                animation: fadeIn 1.5s ease-in;
-            }}
-            .health-title {{
-                font-size: 26px;
-                font-weight: 700;
-                color: #ffffff;
-                margin-bottom: 10px;
-                text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
-            }}
-            .health-description {{
-                font-size: 16px;
-                color: #dddddd;
-                margin-top: 15px;
-                line-height: 1.6;
-            }}
-            @keyframes fadeIn {{
-                0% {{opacity: 0; transform: translateY(20px);}}
-                100% {{opacity: 1; transform: translateY(0);}}
-            }}
-            @media (max-width: 600px) {{
-                .health-card {{
-                    padding: 20px 15px;
+                <style>
+                    .health-card {{
+                    width: 90%;
+                    margin: auto;
+                    padding: 30px 20px;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(12px);
+                    border-radius: 20px;
+                    border: 1px solid rgba(255,255,255,0.2);
+                    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+                    text-align: center;
+                    animation: fadeIn 1.5s ease-in;
                 }}
-                .health-title {{ font-size: 22px; }}
-                .health-description {{ font-size: 14px; }}
-            }}
-        </style>
+                .health-title {{
+                    font-size: 26px;
+                    font-weight: 700;
+                    color: #ffffff;
+                    margin-bottom: 10px;
+                    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+                }}
+                .health-description {{
+                    font-size: 16px;
+                    color: #dddddd;
+                    margin-top: 15px;
+                    line-height: 1.6;
+                }}
+                @keyframes fadeIn {{
+                    0% {{opacity: 0; transform: translateY(20px);}}
+                    100% {{opacity: 1; transform: translateY(0);}}
+                }}
+                @media (max-width: 600px) {{
+                    .health-card {{
+                        padding: 20px 15px;
+                    }}
+                    .health-title {{ font-size: 22px; }}
+                    .health-description {{ font-size: 14px; }}
+                }}
+            </style>
 
-        <div class="health-card">
-            <div class="health-title">{category_label} ({current_aqi})</div>
-            <div class="health-description">{recommendation}</div>
-        </div>
-        """
-        components.html(health_html, height=300)
+            <div class="health-card">
+                <div class="health-title">{category_label} ({current_aqi})</div>
+                <div class="health-description">{recommendation}</div>
+            </div>
+            """
+            components.html(health_html, height=300)
             
-            else:
-                st.info("Waiting for AQI data...")
+        else:
+            st.info("Waiting for AQI data...")
 
-            st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
         
         
     # --- History Chart (#3) --- DISPLAY UPDATED ---
