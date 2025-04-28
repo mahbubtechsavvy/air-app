@@ -957,8 +957,8 @@ if st.session_state.view_data_clicked:
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                     border: 2px solid rgba(255, 255, 255, 0.3);
                     margin: 20px auto;
-                    width: 100%;  /* Match colB width */
-                    height: 300px;  /* Match colB height */
+                    width: 50%;  /* Match colB width */
+                    height: 200px;  /* Match colB height */
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -1142,8 +1142,8 @@ if st.session_state.view_data_clicked:
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                     border: 2px solid rgba(255, 255, 255, 0.3);
                     margin: 20px auto;
-                    width: 100%;  /* Match colA width */
-                    height: 300px;  /* Match colA height */
+                    width: 50%;  /* Match colA width */
+                    height: 200px;  /* Match colA height */
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
