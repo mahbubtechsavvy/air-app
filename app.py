@@ -348,7 +348,10 @@ def _fetch_owm_coords(api_key, location_query): # (Unchanged)
 def get_iqair_aqi(api_key, city, state, country): # (Unchanged)
     base_url = "http://api.airvisual.com/v2/city"; params = {"city": city, "state": state, "country": country, "key": api_key}
     try:
-        response = requests.get(base_url, params=params, timeout=15); response.raise_for_status(); data = response.json()
+        response = requests.get(base_url, params=params, timeout=15)
+        response.raise_for_status()
+        data = response.json()
+        print("IQAir API Response:", data)
         if data.get("status") == "success":
             current_data = data.get("data", {}).get("current", {}); pollution_data = current_data.get("pollution", {})
             aqi_details = {"aqi_us": pollution_data.get("aqius"), "main_pollutant_us": pollution_data.get("mainus"), "pollutant_ts": pollution_data.get("ts")}
@@ -933,7 +936,7 @@ if st.session_state.view_data_clicked:
             }
             start_color, end_color = gradient_colors.get(category_label, ("#808080", "#666666"))
 
-            # --- Use st.components.v1.html for the AQI display with animation ---
+            # --- Use st.components.v1.html for the AQI display ---
             animation_duration = 2000  # 2 seconds for the counting animation
             aqi_html = f"""
             <style>
@@ -947,13 +950,20 @@ if st.session_state.view_data_clicked:
                 }}
                 .aqi-container {{
                     text-align: center;
-                    padding: 20px;
+                    padding: 30px;
                     border-radius: 15px;
-                    background: rgba(255, 255, 255, 0.1);
+                    background: rgba(255, 255, 255, 0.15);  /* Increased opacity for better visibility */
                     backdrop-filter: blur(10px);
-                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-                    margin: 20px 0;
-                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);  /* More pronounced shadow */
+                    border: 2px solid rgba(255, 255, 255, 0.3);  /* More visible border */
+                    margin: 20px auto;
+                    width: 90%;  /* Ensure the box takes up most of the column width */
+                    max-width: 400px;  /* Limit the width on larger screens */
+                    min-height: 200px;  /* Ensure enough height for content */
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
                 }}
                 .aqi-label {{
                     font-size: 24px;
@@ -979,6 +989,11 @@ if st.session_state.view_data_clicked:
                     line-height: 1;
                 }}
                 @media (max-width: 600px) {{
+                    .aqi-container {{
+                        padding: 20px;
+                        width: 95%;
+                        min-height: 180px;
+                    }}
                     .aqi-label {{ font-size: 18px; }}
                     .custom-aqi-number {{ font-size: 60px; }}
                     .custom-aqi-category {{ font-size: 20px; }}
@@ -997,7 +1012,7 @@ if st.session_state.view_data_clicked:
                         console.error("Element not found: " + elementId);
                         return;
                     }}
-                    element.textContent = start;  // Ensure the initial value is set
+                    element.textContent = start;
                     console.log("Starting animation from " + start + " to " + end);
 
                     function step(timestamp) {{
@@ -1008,20 +1023,18 @@ if st.session_state.view_data_clicked:
                         if (progress < 1) {{
                             requestAnimationFrame(step);
                         }} else {{
-                            element.textContent = end;  // Ensure the final value is exact
+                            element.textContent = end;
                             console.log("Animation completed, final value: " + end);
                         }}
                     }}
                     requestAnimationFrame(step);
                 }}
 
-                // Ensure the DOM is fully loaded before running the animation
                 document.addEventListener("DOMContentLoaded", function() {{
                     console.log("DOM fully loaded, starting AQI animation");
                     animateNumber("aqi-number", 0, {current_aqi}, {animation_duration});
                 }});
 
-                // Fallback: If DOMContentLoaded doesn't fire, try running after a short delay
                 setTimeout(function() {{
                     const element = document.getElementById("aqi-number");
                     if (element && element.textContent === "0") {{
@@ -1031,7 +1044,7 @@ if st.session_state.view_data_clicked:
                 }}, 500);
             </script>
             """
-            components.html(aqi_html, height=200)  # Adjust height as needed
+            components.html(aqi_html, height=250)  # Increased height to accommodate content
 
             # --- AQI Scale Bar with Matplotlib ---
             fig, ax = plt.subplots(figsize=(8, 1))
@@ -1063,14 +1076,30 @@ if st.session_state.view_data_clicked:
             # Display the scale bar
             st.pyplot(fig)
 
+            # Map pollutant codes to user-friendly names
+            pollutant_map = {
+                "pm25": "PM2.5",
+                "pm10": "PM10",
+                "o3": "Ozone (O3)",
+                "no2": "Nitrogen Dioxide (NO2)",
+                "so2": "Sulfur Dioxide (SO2)",
+                "co": "Carbon Monoxide (CO)",
+                "p2": "PM2.5"  # Handle the "p2" case
+            }
+            main_pollutant = st.session_state.aqi_data.get('main_pollutant_us')
+            main_pollutant_display = pollutant_map.get(main_pollutant, main_pollutant.upper())
+
             # Display Timestamp and Main Pollutant below the scale bar
             timestamp = st.session_state.aqi_data.get('pollutant_ts')
-            main_pollutant = st.session_state.aqi_data.get('main_pollutant_us')
             if timestamp and main_pollutant:
-                dt_object = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.timezone.utc)
+                try:
+                    dt_object = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.timezone.utc)
+                except ValueError:
+                    dt_object = datetime.datetime.now(datetime.timezone.utc)
+                    st.warning("Invalid timestamp from API, using current time instead.")
                 st.markdown(f"""
                 <div style="line-height: 1.5; text-align: center; color: #FFFFFF;">
-                    <span>Main Pollutant: {main_pollutant.upper()}</span><br>
+                    <span>Main Pollutant: {main_pollutant_display}</span><br>
                     <span>Last Updated: {dt_object.strftime('%Y-%m-%d %H:%M:%S UTC')}</span>
                 </div>
                 """, unsafe_allow_html=True)
