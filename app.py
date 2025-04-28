@@ -622,10 +622,10 @@ for idx, category in enumerate(categories):
         bordercolor=category["color"],
         borderwidth=1,
         borderpad=4
-    )
+        )
 
     
-return fig
+        return fig
 
 def display_forecast_table(weather_forecast, aqi_forecast): # (Unchanged)
     if not weather_forecast: st.info("Weather forecast data unavailable."); return
