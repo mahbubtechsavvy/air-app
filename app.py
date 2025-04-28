@@ -918,7 +918,7 @@ if st.session_state.view_data_clicked:
             category_label, category_color = get_aqi_category(current_aqi)
 
             # Debug: Display the current_aqi value to verify
-            st.write(f"Debug: Current AQI Value = {current_aqi}")
+            #st.write(f"Debug: Current AQI Value = {current_aqi}")
 
             # --- Dynamic Background Based on AQI Category ---
             gradient_colors = {
@@ -953,6 +953,14 @@ if st.session_state.view_data_clicked:
                     margin: 20px 0;
                     border: 1px solid rgba(255, 255, 255, 0.2);
                 }}
+                .aqi-label {{
+                    font-size: 24px;
+                    font-weight: 500;
+                    color: #FFFFFF;
+                    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+                    margin-bottom: 5px;
+                    line-height: 1;
+                }}
                 .custom-aqi-number {{
                     font-size: 90px;
                     font-weight: 700;
@@ -978,6 +986,7 @@ if st.session_state.view_data_clicked:
             # --- Display AQI Number using st.markdown ---
             st.markdown(f"""
             <div class="aqi-container">
+                <div class="aqi-label">AQI</div>
                 <div class="custom-aqi-number">{current_aqi}</div>
                 <div class="custom-aqi-category">{category_label}</div>
             </div>
