@@ -467,95 +467,89 @@ def create_history_line_chart(history_data, value_key='pm25', y_axis_label='PM2.
 # ... (create_aqi_gauge, display_forecast_table, create_nearby_bar_chart, ...) ...
 # ... (create_world_map, create_ranking_bar_chart, generate_analytical_note unchanged) ...
 def create_aqi_gauge(aqi_value):
-    # --- Default values for unknown AQI ---
-    if aqi_value is None: aqi_value = -1 # Use -1 to indicate unknown
-    try: aqi_value = int(aqi_value)
-    except (ValueError, TypeError): aqi_value = -1
+    # Default values for unknown AQI
+    if aqi_value is None:
+        aqi_value = -1  # Use -1 to indicate unknown
+    try:
+        aqi_value = int(aqi_value)
+    except (ValueError, TypeError):
+        aqi_value = -1
 
     aqi_label, aqi_color = get_aqi_category(aqi_value)
     if aqi_value < 0:
         display_value_text = "N/A"
         title_text = "AQI Unavailable"
-        bar_color = "#808080" # Grey for unknown
-        needle_angle = 180 # Point straight left (0 position)
+        bar_color = "#808080"  # Grey for unknown
+        needle_angle = 180  # Point straight left (0 position)
     else:
         display_value_text = str(aqi_value)
         title_text = f"<b>{aqi_label}</b>"
-        bar_color = aqi_color # Use category color for title/potentially bar background if needed
-        # --- Needle Angle Calculation ---
-        # Map AQI value (0-500) to angle (180-0 degrees)
-        # Clamp value within 0-500 range for angle calculation
+        bar_color = aqi_color
+        # Needle Angle Calculation: Map AQI value (0-500) to angle (180-0 degrees)
         clamped_value = max(0, min(aqi_value, 500))
         needle_angle = 180 - (clamped_value / 500) * 180
 
-    # --- Define Gauge Steps using AQI_CATEGORIES ---
+    # Define Gauge Steps using AQI_CATEGORIES
     gauge_steps = []
     cumulative_upper = 0
     for (lower, upper), category in AQI_CATEGORIES.items():
-        # Ensure steps cover the full range even if categories don't align perfectly
         step_lower = lower if lower > 0 else 0
         step_upper = upper if upper <= 500 else 500
-        # Prevent overlaps if categories defined strangely, ensure lower < upper
         step_lower = max(step_lower, cumulative_upper)
         if step_upper > step_lower:
-             gauge_steps.append({'range': [step_lower, step_upper], 'color': category["color"]})
-             cumulative_upper = step_upper
-        if cumulative_upper >= 500: break # Stop if we've covered the range
+            gauge_steps.append({'range': [step_lower, step_upper], 'color': category["color"]})
+            cumulative_upper = step_upper
+        if cumulative_upper >= 500:
+            break
 
-    # Add a final step if needed to reach 500
     if cumulative_upper < 500 and gauge_steps:
-         last_color = gauge_steps[-1]['color']
-         gauge_steps.append({'range': [cumulative_upper, 500], 'color': last_color})
-    elif not gauge_steps: # Handle case where AQI_CATEGORIES might be empty
-         gauge_steps = [{'range': [0, 500], 'color': '#808080'}]
+        last_color = gauge_steps[-1]['color']
+        gauge_steps.append({'range': [cumulative_upper, 500], 'color': last_color})
+    elif not gauge_steps:
+        gauge_steps = [{'range': [0, 500], 'color': '#808080'}]
 
-
-    # --- Create the Indicator Figure ---
+    # Create the Indicator Figure
     fig = go.Figure(go.Indicator(
-        mode = "gauge+number", # Use gauge and number mode
-        value = max(0, aqi_value) if aqi_value >= 0 else 0, # Display value, ensure non-negative for calculation if needed elsewhere
-        number = {
-            'valueformat':'.0f',
+        mode="gauge+number",
+        value=max(0, aqi_value) if aqi_value >= 0 else 0,
+        number={
+            'valueformat': '.0f',
             'suffix': " US AQI" if aqi_value >= 0 else "",
-            'font': {'size': 35, 'color': text_color}, # Make number prominent
-             #'prefix': "" if aqi_value >= 0 else display_value_text # Handled below
+            'font': {'size': 35, 'color': text_color},
         },
-        title = {
+        title={
             'text': title_text,
-            'font': {'size': 18, 'color': aqi_color if aqi_value >=0 else hint_text_color} # Color title based on AQI
+            'font': {'size': 18, 'color': aqi_color if aqi_value >= 0 else hint_text_color}
         },
-        gauge = {
+        gauge={
             'axis': {
                 'range': [0, 500],
-                'tickvals': [0, 50, 100, 150, 200, 300, 500], # Explicit tick values
+                'tickvals': [0, 50, 100, 150, 200, 300, 500],
                 'ticktext': ['0', '50', '100', '150', '200', '300', '500'],
                 'tickfont': {'size': 10, 'color': hint_text_color},
                 'tickwidth': 1,
                 'tickcolor': text_color
             },
-            'bar': {'color': "rgba(0,0,0,0)", 'thickness': 0}, # Make the default bar invisible if using steps for color
-            'bgcolor': "rgba(0,0,0,0)", # Transparent background for gauge area
+            'bar': {'color': "rgba(0,0,0,0)", 'thickness': 0},
+            'bgcolor': "rgba(0,0,0,0)",
             'borderwidth': 0,
-            'steps': gauge_steps, # Use the defined colored steps
+            'steps': gauge_steps,
         }
     ))
 
-    # --- Customize Layout for Speedometer Look ---
+    # Customize Layout for Speedometer Look
     fig.update_layout(
-        paper_bgcolor = card_bg, # Match card background
-        plot_bgcolor='rgba(0,0,0,0)', # Transparent plot area
-        font = {'color': text_color, 'family': "Roboto, sans-serif"},
-        height = 280, # Adjust height as needed
-        margin = dict(l=20, r=20, t=60, b=30, pad=0), # Adjust margins
+        paper_bgcolor=card_bg,
+        plot_bgcolor='rgba(0,0,0,0)',
+        font={'color': text_color, 'family': "Roboto, sans-serif"},
+        height=280,
+        margin=dict(l=20, r=20, t=60, b=30, pad=0),
     )
 
-    # --- Add the Needle Shape ---
-    # Center of the gauge (adjust slightly if needed based on layout)
+    # Add the Needle Shape
     center_x = 0.5
-    center_y = 0.05 # Slightly above bottom margin
-
-    # Needle tip coordinates calculation
-    needle_length = 0.35 # Adjust length relative to gauge radius (0 to 0.5)
+    center_y = 0.05
+    needle_length = 0.35
     needle_rad = math.radians(needle_angle)
     tip_x = center_x + needle_length * math.cos(needle_rad)
     tip_y = center_y + needle_length * math.sin(needle_rad)
@@ -569,36 +563,68 @@ def create_aqi_gauge(aqi_value):
     base2_x = center_x + base_width * math.cos(angle_right_rad)
     base2_y = center_y + base_width * math.sin(angle_right_rad)
 
+    # Add the needle as a path (triangle)
     fig.add_shape(
         type="path",
-        # SVG path: M(move) to base1, L(line) to tip, L to base2, Z(close path)
         path=f" M {base1_x},{base1_y} L {tip_x},{tip_y} L {base2_x},{base2_y} Z",
-        fillcolor=text_color, # Needle color
+        fillcolor=text_color,
         line=dict(color=text_color, width=1)
     )
 
     # Add a small circle at the pivot point
     fig.add_shape(
         type="circle",
-        x0=center_x - base_width * 0.8, y0=center_y - base_width * 0.8,
-        x1=center_x + base_width * 0.8, y1=center_y + base_width * 0.8,
+        x0=center_x - base_width * 0.8,
+        y0=center_y - base_width * 0.8,
+        x1=center_x + base_width * 0.8,
+        y1=center_y + base_width * 0.8,
         fillcolor=text_color,
         line=dict(color=text_color)
     )
 
-    # --- Handle N/A display explicitly on top of the number area ---
+    # Handle N/A display explicitly
     if aqi_value < 0:
         fig.update_traces(
-            number={'font': {'size': 1, 'color': 'rgba(0,0,0,0)'}}, # Hide the '0' value technically present
+            number={'font': {'size': 1, 'color': 'rgba(0,0,0,0)'}},
             selector=dict(type='indicator')
         )
         fig.add_annotation(
-            x=0.5, y=0.3, # Adjust position as needed
-            text=display_value_text, # "N/A"
+            x=0.5,
+            y=0.3,
+            text=display_value_text,
             showarrow=False,
             font=dict(size=35, color=hint_text_color)
         )
 
+    # Add AQI category labels below the gauge (Good, Moderate, etc.) with colored backgrounds
+    categories = [
+    {"label": "Good", "range": "0-50", "color": AQI_CATEGORIES[(0, 50)]["color"]},
+    {"label": "Moderate", "range": "51-100", "color": AQI_CATEGORIES[(51, 100)]["color"]},
+    {"label": "Unhealthy for Sensitive Groups", "range": "101-150", "color": AQI_CATEGORIES[(101, 150)]["color"]},
+    {"label": "Unhealthy", "range": "151-200", "color": AQI_CATEGORIES[(151, 200)]["color"]},
+    {"label": "Very Unhealthy", "range": "201-300", "color": AQI_CATEGORIES[(201, 300)]["color"]},
+    {"label": "Hazardous", "range": "301-500", "color": AQI_CATEGORIES[(301, 500)]["color"]}
+]
+
+num_categories = len(categories)
+x_positions = [i / (num_categories - 1) if num_categories > 1 else 0.5 for i in range(num_categories)]
+y_position = -0.1
+
+for idx, category in enumerate(categories):
+    fig.add_annotation(
+        x=x_positions[idx],
+        y=y_position,
+        text=f"{category['label']}<br>{category['range']}",
+        showarrow=False,
+        font=dict(size=10, color="#FFFFFF"),
+        align="center",
+        bgcolor=category["color"],
+        bordercolor=category["color"],
+        borderwidth=1,
+        borderpad=4
+    )
+
+    
 
     return fig
 
@@ -878,35 +904,27 @@ if st.session_state.view_data_clicked:
     
     # --- Data Visualization Sections ---
     colA, colB = st.columns(2)
-    with colA: # --- AQI Gauge (#1) --- (Display unchanged)
-        #st.markdown('<div class="data-container">', unsafe_allow_html=True)
-        st.markdown(f'<h3 style="color:#FFFFFF;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
-        
-        # ... (display code unchanged) ...
-        if st.session_state.aqi_error:
-            st.error(f"AQI Error: {st.session_state.aqi_error}")
-            # Optionally display a placeholder or empty gauge
-            st.plotly_chart(create_aqi_gauge(None), use_container_width=True)
+    with colA:
+    st.markdown(f'<h3 style="color:#FFFFFF;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
+    
+    if st.session_state.aqi_error:
+        st.error(f"AQI Error: {st.session_state.aqi_error}")
+        st.plotly_chart(create_aqi_gauge(None), use_container_width=True)
+    elif st.session_state.aqi_data:
+        aqi_val = st.session_state.aqi_data.get('aqi_us')
+        st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
 
-        elif st.session_state.aqi_data:
-            aqi_val = st.session_state.aqi_data.get('aqi_us')
-            category_label, category_color = get_aqi_category(aqi_val)
-            recommendation = HEALTH_RECOMMENDATIONS.get(category_label, HEALTH_RECOMMENDATIONS["Unknown"])
-
-            # 1. Display the Gauge Chart
-            st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
-
-            # 2. Display Info Below Gauge (similar to target image layout)
+        # Display Timestamp and Main Pollutant (if available) below the gauge
+        timestamp = st.session_state.aqi_data.get('pollutant_ts')
+        main_pollutant = st.session_state.aqi_data.get('main_pollutant_us')
+        if timestamp and main_pollutant:
+            dt_object = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.timezone.utc)
             st.markdown(f"""
             <div style="line-height: 1.5;">
-                <span>AQI</span><span style="float: right; color:{category_color}; font-weight:bold;">{aqi_val if aqi_val is not None else 'N/A'}</span><br>
-                <span>Condition</span><span style="float: right; color:{category_color}; font-weight:bold;">{category_label}</span><br>
-                <span>Health Impacts</span><span style="float: right;">{recommendation['short']}</span>
+                <span>Main Pollutant: {main_pollutant.upper()}</span><br>
+                <span>Last Updated: {dt_object.strftime('%Y-%m-%d %H:%M:%S UTC')}</span>
             </div>
             """, unsafe_allow_html=True)
-            st.divider() # Small divider before timestamp
-
-            # 3. Display Timestamp and Main Pollutant (if available) below the divider
         
 
     # st.markdown("</div>", unsafe_allow_html=True) # Remove if you were using container divs
