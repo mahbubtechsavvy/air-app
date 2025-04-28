@@ -909,7 +909,7 @@ if st.session_state.view_data_clicked:
    
     
     # --- Data Visualization Sections ---
-    colA, colB = st.columns(2)
+    colA, colB = st.columns([1, 1])
     # --- Dynamic AQI Dashboard in colA ---
     with colA:
         st.markdown(f'<h3 style="color:#FFFFFF; text-align: center;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
@@ -950,16 +950,15 @@ if st.session_state.view_data_clicked:
                 }}
                 .aqi-container {{
                     text-align: center;
-                    padding: 30px;
+                    padding: 20px;
                     border-radius: 15px;
-                    background: rgba(255, 255, 255, 0.15);  /* Increased opacity for better visibility */
+                    background: rgba(255, 255, 255, 0.3);  /* Match colB visibility */
                     backdrop-filter: blur(10px);
-                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);  /* More pronounced shadow */
-                    border: 2px solid rgba(255, 255, 255, 0.3);  /* More visible border */
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+                    border: 2px solid rgba(255, 255, 255, 0.3);
                     margin: 20px auto;
-                    width: 90%;  /* Ensure the box takes up most of the column width */
-                    max-width: 400px;  /* Limit the width on larger screens */
-                    min-height: 200px;  /* Ensure enough height for content */
+                    width: 100%;  /* Match colB width */
+                    height: 300px;  /* Match colB height */
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -990,9 +989,8 @@ if st.session_state.view_data_clicked:
                 }}
                 @media (max-width: 600px) {{
                     .aqi-container {{
-                        padding: 20px;
-                        width: 95%;
-                        min-height: 180px;
+                        padding: 15px;
+                        height: 250px;  /* Adjust for smaller screens */
                     }}
                     .aqi-label {{ font-size: 18px; }}
                     .custom-aqi-number {{ font-size: 60px; }}
@@ -1044,7 +1042,7 @@ if st.session_state.view_data_clicked:
                 }}, 500);
             </script>
             """
-            components.html(aqi_html, height=250)  # Increased height to accommodate content
+            components.html(aqi_html, height=320)  # Slightly more than container height to account for padding
 
             # --- AQI Scale Bar with Matplotlib ---
             fig, ax = plt.subplots(figsize=(8, 1))
@@ -1108,43 +1106,92 @@ if st.session_state.view_data_clicked:
     # st.markdown("</div>", unsafe_allow_html=True) # Remove if you were using container divs
     # --- ADD End: New AQI Display Block ---
 
-    with colB: # --- Health Recommendations (#2) --- (Display unchanged)
-    # Health Recommendations Box
-    # st.markdown('<div class="data-container">', unsafe_allow_html=True)        
+    # --- Health Recommendations in colB ---
+    with colB:
         st.markdown('<h3 style="color:#FFFFFF;">Health Recommendations</h3>', unsafe_allow_html=True)
 
-        # Health content
         if st.session_state.aqi_error:
-            st.warning("Cannot display recommendations (AQI error).")
+            st.error(f"AQI Error: {st.session_state.aqi_error}")
         elif st.session_state.aqi_data:
-            aqi_val = st.session_state.aqi_data.get('aqi_us')
-            category_label, category_color = get_aqi_category(aqi_val)
-            recommendation = HEALTH_RECOMMENDATIONS.get(category_label, HEALTH_RECOMMENDATIONS["Unknown"])
-    
-            if category_label != "Unknown":
-                text_clr = "#000000" if category_label in ["Moderate", "Good"] else "#FFFFFF";
-                st.markdown(f'<span class="recommendation-category" style="background-color:{category_color}; color:{text_clr};">{category_label} ({aqi_val})</span>', unsafe_allow_html=True)
-                st.markdown(f"**{recommendation['short']}**");
-                st.markdown(f'<div class="recommendation-details">{recommendation["details"]}</div>', unsafe_allow_html=True)
-            else:
-                st.info("AQI category unknown.")
-                st.write(recommendation['details'])
+            current_aqi = st.session_state.aqi_data.get('aqi_us')
+            if current_aqi is None or current_aqi == 0:
+                current_aqi = 87
+            current_aqi = int(current_aqi)
+            category_label, _ = get_aqi_category(current_aqi)
 
-            # Embed ElevenLabs inside same container
-            # --- Insert the ElevenLabs widget code here ---
-            # Make sure this variable definition is included!
+            # Define health recommendations based on AQI category
+            health_recommendations = {
+                "Good": "Air quality is good. No health concerns. Enjoy outdoor activities!",
+                "Moderate": "Acceptable air quality. Unusually sensitive individuals: Consider reducing prolonged or heavy exertion outdoors.",
+                "Unhealthy for Sensitive Groups": "Sensitive groups: Reduce prolonged or heavy exertion outdoors. General public: Usually no concern, but monitor for symptoms.",
+                "Unhealthy": "Everyone: Reduce prolonged or heavy exertion outdoors. Sensitive groups: Avoid prolonged or heavy exertion.",
+                "Very Unhealthy": "Everyone: Avoid prolonged or heavy exertion outdoors. Sensitive groups: Remain indoors and keep activity levels low.",
+                "Hazardous": "Health alert: Everyone should avoid outdoor activities. Stay indoors with air purifiers if possible.",
+                "Unknown": "AQI data unavailable. Monitor air quality updates and take precautions if sensitive to pollution."
+            }
+            recommendation = health_recommendations.get(category_label, "No recommendations available.")
+
+            # Display the recommendation in a styled box
+            health_html = f"""
+            <style>
+                .health-container {{
+                    padding: 20px;
+                    border-radius: 15px;
+                    background: rgba(255, 255, 255, 0.3);  /* Match colA visibility */
+                    backdrop-filter: blur(10px);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    margin: 20px auto;
+                    width: 100%;  /* Match colA width */
+                    height: 300px;  /* Match colA height */
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: center;
+                }}
+                .category-label {{
+                    font-size: 24px;
+                    font-weight: 600;
+                    color: #FFFFFF;
+                    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+                    margin-bottom: 10px;
+                    line-height: 1;
+                }}
+                .recommendation-text {{
+                    font-size: 16px;
+                    color: #FFFFFF;
+                    text-align: center;
+                    line-height: 1.5;
+                }}
+                @media (max-width: 600px) {{
+                    .health-container {{
+                        padding: 15px;
+                        height: 250px;  /* Match colA adjustment */
+                    }}
+                    .category-label {{ font-size: 18px; }}
+                    .recommendation-text {{ font-size: 14px; }}
+                }}
+            </style>
+            <div class="health-container">
+                <div class="category-label">{category_label} ({current_aqi})</div>
+                <div class="recommendation-text">{recommendation}</div>
+            </div>
+            """
+            components.html(health_html, height=320)  # Match colA height with padding
+
+            # ElevenLabs Widget
             elevenlabs_embed_code_in_box = """
-            <div style="z-index: 100; margin-top: 20px;"> <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai> 
+            <div style="z-index: 100; margin-top: 20px;">
+                <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
                 <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
             </div>
             """
-            # Now use the defined variable
             components.html(elevenlabs_embed_code_in_box, height=150)
             
-        else:
-            st.info("Waiting for AQI data...")
+            else:
+                st.info("Waiting for AQI data...")
 
-        st.markdown("</div>", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
         
         
     # --- History Chart (#3) --- DISPLAY UPDATED ---
