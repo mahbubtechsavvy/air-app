@@ -111,9 +111,9 @@ st.markdown(f"""<style>
 # Header (remains the same)
 # -----------------------------------------------------------------------------
 # ... (Header markdown unchanged) ...
-st.markdown('<h1 style="text-align:center; color:white; font-weight:bold; font-size:40px;">AIR 13X</h1>', unsafe_allow_html=True)
-st.markdown('<p class="header-subtext" style="text-align:center; color:#FFFFFF;">AIR means Air. 13 means SDG 3, 11, 13; these three represent air pollution, and X is the app\'s version.</p>', unsafe_allow_html=True)
-st.markdown("---")
+st.markdown('<h1 style="text-align:center; color:white; font-weight:bold; font-size:50px;">AIR 13X</h1>', unsafe_allow_html=True)
+#st.markdown('<p class="header-subtext" style="text-align:center; color:#FFFFFF;">AIR means Air. 13 means SDG 3, 11, 13; these three represent air pollution, and X is the app\'s version.</p>', unsafe_allow_html=True)
+#st.markdown("---")
 
 # ElevenLabs Conversation Widget at the top right
 #elevenlabs_embed_code = """
