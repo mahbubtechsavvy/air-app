@@ -843,6 +843,7 @@ with st.sidebar:
 # Main Dashboard Area --- UPDATED FETCH LOGIC FOR #3 ---
 # -----------------------------------------------------------------------------
 st.header("Dashboard")
+st.markdown('<h1 style="text-align:center; color:white; font-weight:Regular; font-size:40px;">Magick Board</h1>', unsafe_allow_html=True)
 
 if st.session_state.view_data_clicked:
     # --- Fetch Data Sequentially ---
@@ -905,7 +906,7 @@ if st.session_state.view_data_clicked:
                  st.session_state.map_data, st.session_state.map_error = get_waqi_map_stations(st.session_state.waqi_api_key, map_lat1, map_lon1, map_lat2, map_lon2)
 
     # --- Display Location Header (Unchanged) ---
-    st.markdown(f'<p style="color:#CACACA; margin-top: 0rem; margin-bottom: 0.5rem;">Showing Data for: {st.session_state.country}, {st.session_state.state_region}, {st.session_state.city}</p>', unsafe_allow_html=True)
+    st.markdown(f'<p style="color:#CACACA; margin-top: 0rem; margin-bottom: 0.5rem; text-align: center;">Showing Data for: {st.session_state.country}, {st.session_state.state_region}, {st.session_state.city}</p>', unsafe_allow_html=True)
    
     
     # --- Data Visualization Sections ---
