@@ -1179,6 +1179,17 @@ if st.session_state.view_data_clicked:
             </div>
             """
             components.html(health_html, height=300)
+
+            # Embed ElevenLabs inside same container
+            # --- Insert the ElevenLabs widget code here ---
+            # Make sure this variable definition is included!
+            elevenlabs_embed_code_in_box = """
+            <div style="z-index: 100; margin-top: 20px;"> <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai> 
+                <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+            </div>
+            """
+            # Now use the defined variable
+            components.html(elevenlabs_embed_code_in_box, height=150)
             
         else:
             st.info("Waiting for AQI data...")
