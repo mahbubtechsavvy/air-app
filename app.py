@@ -953,7 +953,7 @@ if st.session_state.view_data_clicked:
                     padding: 20px;
                     border-radius: 15px;
                     background: rgba(255, 255, 255, 0.4);  /* Match colB visibility */
-                    background: #0e1117;
+                    background: #030412;
                     backdrop-filter: blur(10px);
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -1109,7 +1109,7 @@ if st.session_state.view_data_clicked:
 
     # --- Health Recommendations in colB ---
     with colB:
-        st.markdown('<h3 style="color:#FFFFFF;">Health Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#FFFFFF; text-align: center;">Health Recommendations</h3>', unsafe_allow_html=True)
 
         if st.session_state.aqi_error:
             st.error(f"AQI Error: {st.session_state.aqi_error}")
