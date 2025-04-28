@@ -1180,10 +1180,10 @@ if st.session_state.view_data_clicked:
         """
         components.html(health_html, height=300)
             
-        else:
-            st.info("Waiting for AQI data...")
+    else:
+        st.info("Waiting for AQI data...")
 
-        st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
         
         
     # --- History Chart (#3) --- DISPLAY UPDATED ---
