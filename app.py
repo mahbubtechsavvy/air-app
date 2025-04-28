@@ -88,13 +88,15 @@ PLOTLY_TEMPLATE = "plotly_dark"
 st.markdown(f"""<style>
     .stApp {{ background-color: {dashboard_bg}; color: {text_color}; }}
     [data-testid="stSidebar"] > div:first-child {{ background-color: {sidebar_bg}; }}
-    .stTextInput input, .stTextArea textarea {{ color: {text_color}; background-color: #2b304a; }}
+    .stTextInput input, .stTextArea textarea {{ color: {text_color}; background-color: #2b304a; }} /* Existing rule */
     ::placeholder {{ color: {hint_text_color} !important; opacity: 1 !important; }} :-ms-input-placeholder {{ color: {hint_text_color} !important; }} ::-ms-input-placeholder {{ color: {hint_text_color} !important; }}
+    
     /* --- VVVV ADD THIS RULE VVVV --- */
-    div[data-testid="stSelectbox"] > div:first-child {{
+    div[data-testid="stSelectbox"] > div:first-child {
         background-color: #2b304a; /* Apply text input background color */
-    }}
+    }
     /* --- ^^^^ END OF ADDED RULE ^^^^ --- */
+    
     .st-expanderHeader {{ color: {secondary_text_color}; font-weight: bold; }} .st-expander {{ background-color: #132660; border: none !important; border-radius: 10px; margin-bottom: 10px; }} .st-expander p {{ color: {text_color}; }}
     div.stButton > button:first-child {{ background-color: {primary_button_color}; color: {text_color}; border-radius: 5px; padding: 0.5rem 1rem; border: none; width: 100%; font-weight: bold; }} div.stButton > button:hover {{ background-color: #bf1169; color: {text_color}; }}
     .header-text {{ color: {text_color}; font-size: 24px; font-weight: bold; margin-bottom: 0; }} .header-subtext {{ color: {secondary_text_color}; font-size: 12px; margin-top: 0; }}
