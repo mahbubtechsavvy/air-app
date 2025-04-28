@@ -912,7 +912,7 @@ if st.session_state.view_data_clicked:
     colA, colB = st.columns([1, 1])
     # --- Dynamic AQI Dashboard in colA ---
     with colA:
-        st.markdown(f'<h1 style="color:#FFFFFF; text-align: center;">Air Quality Index in <b>{st.session_state.city}</b></h1>', unsafe_allow_html=True)
+        st.markdown(f'<h3 style="color:#FFFFFF; text-align: center;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
 
         if st.session_state.aqi_error:
             st.error(f"AQI Error: {st.session_state.aqi_error}")
