@@ -929,8 +929,9 @@ if st.session_state.view_data_clicked:
             }
             start_color, end_color = gradient_colors.get(category_label, ("#808080", "#666666"))
 
-            # Inject CSS for background gradient and custom styling
-            st.markdown(f"""
+            # --- Use st.components.v1.html for the AQI display with animation ---
+            animation_duration = 2000  # 2 seconds for the counting animation
+            aqi_html = f"""
             <style>
                 .stApp {{
                     background: linear-gradient(135deg, {start_color}22, {end_color}22);
@@ -979,21 +980,21 @@ if st.session_state.view_data_clicked:
                     .custom-aqi-category {{ font-size: 20px; }}
                 }}
             </style>
-            """, unsafe_allow_html=True)
-
-            # --- Display AQI Number with Animation ---
-            animation_duration = 2000  # 2 seconds for the counting animation
-            st.markdown(f"""
             <div class="aqi-container">
                 <div class="aqi-label">AQI</div>
-                <div id="aqi-number" class="custom-aqi-number">0</div>
+                <div id="aqi-number" class="custom-aqi-number">{current_aqi}</div>
                 <div class="custom-aqi-category">{category_label}</div>
             </div>
             <script>
                 function animateNumber(elementId, start, end, duration) {{
                     let startTime = null;
                     const element = document.getElementById(elementId);
-                    if (!element) return;
+                    if (!element) {{
+                        console.error("Element not found: " + elementId);
+                        return;
+                    }}
+                    element.textContent = start;  // Ensure the initial value is set
+                    console.log("Starting animation from " + start + " to " + end);
 
                     function step(timestamp) {{
                         if (!startTime) startTime = timestamp;
@@ -1002,13 +1003,31 @@ if st.session_state.view_data_clicked:
                         element.textContent = value;
                         if (progress < 1) {{
                             requestAnimationFrame(step);
+                        }} else {{
+                            element.textContent = end;  // Ensure the final value is exact
+                            console.log("Animation completed, final value: " + end);
                         }}
                     }}
                     requestAnimationFrame(step);
                 }}
-                animateNumber("aqi-number", 0, {current_aqi}, {animation_duration});
+
+                // Ensure the DOM is fully loaded before running the animation
+                document.addEventListener("DOMContentLoaded", function() {{
+                    console.log("DOM fully loaded, starting AQI animation");
+                    animateNumber("aqi-number", 0, {current_aqi}, {animation_duration});
+                }});
+
+                // Fallback: If DOMContentLoaded doesn't fire, try running after a short delay
+                setTimeout(function() {{
+                    const element = document.getElementById("aqi-number");
+                    if (element && element.textContent === "0") {{
+                        console.log("Fallback: Running animation after delay");
+                        animateNumber("aqi-number", 0, {current_aqi}, {animation_duration});
+                    }}
+                }}, 500);
             </script>
-            """, unsafe_allow_html=True)
+            """
+            components.html(aqi_html, height=200)  # Adjust height as needed
 
             # --- AQI Scale Bar with Matplotlib ---
             fig, ax = plt.subplots(figsize=(8, 1))
