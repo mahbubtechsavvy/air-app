@@ -1188,10 +1188,10 @@ if st.session_state.view_data_clicked:
             """
             components.html(elevenlabs_embed_code_in_box, height=150)
             
-            else:
-                st.info("Waiting for AQI data...")
+        else:
+            st.info("Waiting for AQI data...")
 
-            st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
         
         
     # --- History Chart (#3) --- DISPLAY UPDATED ---
