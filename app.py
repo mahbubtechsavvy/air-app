@@ -92,9 +92,9 @@ st.markdown(f"""<style>
     ::placeholder {{ color: {hint_text_color} !important; opacity: 1 !important; }} :-ms-input-placeholder {{ color: {hint_text_color} !important; }} ::-ms-input-placeholder {{ color: {hint_text_color} !important; }}
     
     /* --- VVVV ADD THIS RULE VVVV --- */
-    div[data-testid="stSelectbox"] > div:first-child {
-        background-color: #2b304a; /* Apply text input background color */
-    }
+    div[data-testid="stSelectbox"] > div:first-child {{
+        background-color: #2b304a;
+    }}
     /* --- ^^^^ END OF ADDED RULE ^^^^ --- */
     
     .st-expanderHeader {{ color: {secondary_text_color}; font-weight: bold; }} .st-expander {{ background-color: #132660; border: none !important; border-radius: 10px; margin-bottom: 10px; }} .st-expander p {{ color: {text_color}; }}
