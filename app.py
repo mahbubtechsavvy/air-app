@@ -952,13 +952,14 @@ if st.session_state.view_data_clicked:
                     text-align: center;
                     padding: 20px;
                     border-radius: 15px;
-                    background: rgba(255, 255, 255, 0.3);  /* Match colB visibility */
+                    background: rgba(255, 255, 255, 0.4);  /* Match colB visibility */
+                    background: #FF0000;
                     backdrop-filter: blur(10px);
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                     border: 2px solid rgba(255, 255, 255, 0.3);
                     margin: 20px auto;
-                    width: 50%;  /* Match colB width */
-                    height: 200px;  /* Match colB height */
+                    width: 80%;  /* Match colB width */
+                    height: 250px;  /* Match colB height */
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -1137,13 +1138,13 @@ if st.session_state.view_data_clicked:
                 .health-container {{
                     padding: 20px;
                     border-radius: 15px;
-                    background: rgba(255, 255, 255, 0.3);  /* Match colA visibility */
+                    background: rgba(255, 255, 255, 0.4);  /* Match colA visibility */
                     backdrop-filter: blur(10px);
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                     border: 2px solid rgba(255, 255, 255, 0.3);
                     margin: 20px auto;
-                    width: 50%;  /* Match colA width */
-                    height: 200px;  /* Match colA height */
+                    width: 80%;  /* Match colA width */
+                    height: 250px;  /* Match colA height */
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
