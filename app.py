@@ -958,8 +958,8 @@ if st.session_state.view_data_clicked:
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                     border: 2px solid rgba(255, 255, 255, 0.3);
                     margin: 20px auto;
-                    width: 80%;  /* Match colB width */
-                    height: 250px;  /* Match colB height */
+                    width: 90%;  /* Match colB width */
+                    height: 200px;  /* Match colB height */
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -1136,8 +1136,8 @@ if st.session_state.view_data_clicked:
             health_html = f"""
                 <style>
                     .health-card {{
-                    width: 60%;  /* Match colB width */
-                    height: 250px;  /* Match colB height */
+                    width: 90%;  /* Match colB width */
+                    height: 200px;  /* Match colB height */
                     margin: auto;
                     padding: 30px 20px;
                     background: rgba(255, 255, 255, 0.04);
