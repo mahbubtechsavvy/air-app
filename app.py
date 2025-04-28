@@ -1136,7 +1136,7 @@ if st.session_state.view_data_clicked:
             health_html = f"""
                 <style>
                     .health-card {{
-                    width: 80%;  /* Match colB width */
+                    width: 60%;  /* Match colB width */
                     height: 250px;  /* Match colB height */
                     margin: auto;
                     padding: 30px 20px;
