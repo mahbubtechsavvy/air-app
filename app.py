@@ -1120,7 +1120,7 @@ if st.session_state.view_data_clicked:
             current_aqi = int(current_aqi)
             category_label, _ = get_aqi_category(current_aqi)
 
-            # Health recommendation messages
+            # Define health recommendations based on AQI category
             health_recommendations = {
                 "Good": "Air quality is good. No health concerns. Enjoy outdoor activities!",
                 "Moderate": "Acceptable air quality. Unusually sensitive individuals: Consider reducing prolonged or heavy exertion outdoors.",
@@ -1132,142 +1132,54 @@ if st.session_state.view_data_clicked:
             }
             recommendation = health_recommendations.get(category_label, "No recommendations available.")
 
-            # Dynamically set theme based on category
-            if category_label == "Hazardous":
-                # Bonus: Hazardous AQI effect (glow-pulse danger)
-                health_html = f"""
+            # Display the recommendation in a styled box
+            health_html = f"""
                 <style>
                     .health-card {{
-                        width: 90%;
-                        margin: auto;
-                        padding: 30px 25px;
-                        background: rgba(126, 0, 35, 0.8);
-                        backdrop-filter: blur(20px);
-                        border-radius: 20px;
-                        border: 2px solid rgba(255, 0, 0, 0.8);
-                        box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.6);
-                        animation: pulseGlow 2s infinite, fadeIn 1.5s ease-in;
-                        text-align: center;
-                    }}
-                    .health-title {{
-                        font-size: 30px;
-                        font-weight: 800;
-                        color: #FFFFFF;
-                        text-shadow: 0px 0px 10px #FF0000;
-                        margin-bottom: 15px;
-                    }}
-                    .health-description {{
-                        font-size: 17px;
-                        color: #FFCCCC;
-                        margin-top: 15px;
-                        line-height: 1.8;
-                    }}
-                    @keyframes fadeIn {{
-                        0% {{opacity: 0; transform: translateY(20px);}}
-                        100% {{opacity: 1; transform: translateY(0);}}
-                    }}
-                    @keyframes pulseGlow {{
-                        0% {{ box-shadow: 0 0 20px rgba(255,0,0,0.8), 0 0 40px rgba(255,0,0,0.6); }}
-                        50% {{ box-shadow: 0 0 30px rgba(255,0,0,1), 0 0 60px rgba(255,0,0,0.8); }}
-                        100% {{ box-shadow: 0 0 20px rgba(255,0,0,0.8), 0 0 40px rgba(255,0,0,0.6); }}
-                    }}
-                </style>
-                <div class="health-card">
-                    <div class="health-title">{category_label} ({current_aqi})</div>
-                    <div class="health-description">{recommendation}</div>
-                </div>
-                """
-            elif category_label in ["Good", "Moderate"]:
-                # Light Mode Card
-                health_html = f"""
-                <style>
+                    width: 90%;
+                    margin: auto;
+                    padding: 30px 20px;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(12px);
+                    border-radius: 20px;
+                    border: 1px solid rgba(255,255,255,0.2);
+                    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+                    text-align: center;
+                    animation: fadeIn 1.5s ease-in;
+                }}
+                .health-title {{
+                    font-size: 26px;
+                    font-weight: 700;
+                    color: #ffffff;
+                    margin-bottom: 10px;
+                    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+                }}
+                .health-description {{
+                    font-size: 16px;
+                    color: #dddddd;
+                    margin-top: 15px;
+                    line-height: 1.6;
+                }}
+                @keyframes fadeIn {{
+                    0% {{opacity: 0; transform: translateY(20px);}}
+                    100% {{opacity: 1; transform: translateY(0);}}
+                }}
+                @media (max-width: 600px) {{
                     .health-card {{
-                        width: 90%;
-                        margin: auto;
-                        padding: 30px 25px;
-                        background: rgba(255, 255, 255, 0.2);
-                        backdrop-filter: blur(15px);
-                        border-radius: 20px;
-                        border: 1px solid rgba(255,255,255,0.3);
-                        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-                        text-align: center;
-                        animation: fadeIn 1.5s ease-in;
+                        padding: 20px 15px;
                     }}
-                    .health-title {{
-                        font-size: 28px;
-                        font-weight: 700;
-                        color: #000000;
-                        text-shadow: 0px 0px 8px rgba(255,255,255,0.5);
-                        margin-bottom: 10px;
-                    }}
-                    .health-description {{
-                        font-size: 16px;
-                        color: #333333;
-                        margin-top: 15px;
-                        line-height: 1.7;
-                    }}
-                    @keyframes fadeIn {{
-                        0% {{opacity: 0; transform: translateY(20px);}}
-                        100% {{opacity: 1; transform: translateY(0);}}
-                    }}
-                </style>
-                <div class="health-card">
-                    <div class="health-title">{category_label} ({current_aqi})</div>
-                    <div class="health-description">{recommendation}</div>
-                </div>
-                """
-            else:
-                # Dark Mode Card
-                health_html = f"""
-                <style>
-                    .health-card {{
-                        width: 90%;
-                        margin: auto;
-                        padding: 30px 25px;
-                        background: rgba(33, 38, 63, 0.85);
-                        backdrop-filter: blur(15px);
-                        border-radius: 20px;
-                        border: 1px solid rgba(255,255,255,0.1);
-                        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
-                        text-align: center;
-                        animation: fadeIn 1.5s ease-in;
-                    }}
-                    .health-title {{
-                        font-size: 28px;
-                        font-weight: 700;
-                        color: #FFFFFF;
-                        text-shadow: 0px 0px 8px rgba(255,255,255,0.7);
-                        margin-bottom: 10px;
-                    }}
-                    .health-description {{
-                        font-size: 16px;
-                        color: #DDDDDD;
-                        margin-top: 15px;
-                        line-height: 1.7;
-                    }}
-                    @keyframes fadeIn {{
-                        0% {{opacity: 0; transform: translateY(20px);}}
-                        100% {{opacity: 1; transform: translateY(0);}}
-                    }}
-                </style>
-                <div class="health-card">
-                    <div class="health-title">{category_label} ({current_aqi})</div>
-                    <div class="health-description">{recommendation}</div>
-                </div>
-                """
-    
-            # Render the card
-            components.html(health_html, height=300)
-            # Embed ElevenLabs inside same container
-            # --- Insert the ElevenLabs widget code here ---
-            # Make sure this variable definition is included!
-            elevenlabs_embed_code_in_box = """
-            <div style="z-index: 100; margin-top: 20px;"> <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai> 
-                <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+                    .health-title {{ font-size: 22px; }}
+                    .health-description {{ font-size: 14px; }}
+                }}
+            </style>
+
+            <div class="health-card">
+                <div class="health-title">{category_label} ({current_aqi})</div>
+                <div class="health-description">{recommendation}</div>
             </div>
             """
-            # Now use the defined variable
-            components.html(elevenlabs_embed_code_in_box, height=150)
+            components.html(health_html, height=300)
+
             
         else:
             st.info("Waiting for AQI data...")
