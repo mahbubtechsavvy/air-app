@@ -905,26 +905,27 @@ if st.session_state.view_data_clicked:
     # --- Data Visualization Sections ---
     colA, colB = st.columns(2)
     with colA:
-    st.markdown(f'<h3 style="color:#FFFFFF;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
+        st.markdown(f'<h3 style="color:#FFFFFF;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
     
-    if st.session_state.aqi_error:
-        st.error(f"AQI Error: {st.session_state.aqi_error}")
-        st.plotly_chart(create_aqi_gauge(None), use_container_width=True)
-    elif st.session_state.aqi_data:
-        aqi_val = st.session_state.aqi_data.get('aqi_us')
-        st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
+        if st.session_state.aqi_error:
+            st.error(f"AQI Error: {st.session_state.aqi_error}")
+            st.plotly_chart(create_aqi_gauge(None), use_container_width=True)
+        elif st.session_state.aqi_data:
+            aqi_val = st.session_state.aqi_data.get('aqi_us')
+            st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
 
-        # Display Timestamp and Main Pollutant (if available) below the gauge
-        timestamp = st.session_state.aqi_data.get('pollutant_ts')
-        main_pollutant = st.session_state.aqi_data.get('main_pollutant_us')
-        if timestamp and main_pollutant:
-            dt_object = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.timezone.utc)
-            st.markdown(f"""
-            <div style="line-height: 1.5;">
-                <span>Main Pollutant: {main_pollutant.upper()}</span><br>
-                <span>Last Updated: {dt_object.strftime('%Y-%m-%d %H:%M:%S UTC')}</span>
-            </div>
-            """, unsafe_allow_html=True)
+            # Display Timestamp and Main Pollutant (if available) below the gauge
+            timestamp = st.session_state.aqi_data.get('pollutant_ts')
+            main_pollutant = st.session_state.aqi_data.get('main_pollutant_us')
+            if timestamp and main_pollutant:
+                dt_object = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.timezone.utc)
+                st.markdown(f"""
+                <div style="line-height: 1.5;">
+                    <span>Main Pollutant: {main_pollutant.upper()}</span><br>
+                    <span>Last Updated: {dt_object.strftime('%Y-%m-%d %H:%M:%S UTC')}</span>
+                </div>
+                """, unsafe_allow_html=True)
+            
         
 
     # st.markdown("</div>", unsafe_allow_html=True) # Remove if you were using container divs
