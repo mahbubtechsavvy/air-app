@@ -842,7 +842,7 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 # Main Dashboard Area --- UPDATED FETCH LOGIC FOR #3 ---
 # -----------------------------------------------------------------------------
-st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">✨ Magick Board </span><span style="font-weight:200; font-size:20px;">of Air 13x</span></h1>', unsafe_allow_html=True)
+st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">Magick Board </span><span style="font-weight:200; font-size:20px;">✨</span></h1>', unsafe_allow_html=True)
 
 if st.session_state.view_data_clicked:
     # --- Fetch Data Sequentially ---
