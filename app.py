@@ -953,7 +953,7 @@ if st.session_state.view_data_clicked:
                     padding: 20px;
                     border-radius: 15px;
                     background: rgba(255, 255, 255, 0.4);  /* Match colB visibility */
-                    background: #FF0000;
+                    background: #0e1117;
                     backdrop-filter: blur(10px);
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                     border: 2px solid rgba(255, 255, 255, 0.3);
