@@ -1136,10 +1136,11 @@ if st.session_state.view_data_clicked:
             health_html = f"""
                 <style>
                     .health-card {{
-                    width: 90%;
+                    width: 80%;  /* Match colB width */
+                    height: 250px;  /* Match colB height */
                     margin: auto;
                     padding: 30px 20px;
-                    background: rgba(255, 255, 255, 0.05);
+                    background: rgba(255, 255, 255, 0.04);
                     backdrop-filter: blur(12px);
                     border-radius: 20px;
                     border: 1px solid rgba(255,255,255,0.2);
