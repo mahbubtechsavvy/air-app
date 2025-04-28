@@ -1135,60 +1135,50 @@ if st.session_state.view_data_clicked:
             # Display the recommendation in a styled box
             health_html = f"""
             <style>
-                .health-container {{
-                    padding: 20px;
-                    border-radius: 15px;
-                    background: rgba(255, 255, 255, 0.4);  /* Match colA visibility */
-                    background: #21263f;
-                    backdrop-filter: blur(10px);
-                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-                    border: 2px solid rgba(255, 255, 255, 0.3);
-                    margin: 20px auto;
-                    width: 80%;  /* Match colA width */
-                    height: 250px;  /* Match colA height */
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    align-items: center;
+                .health-card {{
+                width: 90%;
+                margin: auto;
+                padding: 30px 20px;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(12px);
+                border-radius: 20px;
+                border: 1px solid rgba(255,255,255,0.2);
+                box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+                text-align: center;
+                animation: fadeIn 1.5s ease-in;
+            }}
+            .health-title {{
+                font-size: 26px;
+                font-weight: 700;
+                color: #ffffff;
+                margin-bottom: 10px;
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+            }}
+            .health-description {{
+                font-size: 16px;
+                color: #dddddd;
+                margin-top: 15px;
+                line-height: 1.6;
+            }}
+            @keyframes fadeIn {{
+                0% {{opacity: 0; transform: translateY(20px);}}
+                100% {{opacity: 1; transform: translateY(0);}}
+            }}
+            @media (max-width: 600px) {{
+                .health-card {{
+                    padding: 20px 15px;
                 }}
-                .category-label {{
-                    font-size: 24px;
-                    font-weight: 600;
-                    color: #FFFFFF;
-                    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-                    margin-bottom: 10px;
-                    line-height: 1;
-                }}
-                .recommendation-text {{
-                    font-size: 16px;
-                    color: #FFFFFF;
-                    text-align: center;
-                    line-height: 1.5;
-                }}
-                @media (max-width: 600px) {{
-                    .health-container {{
-                        padding: 15px;
-                        height: 250px;  /* Match colA adjustment */
-                    }}
-                    .category-label {{ font-size: 18px; }}
-                    .recommendation-text {{ font-size: 14px; }}
-                }}
-            </style>
-            <div class="health-container">
-                <div class="category-label">{category_label} ({current_aqi})</div>
-                <div class="recommendation-text">{recommendation}</div>
-            </div>
-            """
-            components.html(health_html, height=320)  # Match colA height with padding
+                .health-title {{ font-size: 22px; }}
+                .health-description {{ font-size: 14px; }}
+            }}
+        </style>
 
-            # ElevenLabs Widget
-            elevenlabs_embed_code_in_box = """
-            <div style="z-index: 100; margin-top: 20px;">
-                <elevenlabs-convai agent-id="rHhQqxWxk4pue21ttj6s"></elevenlabs-convai>
-                <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-            </div>
-            """
-            components.html(elevenlabs_embed_code_in_box, height=150)
+        <div class="health-card">
+            <div class="health-title">{category_label} ({current_aqi})</div>
+            <div class="health-description">{recommendation}</div>
+        </div>
+        """
+        components.html(health_html, height=300)
             
         else:
             st.info("Waiting for AQI data...")
