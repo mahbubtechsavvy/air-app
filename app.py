@@ -902,23 +902,137 @@ if st.session_state.view_data_clicked:
     
     # --- Data Visualization Sections ---
     colA, colB = st.columns(2)
+    # --- Dynamic AQI Dashboard in colA ---
     with colA:
-        st.markdown(f'<h3 style="color:#FFFFFF;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
-    
+        st.markdown(f'<h3 style="color:#FFFFFF; text-align: center;">Air Quality Index in <b>{st.session_state.city}</b></h3>', unsafe_allow_html=True)
+
         if st.session_state.aqi_error:
             st.error(f"AQI Error: {st.session_state.aqi_error}")
-            st.plotly_chart(create_aqi_gauge(None), use_container_width=True)
         elif st.session_state.aqi_data:
-            aqi_val = st.session_state.aqi_data.get('aqi_us')
-            st.plotly_chart(create_aqi_gauge(aqi_val), use_container_width=True)
+            # Get AQI value and category
+            current_aqi = st.session_state.aqi_data.get('aqi_us', 87)  # Fallback to 87 if None
+            category_label, category_color = get_aqi_category(current_aqi)
 
-            # Display Timestamp and Main Pollutant (if available) below the gauge
+            # --- Dynamic Background Based on AQI Category ---
+            # Define gradient colors based on AQI category
+            gradient_colors = {
+                "Good": ("#5EC445", "#3a8c2e"),
+                "Moderate": ("#F5E769", "#d1c457"),
+                "Unhealthy for Sensitive Groups": ("#FE9B57", "#d17e46"),
+                "Unhealthy": ("#FE6A69", "#d15758"),
+                "Very Unhealthy": ("#A97ABC", "#8a5e9b"),
+                "Hazardous": ("#A06A7B", "#834f61"),
+                "Unknown": ("#808080", "#666666")
+            }
+            start_color, end_color = gradient_colors.get(category_label, ("#808080", "#666666"))
+
+            # Inject CSS for background gradient with fade-in animation
+            st.markdown(f"""
+            <style>
+                .stApp {{
+                    background: linear-gradient(135deg, {start_color}22, {end_color}22);
+                    animation: fadeIn 2s ease-in;
+                }}
+                @keyframes fadeIn {{
+                    0% {{ opacity: 0; }}
+                    100% {{ opacity: 1; }}
+                }}
+                .aqi-container {{
+                    text-align: center;
+                    padding: 20px;
+                    border-radius: 15px;
+                    background: rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(10px);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+                    margin: 20px 0;
+                }}
+                .aqi-number {{
+                    font-size: 80px;
+                    font-weight: bold;
+                    color: {category_color};
+                    text-shadow: 0 0 20px {category_color}88;
+                    margin-bottom: 10px;
+                }}
+                .aqi-category {{
+                    font-size: 24px;
+                    font-weight: 500;
+                    color: #FFFFFF;
+                    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                }}
+                @media (max-width: 600px) {{
+                    .aqi-number {{ font-size: 50px; }}
+                    .aqi-category {{ font-size: 18px; }}
+                }}
+            </style>
+            """, unsafe_allow_html=True)
+
+            # --- Animated AQI Number ---
+            # Use JavaScript to animate the number counting from 0 to current_aqi
+            animation_duration = 2000  # 2 seconds for the counting animation
+            st.markdown(f"""
+            <div class="aqi-container">
+                <div id="aqi-number" class="aqi-number">0</div>
+                <div class="aqi-category">{category_label}</div>
+            </div>
+            <script>
+                function animateNumber(target, duration) {{
+                    let start = 0;
+                    const end = {current_aqi};
+                    const increment = end / (duration / 16);  // Update every 16ms (~60fps)
+                    const element = document.getElementById("aqi-number");
+                
+                    function updateNumber() {{
+                        start += increment;
+                        if (start >= end) {{
+                            element.innerText = end;
+                        }} else {{
+                            element.innerText = Math.floor(start);
+                            requestAnimationFrame(updateNumber);
+                        }}
+                    }}
+                    requestAnimationFrame(updateNumber);
+                }}
+                animateNumber({current_aqi}, {animation_duration});
+            </script>
+            """, unsafe_allow_html=True)
+
+            # --- AQI Scale Bar with Matplotlib ---
+            fig, ax = plt.subplots(figsize=(8, 1))
+
+            # Define AQI ranges and colors
+            aqi_ranges = [(0, 50), (51, 100), (101, 150), (151, 200), (201, 300), (301, 500)]
+            colors = [AQI_CATEGORIES[range_]["color"] for range_ in aqi_ranges]
+            positions = [0, 50, 100, 150, 200, 300]  # Start positions of each segment
+
+            # Plot colored segments
+            for i in range(len(aqi_ranges)):
+                width = aqi_ranges[i][1] - aqi_ranges[i][0]
+                ax.barh(0, width, left=positions[i], height=0.5, color=colors[i], edgecolor='none')
+
+            # Add a black arrow marker for the current AQI
+            ax.plot(current_aqi, 0, marker='v', color='black', markersize=10, clip_on=False)
+
+            # Customize the plot
+            ax.set_xlim(0, 500)
+            ax.set_ylim(-0.5, 0.5)
+            ax.set_xticks([0, 50, 100, 150, 200, 300, 500])
+            ax.set_xticklabels(['0', '50', '100', '150', '200', '300', '500'], color='#FFFFFF', fontsize=10)
+            ax.set_yticks([])
+            ax.set_facecolor('none')
+            fig.patch.set_alpha(0)
+            for spine in ax.spines.values():
+                spine.set_visible(False)
+
+            # Display the scale bar
+            st.pyplot(fig)
+
+            # Display Timestamp and Main Pollutant below the scale bar
             timestamp = st.session_state.aqi_data.get('pollutant_ts')
             main_pollutant = st.session_state.aqi_data.get('main_pollutant_us')
             if timestamp and main_pollutant:
                 dt_object = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.timezone.utc)
                 st.markdown(f"""
-                <div style="line-height: 1.5;">
+                <div style="line-height: 1.5; text-align: center; color: #FFFFFF;">
                     <span>Main Pollutant: {main_pollutant.upper()}</span><br>
                     <span>Last Updated: {dt_object.strftime('%Y-%m-%d %H:%M:%S UTC')}</span>
                 </div>
