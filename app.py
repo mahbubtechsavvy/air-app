@@ -1186,7 +1186,7 @@ if st.session_state.view_data_clicked:
                 <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
             </div>
             """
-            components.html(elevenlabs_embed_code_in_box, height=350)
+            components.html(elevenlabs_embed_code_in_box, height=100)
             
         else:
             st.info("Waiting for AQI data...")
