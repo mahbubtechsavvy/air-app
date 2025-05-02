@@ -85,7 +85,7 @@ Click the image below to watch a demo of Air 30X in action, showcasing its dashb
 
 ## **Visual Representation**
 
-![Developer Photo](Developer_Photo_Covar.png)
+![Developer Photo](Developer_MD_Mahbubur_Rahman_Photo_Covar.png)
 
 ## **Contributing**
 
