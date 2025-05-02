@@ -10,7 +10,13 @@ from collections import defaultdict
 import concurrent.futures # To fetch city data concurrently
 import math
 
-
+# Default API keys (replace with your actual keys)
+DEFAULT_API_KEYS = {
+    "iqair": "52f95a10-d7d8-4003-b919-7bad7a57cd08",  # Replace with your IQAir API key
+    "openweathermap": "924f28bc729c8d8d37a0a9e0471a0b6d",  # Replace with your OpenWeatherMap API key
+    "waqi": "2fe106271126a1394205ba0ff5606c5bd165f20a",  # Replace with your WAQI API key
+    "mapbox": "pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw"  # Replace with your Mapbox token
+}
 # -----------------------------------------------------------------------------
 # Page Configuration
 # -----------------------------------------------------------------------------
@@ -132,6 +138,8 @@ st.markdown('<h1 style="text-align:center; color:white; font-weight:bold; font-s
 # -----------------------------------------------------------------------------
 # API Call Functions --- ADD THESE NEW FUNCTIONS ---
 # -----------------------------------------------------------------------------
+
+
 
 @st.cache_data(ttl=86400) # Cache for 1 day
 def get_iqair_countries(api_key):
