@@ -10,13 +10,7 @@ from collections import defaultdict
 import concurrent.futures # To fetch city data concurrently
 import math
 
-# Default API keys (replace with your actual keys)
-DEFAULT_API_KEYS = {
-    "iqair": "52f95a10-d7d8-4003-b919-7bad7a57cd08",  # Replace with your IQAir API key
-    "openweathermap": "924f28bc729c8d8d37a0a9e0471a0b6d",  # Replace with your OpenWeatherMap API key
-    "waqi": "2fe106271126a1394205ba0ff5606c5bd165f20a",  # Replace with your WAQI API key
-    "mapbox": "pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw"  # Replace with your Mapbox token
-}
+
 # -----------------------------------------------------------------------------
 # Page Configuration
 # -----------------------------------------------------------------------------
@@ -26,6 +20,15 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+
+# Default API keys (replace with your actual keys)
+DEFAULT_API_KEYS = {
+    "iqair": "52f95a10-d7d8-4003-b919-7bad7a57cd08",  # Replace with your IQAir API key
+    "openweathermap": "924f28bc729c8d8d37a0a9e0471a0b6d",  # Replace with your OpenWeatherMap API key
+    "waqi": "2fe106271126a1394205ba0ff5606c5bd165f20a",  # Replace with your WAQI API key
+    "mapbox": "pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw"  # Replace with your Mapbox token
+}
 
 # -----------------------------------------------------------------------------
 # AQI & Health Recommendations Configuration
@@ -71,17 +74,44 @@ CITIES_FOR_RANKING = [
 # Initialize Session State Variables
 # -----------------------------------------------------------------------------
 # ... (default_states unchanged) ...
+
+DEFAULT_API_KEYS = {
+    "iqair": "52f95a10-d7d8-4003-b919-7bad7a57cd08",  # Replace with your IQAir API key
+    "openweathermap": "924f28bc729c8d8d37a0a9e0471a0b6d",  # Replace with your OpenWeatherMap API key
+    "waqi": "2fe106271126a1394205ba0ff5606c5bd165f20a",  # Replace with your WAQI API key
+    "mapbox": "pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw"  # Replace with your Mapbox token
+}
+
+# Initialize Session State Variables
 default_states = {
-    'iqair_api_key': "", 'openweathermap_api_key': "", 'waqi_api_key': "",
-    'mapbox_token': "", 'country': "", 'state_region': "", 'city': "",
-    'view_data_clicked': False, 'weather_data': None, 'weather_error': None,
-    'aqi_data': None, 'aqi_error': None, 'coordinates': None, 'coordinates_error': None,
-    'history_data': None, 'history_error': None, 'forecast_data': None, 'forecast_error': None,
-    'nearby_data': None, 'nearby_error': None, 'map_data': None, 'map_error': None,
-    'ranking_data': None, 'ranking_error': None
+    'iqair_api_key': DEFAULT_API_KEYS["iqair"],
+    'openweathermap_api_key': DEFAULT_API_KEYS["openweathermap"],
+    'waqi_api_key': DEFAULT_API_KEYS["waqi"],
+    'mapbox_token': DEFAULT_API_KEYS["mapbox"],
+    'country': "",
+    'state_region': "",
+    'city': "",
+    'view_data_clicked': False,
+    'weather_data': None,
+    'weather_error': None,
+    'aqi_data': None,
+    'aqi_error': None,
+    'coordinates': None,
+    'coordinates_error': None,
+    'history_data': None,
+    'history_error': None,
+    'forecast_data': None,
+    'forecast_error': None,
+    'nearby_data': None,
+    'nearby_error': None,
+    'map_data': None,
+    'map_error': None,
+    'ranking_data': None,
+    'ranking_error': None
 }
 for key, default_value in default_states.items():
-    if key not in st.session_state: st.session_state[key] = default_value
+    if key not in st.session_state:
+        st.session_state[key] = default_value
 
 # -----------------------------------------------------------------------------
 # Styling
@@ -706,20 +736,19 @@ def generate_analytical_note(aqi_data, weather_data): # (Unchanged)
 # Sidebar Implementation (Unchanged from previous version)
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    # ... (sidebar code unchanged) ...
     st.header("Settings & Search")
     st.subheader("API Keys")
-    st.caption("Enter personal API keys from IQAir, OpenWeatherMap, WAQI (aqicn.org), and Mapbox.")
+    st.caption("Enter personal API keys from IQAir, OpenWeatherMap, WAQI (aqicn.org), and Mapbox. Defaults are pre-filled but can be edited.")
 
-    # --- API Key Inputs (Unchanged) ---
-    st.session_state.iqair_api_key = st.text_input("IQAir API Key", type="password", value=st.session_state.iqair_api_key, placeholder="Required for AQI & Location Lists") 
-    st.caption("eg: 52f95a10-d7d8-4003-b919-7bad7a57cd08") # Added example hint
+    # API Key Inputs with default values
+    st.session_state.iqair_api_key = st.text_input("IQAir API Key", type="password", value=st.session_state.iqair_api_key, placeholder="Required for AQI & Location Lists")
+    st.caption("eg: 52f95a10-d7d8-4003-b919-7bad7a57cd08")
     st.session_state.openweathermap_api_key = st.text_input("OpenWeatherMap API Key", type="password", value=st.session_state.openweathermap_api_key, placeholder="Required for Weather & Forecasts")
-    st.caption("eg: 924f28bc729c8d8d37a0a9e0471a0b6d") # Added example hint
+    st.caption("eg: 924f28bc729c8d8d37a0a9e0471a0b6d")
     st.session_state.waqi_api_key = st.text_input("WAQI API Key (aqicn.org)", type="password", value=st.session_state.waqi_api_key, placeholder="Required for Nearby, Map, Ranking")
-    st.caption("eg: 2fe106271126a1394205ba0ff5606c5bd165f20a") # Added example hint
+    st.caption("eg: 2fe106271126a1394205ba0ff5606c5bd165f20a")
     st.session_state.mapbox_token = st.text_input("Mapbox Access Token", type="password", value=st.session_state.mapbox_token, placeholder="Required for World Map display")
-    st.caption("eg: pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw") # Added example hint (matches Mapbox format)
+    st.caption("eg: pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw")
 
     st.markdown("---")
     st.subheader("Search Location")
