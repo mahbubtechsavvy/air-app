@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import requests
 import datetime
 import time
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 import pandas as pd
 from collections import defaultdict
 import concurrent.futures # To fetch city data concurrently
@@ -1302,7 +1302,7 @@ if st.session_state.view_data_clicked:
     st.markdown("</div>", unsafe_allow_html=True)
 
 else:
-    st.info("📊 Please enter API keys, Mapbox Token, and a location in the sidebar, then click 'View Data' to load the dashboard.")
+    st.info("📊 If sata is not show please enter API keys in the sidebar, than select your Country, State / Region, City name then click 'View Data' to load the Magick Board ✨")
 
 # -----------------------------------------------------------------------------
 # Static Content --- UPDATED About Section ---
