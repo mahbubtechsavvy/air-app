@@ -23,6 +23,7 @@ Click the image below to watch a demo of Air 30X in action, showcasing its dashb
 - API keys for:
   - [IQAir](https://www.iqair.com/air-pollution-data-api)
   - [OpenWeatherMap](https://openweathermap.org/api)
+  - [WAQI](https://waqi.info/)
   - [Mapbox](https://www.mapbox.com/)
   - [ElevenLabs](https://elevenlabs.io/)
 
