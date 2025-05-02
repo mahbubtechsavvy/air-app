@@ -22,14 +22,6 @@ st.set_page_config(
 )
 
 
-# Default API keys (replace with your actual keys)
-DEFAULT_API_KEYS = {
-    "iqair": "52f95a10-d7d8-4003-b919-7bad7a57cd08",  # Replace with your IQAir API key
-    "openweathermap": "924f28bc729c8d8d37a0a9e0471a0b6d",  # Replace with your OpenWeatherMap API key
-    "waqi": "2fe106271126a1394205ba0ff5606c5bd165f20a",  # Replace with your WAQI API key
-    "mapbox": "pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw"  # Replace with your Mapbox token
-}
-
 # -----------------------------------------------------------------------------
 # AQI & Health Recommendations Configuration
 # -----------------------------------------------------------------------------
@@ -755,42 +747,39 @@ with st.sidebar:
     st.caption("Select location using the dropdowns below.")
 
     # --- Dynamic Select Boxes ---
+    #
     countries_list, country_error = get_iqair_countries(st.session_state.iqair_api_key)
     states_list, state_error = [], None
     cities_list, city_error = [], None
 
-    # Display error if fetching countries failed (and key was provided)
     if country_error and st.session_state.iqair_api_key:
         st.error(f"Could not load countries: {country_error}")
 
-    # --- Country Selection ---
-    # Find index of previously selected country, default to 0 if not found or list empty
+    # Country Selection with default
     try:
-        country_index = countries_list.index(st.session_state.country) if st.session_state.country in countries_list else 0
+        country_index = countries_list.index(st.session_state.country) if st.session_state.country in countries_list else (countries_list.index("Bangladesh") if "Bangladesh" in countries_list else 0)
     except ValueError:
-        country_index = 0 # Default if list is empty or selection invalid
+        country_index = 0
 
     selected_country = st.selectbox(
         "Country",
         options=countries_list,
         index=country_index,
         placeholder="Select Country...",
-        key='country_selector', # Use a distinct key
-        disabled=not st.session_state.iqair_api_key or not countries_list # Disable if no key or no countries
+        key='country_selector',
+        disabled=not st.session_state.iqair_api_key or not countries_list
     )
 
-    # --- State/Region Selection ---
-    # Only fetch states if a country is selected and IQAir key is valid
+    # State/Region Selection with default
     if selected_country and st.session_state.iqair_api_key:
         states_list, state_error = get_iqair_states(st.session_state.iqair_api_key, selected_country)
         if state_error:
             st.error(f"Could not load states for {selected_country}: {state_error}")
 
-    # Find index of previously selected state
     try:
-         state_index = states_list.index(st.session_state.state_region) if st.session_state.state_region in states_list else 0
+        state_index = states_list.index(st.session_state.state_region) if st.session_state.state_region in states_list else (states_list.index("Dhaka") if "Dhaka" in states_list else 0)
     except ValueError:
-         state_index = 0
+        state_index = 0
 
     selected_state = st.selectbox(
         "State / Region",
@@ -798,19 +787,17 @@ with st.sidebar:
         index=state_index,
         placeholder="Select State/Region...",
         key='state_selector',
-        disabled=not selected_country or not states_list # Disable if no country or no states
+        disabled=not selected_country or not states_list
     )
 
-    # --- City Selection ---
-    # Only fetch cities if a state and country are selected and IQAir key is valid
+    # City Selection with default
     if selected_state and selected_country and st.session_state.iqair_api_key:
         cities_list, city_error = get_iqair_cities(st.session_state.iqair_api_key, selected_country, selected_state)
         if city_error:
             st.error(f"Could not load cities for {selected_state}: {city_error}")
 
-    # Find index of previously selected city
     try:
-        city_index = cities_list.index(st.session_state.city) if st.session_state.city in cities_list else 0
+        city_index = cities_list.index(st.session_state.city) if st.session_state.city in cities_list else (cities_list.index("Dhaka") if "Dhaka" in cities_list else 0)
     except ValueError:
         city_index = 0
 
@@ -820,7 +807,7 @@ with st.sidebar:
         index=city_index,
         placeholder="Select City...",
         key='city_selector',
-        disabled=not selected_state or not cities_list # Disable if no state or no cities
+        disabled=not selected_state or not cities_list
     )
 
     # --- Update session state when selections change ---
