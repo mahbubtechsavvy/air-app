@@ -1302,7 +1302,7 @@ if st.session_state.view_data_clicked:
     st.markdown("</div>", unsafe_allow_html=True)
 
 else:
-    st.info("📊 If sata is not show please enter API keys in the sidebar, than select your Country, State / Region, City name then click 'View Data' to load the Magick Board ✨")
+    st.info("📊 If Magick Board not show data please enter your API keys in the sidebar, than select your Country, State/Region, City name then click 'View Data' to load the Magick Board ✨")
 
 # -----------------------------------------------------------------------------
 # Static Content --- UPDATED About Section ---
