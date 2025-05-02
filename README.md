@@ -1,12 +1,21 @@
 Air 30X: Real-Time Air Quality and Health Guidance 🌍
+Air 30X is a Streamlit-powered app delivering real-time air quality and weather insights for cities like Dhaka, empowering users to combat pollution and climate change. Leveraging APIs from IQAir, OpenWeatherMap, and Mapbox, it provides AQI, health recommendations, historical air quality graphs, most polluted locations, 7-day weather and AQI forecasts, top 10 most polluted cities globally, and a world air pollution map. A voice call AI agent (powered by ElevenLabs) offers instant medical advice, such as “drink 2–3 liters of fresh water daily” or “limit outdoor time to 30 minutes at AQI >150,” addressing 7 million annual pollution deaths (WHO, 2021). Supporting all 17 SDGs, Air 30X aims to reach 2.5 billion people in polluted regions by 2030 (UNEP, 2024).
+Demo Video
+Experience Air 30X in action! Check out our demo video below, which auto-plays to showcase the app’s features:
+<video width="100%" controls autoplay loop>
+  <source src="https://www.youtube.com/embed/ToQgvpcB8O8&ab?autoplay=1" type="video/youtube">
+  Your browser does not support the video tag.
+</video>
 
-Air 30X is a Streamlit-based app that delivers real-time air quality and weather insights for cities like Dhaka, empowering users to protect their health and combat climate change. Using APIs like IQAir, OpenWeatherMap, and Mapbox, it provides AQI, health recommendations, historical air quality graphs, and more. A voice call AI agent (powered by ElevenLabs) offers instant medical advice, such as “drink 2–3 liters of fresh water daily,” helping users tackle pollution’s 7 million annual deaths (WHO, 2021). Air 30X supports all 17 SDGs and aims to reach 2.5 billion people in polluted regions by 2030 (UNEP, 2024).
+Note: Replace your-video-id with your actual YouTube video ID (e.g., dQw4w9WgXcQ from https://www.youtube.com/watch?v=dQw4w9WgXcQ). Upload your demo video to YouTube, set it to public or unlisted, and copy the ID.*
 Features
 
-Real-Time Data: AQI, health recommendations, historical air quality graphs, most polluted locations near cities like Dhaka, today’s weather, 7-day weather and AQI forecasts, top 10 most polluted cities globally, and a world air pollution map.
-Voice AI Guidance: Instant medical advice via a voice call AI agent, e.g., “limit outdoor time to 30 minutes at AQI >150.”
-SDG Impact: Reduces 13% of pollution-linked asthma cases (Anenberg et al., 2018) while supporting global sustainability goals.
-User-Friendly Interface: Built with Streamlit for easy navigation and data visualization.
+Real-time AQI, health recommendations, and historical air quality graphs for cities like Dhaka.
+Most polluted locations near your city and a world air pollution map.
+Today’s weather, 7-day weather, and AQI forecasts.
+Top 10 live most polluted major cities globally.
+Voice AI agent providing instant medical advice via ElevenLabs.
+SDG-aligned impact, reducing 13% of pollution-linked asthma cases (Anenberg et al., 2018).
 
 Prerequisites
 
@@ -15,15 +24,15 @@ API keys for:
 IQAir
 OpenWeatherMap
 Mapbox
-ElevenLabs (for voice AI)
+ElevenLabs
 
 
 
 Installation
 
 Clone the Repository:
-git clone https://github.com/your-username/air30x.git
-cd air30x
+git clone https://github.com/mahbubtechsavvy/ai-app.git
+cd ai-app
 
 
 Set Up a Virtual Environment (recommended):
@@ -34,7 +43,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 Install Dependencies:
 pip install -r requirements.txt
 
-Dependencies listed in requirements.txt:
+Dependencies (from requirements.txt):
 
 streamlit==1.36.0
 plotly==5.24.1
@@ -51,7 +60,7 @@ matplotlib==3.9.2
 
 Configure API Keys:
 
-Run streamlit run app.py and enter your API keys (IQAir, OpenWeatherMap, Mapbox, ElevenLabs) in the Streamlit sidebar as prompted.
+Run the app and enter your IQAir, OpenWeatherMap, Mapbox, and ElevenLabs API keys in the Streamlit sidebar.
 
 
 
@@ -60,30 +69,29 @@ Usage
 Run the App:streamlit run app.py
 
 
-Access the App:
-Open your browser and go to http://localhost:8501.
-Enter your API keys in the sidebar.
-Search for a city (e.g., Dhaka) to view air quality, weather data, and health recommendations.
-Use the voice AI feature to get real-time medical advice (no additional setup required).
+Explore the App:
+Open http://localhost:8501 in your browser.
+Input API keys in the sidebar.
+Search a city (e.g., Dhaka) to access air quality, weather, and health data.
+Engage the voice AI for real-time medical advice.
 
 
 
 Project Structure
 
-app.py: Main application file for Air 30X.
-requirements.txt: List of Python dependencies.
-Developer_Photo_Covar.png: Developer photo for project representation (displayed below).
+app.py: Main application file.
+requirements.txt: Dependency list.
+Developer_Photo_Covar.png: Developer photo (see below).
 
-Screenshots
-[Add screenshots of the app’s dashboard, e.g., AQI gauge, heat map, or voice AI interface. Create a /screenshots folder, upload images, and link them here, e.g., ![Dashboard](screenshots/dashboard.png).]
 Visual Representation
 
 Contributing
-Contributions are welcome! Please fork the repository, create a new branch, and submit a pull request with your changes.
+Contributions are welcome! Fork this repository, create a branch, and submit a pull request with your improvements.
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 Contact
-For questions or support, reach out at:  
+For support or inquiries:  
 
 Email: mail.mdmahbuburrahman@gmail.com  
 WhatsApp: 01644274016
+
