@@ -747,7 +747,7 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 # Main Dashboard Area --- UPDATED FETCH LOGIC FOR #3 ---
 # -----------------------------------------------------------------------------
-st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">  Magick Board ✨</span><span style="font-weight:200; font-size:12px;">🌍</span></h1>', unsafe_allow_html=True)
+st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">  Magick Board</span><span style="font-weight:200; font-size:18px;">✨</span></h1>', unsafe_allow_html=True)
 
 # Search Location Box in Dashboard
 #st.markdown('<div class="search-container">', unsafe_allow_html=True)
@@ -1314,7 +1314,7 @@ Imagine a child in Dhaka struggling to breathe as smog chokes the city — **7 m
 
 **Air 30X** was born to change that story, delivering **real-time air quality and weather insights** to protect families worldwide, starting in Bangladesh. With **AI and APIs** like **IQAir** and **OpenWeatherMap**, we're rewriting futures, one breath at a time, while our **Voice Call AI Agent** offers hope with **instant medical advice**.
 
-🌍 Real-Time Insights
+✨ Real-Time Insights
 - AQI (Air Quality Index)
 - Health recommendations
 - Historical air quality graphs
