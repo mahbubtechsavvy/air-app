@@ -747,7 +747,7 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 # Main Dashboard Area --- UPDATED FETCH LOGIC FOR #3 ---
 # -----------------------------------------------------------------------------
-st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">  Magick Board</span><span style="font-weight:200; font-size:18px;">✨</span></h1>', unsafe_allow_html=True)
+st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">  Magick Board </span><span style="font-weight:200; font-size:30px;"> ✨</span></h1>', unsafe_allow_html=True)
 
 # Search Location Box in Dashboard
 #st.markdown('<div class="search-container">', unsafe_allow_html=True)
