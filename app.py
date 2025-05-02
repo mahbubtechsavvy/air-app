@@ -133,6 +133,7 @@ st.markdown(f"""<style>
      .mapboxgl-ctrl-attrib a {{ color: {hint_text_color} !important; }}
      .plotly .mapboxgl-marker svg g circle {{ stroke: #FFFFFF !important; }}
      .analytical-note {{ font-size: 0.9rem; color: {hint_text_color}; padding-top: 10px; border-top: 1px dashed #444; margin-top: 15px; }}
+    .search-container {{ background-color: {card_bg}; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #3a3f5a; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }}
 </style>""", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
@@ -742,25 +743,30 @@ with st.sidebar:
     st.session_state.mapbox_token = st.text_input("Mapbox Access Token", type="password", value=st.session_state.mapbox_token, placeholder="Required for World Map display")
     st.caption("eg: pk.eyJ1IjoiYXZvZWR1IiwiYSI6ImNtOXZhdm51NDBocmsya29wZjQwOWYwYjEifQ.eO5JA-fwx1WLJIYVQYLwIw")
 
-    st.markdown("---")
-    st.subheader("Search Location")
-    st.caption("Select location using the dropdowns below.")
 
-    # --- Dynamic Select Boxes ---
-    #
-    countries_list, country_error = get_iqair_countries(st.session_state.iqair_api_key)
-    states_list, state_error = [], None
-    cities_list, city_error = [], None
+# -----------------------------------------------------------------------------
+# Main Dashboard Area --- UPDATED FETCH LOGIC FOR #3 ---
+# -----------------------------------------------------------------------------
+st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">  Magick Board ✨</span><span style="font-weight:200; font-size:12px;">🌍</span></h1>', unsafe_allow_html=True)
 
-    if country_error and st.session_state.iqair_api_key:
-        st.error(f"Could not load countries: {country_error}")
+# Search Location Box in Dashboard
+st.markdown('<div class="search-container">', unsafe_allow_html=True)
+col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
 
-    # Country Selection with default
+# Dynamic Select Boxes
+countries_list, country_error = get_iqair_countries(st.session_state.iqair_api_key)
+states_list, state_error = [], None
+cities_list, city_error = [], None
+
+if country_error and st.session_state.iqair_api_key:
+    st.error(f"Could not load countries: {country_error}")
+
+# Country Selection
+with col1:
     try:
         country_index = countries_list.index(st.session_state.country) if st.session_state.country in countries_list else (countries_list.index("Bangladesh") if "Bangladesh" in countries_list else 0)
     except ValueError:
         country_index = 0
-
     selected_country = st.selectbox(
         "Country",
         options=countries_list,
@@ -770,17 +776,17 @@ with st.sidebar:
         disabled=not st.session_state.iqair_api_key or not countries_list
     )
 
-    # State/Region Selection with default
-    if selected_country and st.session_state.iqair_api_key:
-        states_list, state_error = get_iqair_states(st.session_state.iqair_api_key, selected_country)
-        if state_error:
-            st.error(f"Could not load states for {selected_country}: {state_error}")
+# State/Region Selection
+if selected_country and st.session_state.iqair_api_key:
+    states_list, state_error = get_iqair_states(st.session_state.iqair_api_key, selected_country)
+    if state_error:
+        st.error(f"Could not load states for {selected_country}: {state_error}")
 
+with col2:
     try:
         state_index = states_list.index(st.session_state.state_region) if st.session_state.state_region in states_list else (states_list.index("Dhaka") if "Dhaka" in states_list else 0)
     except ValueError:
         state_index = 0
-
     selected_state = st.selectbox(
         "State / Region",
         options=states_list,
@@ -790,17 +796,17 @@ with st.sidebar:
         disabled=not selected_country or not states_list
     )
 
-    # City Selection with default
-    if selected_state and selected_country and st.session_state.iqair_api_key:
-        cities_list, city_error = get_iqair_cities(st.session_state.iqair_api_key, selected_country, selected_state)
-        if city_error:
-            st.error(f"Could not load cities for {selected_state}: {city_error}")
+# City Selection
+if selected_state and selected_country and st.session_state.iqair_api_key:
+    cities_list, city_error = get_iqair_cities(st.session_state.iqair_api_key, selected_country, selected_state)
+    if city_error:
+        st.error(f"Could not load cities for {selected_state}: {city_error}")
 
+with col3:
     try:
         city_index = cities_list.index(st.session_state.city) if st.session_state.city in cities_list else (cities_list.index("Dhaka") if "Dhaka" in cities_list else 0)
     except ValueError:
         city_index = 0
-
     selected_city = st.selectbox(
         "City",
         options=cities_list,
@@ -810,30 +816,24 @@ with st.sidebar:
         disabled=not selected_state or not cities_list
     )
 
-    # --- Update session state when selections change ---
-    # Check if selections have actually changed to avoid unnecessary updates
-    if selected_country != st.session_state.country:
-        st.session_state.country = selected_country
-        # IMPORTANT: Reset state and city if country changes
-        st.session_state.state_region = ""
-        st.session_state.city = ""
-        # Force rerun to update dependent dropdowns
-        st.rerun()
+# Update session state when selections change
+if selected_country != st.session_state.country:
+    st.session_state.country = selected_country
+    st.session_state.state_region = ""
+    st.session_state.city = ""
+    st.rerun()
 
-    if selected_state != st.session_state.state_region:
-        st.session_state.state_region = selected_state
-        # IMPORTANT: Reset city if state changes
-        st.session_state.city = ""
-        # Force rerun to update dependent dropdowns
-        st.rerun()
+if selected_state != st.session_state.state_region:
+    st.session_state.state_region = selected_state
+    st.session_state.city = ""
+    st.rerun()
 
-    if selected_city != st.session_state.city:
-        st.session_state.city = selected_city
-        # Don't need to rerun here unless city change should trigger something immediately
+if selected_city != st.session_state.city:
+    st.session_state.city = selected_city
 
-    # --- View Data Button ---
+# View Data Button
+with col4:
     if st.button("View Data", key="view_data_button"):
-        # Reset data and errors before fetching
         st.session_state.weather_data = None; st.session_state.weather_error = None
         st.session_state.aqi_data = None; st.session_state.aqi_error = None
         st.session_state.coordinates = None; st.session_state.coordinates_error = None
@@ -843,31 +843,25 @@ with st.sidebar:
         st.session_state.map_data = None; st.session_state.map_error = None
         st.session_state.ranking_data = None; st.session_state.ranking_error = None
 
-        # Validation
         valid = True
         if not st.session_state.iqair_api_key: st.warning("IQAir API Key is required."); valid = False
         if not st.session_state.openweathermap_api_key: st.warning("OpenWeatherMap API Key is required."); valid = False
         if not st.session_state.waqi_api_key: st.warning("WAQI API Key is required."); valid = False
         if not st.session_state.mapbox_token: st.warning("Mapbox Access Token is required."); valid = False
-        # Check if selections are made
         if not st.session_state.country: st.warning("Please select a Country."); valid = False
-        if not st.session_state.state_region and states_list: st.warning("Please select a State/Region."); valid = False # Only require if states exist for the country
-        if not st.session_state.city and cities_list: st.warning("Please select a City."); valid = False # Only require if cities exist for the state
+        if not st.session_state.state_region and states_list: st.warning("Please select a State/Region."); valid = False
+        if not st.session_state.city and cities_list: st.warning("Please select a City."); valid = False
 
         if valid:
             st.session_state.view_data_clicked = True
             st.info("Fetching data...")
-            # Rerun to clear warnings and start fetching in the main area
             st.rerun()
         else:
             st.session_state.view_data_clicked = False
-# --- End of Sidebar Replacement ---
 
-# -----------------------------------------------------------------------------
-# Main Dashboard Area --- UPDATED FETCH LOGIC FOR #3 ---
-# -----------------------------------------------------------------------------
-st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">  Magick Board ✨</span><span style="font-weight:200; font-size:12px;">🌍</span></h1>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
+# Display Data if View Data is Clicked
 if st.session_state.view_data_clicked:
     # --- Fetch Data Sequentially ---
     fetch_success = True; lat = None; lon = None
@@ -1307,8 +1301,8 @@ if st.session_state.view_data_clicked:
     else: st.info("Map data unavailable.")
     st.markdown("</div>", unsafe_allow_html=True)
 
-else:
-    st.info("📊 Please enter API keys, Mapbox Token, and a location in the sidebar, then click 'View Data' to load the dashboard.")
+#else:
+    #st.info("📊 Please enter API keys, Mapbox Token, and a location in the sidebar, then click 'View Data' to load the dashboard.")
 
 # -----------------------------------------------------------------------------
 # Static Content --- UPDATED About Section ---
