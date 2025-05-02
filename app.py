@@ -836,7 +836,7 @@ if selected_city != st.session_state.city:
 
 # View Data Button
 with col4:
-    st.markdown('<div style="display: flex; align-items: center; height: 90%;">', unsafe_allow_html=True)
+    st.markdown('<div style="display: flex; align-items: center; height: 100%; margin-top: 25px;">', unsafe_allow_html=True)
     if st.button("View Data", key="view_data_button"):
         st.session_state.weather_data = None; st.session_state.weather_error = None
         st.session_state.aqi_data = None; st.session_state.aqi_error = None
