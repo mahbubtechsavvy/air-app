@@ -1,6 +1,5 @@
 <div style="text-align: center;">
-  <h1>Air 30X /n Real-Time Air Quality Analysis and Health Guidance 🌍✨</h1>
-  <h3>Real-Time Air Quality Analysis and Health Guidance 🌍✨</h3>
+  <h1>Air 30X: Real-Time Air Quality Analysis and Health Guidance 🌍✨</h1>
 </div>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
