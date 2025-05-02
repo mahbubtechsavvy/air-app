@@ -1,14 +1,9 @@
-Air 30X: Real-Time Air Quality and Health Guidance 🌍
+**Air 30X: Real-Time Air Quality and Health Guidance 🌍**
 
 Air 30X is a Streamlit-powered app delivering real-time air quality and weather insights for cities like Dhaka, empowering users to combat pollution and climate change. Leveraging APIs from IQAir, OpenWeatherMap, and Mapbox, it provides AQI, health recommendations, historical air quality graphs, most polluted locations, 7-day weather and AQI forecasts, top 10 most polluted cities globally, and a world air pollution map. A voice call AI agent (powered by ElevenLabs) offers instant medical advice, such as “drink 2–3 liters of fresh water daily” or “limit outdoor time to 30 minutes at AQI >150,” addressing 7 million annual pollution deaths (WHO, 2021). Supporting all 17 SDGs, Air 30X aims to reach 2.5 billion people in polluted regions by 2030 (UNEP, 2024).
 Demo Video
-Experience Air 30X in action! Check out our demo video below, which auto-plays to showcase the app’s features:
-<video width="100%" controls autoplay loop>
-  <source src="https://www.youtube.com/embed/ToQgvpcB8O8&ab?autoplay=1" type="video/youtube">
-  Your browser does not support the video tag.
-</video>
+Click the image below to watch a demo of Air 30X in action, showcasing its dashboard, voice AI, and more:
 
-Note: Replace your-video-id with your actual YouTube video ID (e.g., dQw4w9WgXcQ from https://www.youtube.com/watch?v=dQw4w9WgXcQ). Upload your demo video to YouTube, set it to public or unlisted, and copy the ID.*
 Features
 
 Real-time AQI, health recommendations, and historical air quality graphs for cities like Dhaka.
