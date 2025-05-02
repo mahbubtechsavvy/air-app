@@ -119,8 +119,11 @@ st.markdown(f"""<style>
     .stTextInput input, .stTextArea textarea {{ color: {text_color}; background-color: #2b304a; }} /* Existing rule */
     ::placeholder {{ color: {hint_text_color} !important; opacity: 1 !important; }} :-ms-input-placeholder {{ color: {hint_text_color} !important; }} ::-ms-input-placeholder {{ color: {hint_text_color} !important; }}
     div[data-testid="stSelectbox"] > div:first-child {{
-        background-color: #2b304a;
-        color: #FFFFFF !important;
+    background-color: #2b304a;
+    color: #FFFFFF !important;
+    height: 52px;
+    display: flex;
+    align-items: center;
     }}
     .st-expanderHeader {{ color: {secondary_text_color}; font-weight: bold; }} .st-expander {{ background-color: #132660; border: none !important; border-radius: 10px; margin-bottom: 10px; }} .st-expander p {{ color: {text_color}; }}
     div.stButton > button:first-child {{ background-color: {primary_button_color}; color: {text_color}; border-radius: 5px; padding: 0.5rem 1rem; border: none; width: 100%; font-weight: bold; }} div.stButton > button:hover {{ background-color: #bf1169; color: {text_color}; }}
@@ -133,10 +136,10 @@ st.markdown(f"""<style>
      .mapboxgl-ctrl-attrib a {{ color: {hint_text_color} !important; }}
      .plotly .mapboxgl-marker svg g circle {{ stroke: #FFFFFF !important; }}
      .analytical-note {{ font-size: 0.9rem; color: {hint_text_color}; padding-top: 10px; border-top: 1px dashed #444; margin-top: 15px; }}
-    .search-container {{ background-color: {card_bg}; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #3a3f5a; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; max-width: 900px; margin-left: auto; margin-right: auto; min-height: 52px; }}
-    div.stButton > button {{ padding: 0.5rem 1.5rem; font-size: 16px; height: 100%; min-height: 52px; display: flex; align-items: center; justify-content: center; }}
+    .search-container {{ background-color: {card_bg}; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #3a3f5a; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: nowrap; max-width: 900px; margin-left: auto; margin-right: auto; min-height: 52px; min-width: 700px; }}
+    div.stButton > button {{ background-color: {primary_button_color}; color: {text_color}; border-radius: 5px; padding: 0.5rem 1.5rem; font-size: 16px; font-weight: bold; border: none; height: 100%; min-height: 52px; display: flex; align-items: center; justify-content: center; }}
+    div.stButton > button:hover {{ background-color: #bf1169; color: {text_color}; }}
 </style>""", unsafe_allow_html=True)
-
 # -----------------------------------------------------------------------------
 # Header (remains the same)
 # -----------------------------------------------------------------------------
@@ -863,6 +866,7 @@ with col4:
     st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
+
 
 # Display Data if View Data is Clicked
 if st.session_state.view_data_clicked:
