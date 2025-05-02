@@ -751,7 +751,7 @@ st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span s
 
 # Search Location Box in Dashboard
 #st.markdown('<div class="search-container">', unsafe_allow_html=True)
-col1, col2, col3, col4 = st.columns([2, 2, 2, 1.5])
+col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
 
 # Dynamic Select Boxes
 countries_list, country_error = get_iqair_countries(st.session_state.iqair_api_key)
