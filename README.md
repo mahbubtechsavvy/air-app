@@ -1,5 +1,10 @@
-# **Air 30X**
-*Real-Time Air Quality Analysis and Health Guidance 🌍✨*
+<div style="text-align: center;">
+  <h1>Air 30X</h1>
+  <h3>Real-Time Air Quality Analysis and Health Guidance 🌍✨</h3>
+</div>
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 Air 30X is a Streamlit-powered app delivering real-time air quality and weather insights for cities like Dhaka, empowering users to combat pollution and climate change. Leveraging APIs from IQAir, OpenWeatherMap, and Mapbox, it provides AQI, health recommendations, historical air quality graphs, most polluted locations, 5-day weather and AQI forecasts, top 10 most polluted cities globally, and a world air pollution map. A voice call AI agent (powered by ElevenLabs) offers instant medical advice, such as “drink 2–3 liters of fresh water daily” or “limit outdoor time to 30 minutes at AQI >150,” addressing 7 million annual pollution deaths (WHO, 2021). Supporting all 17 SDGs, Air 30X aims to reach 2.5 billion people in polluted regions by 2030 (UNEP, 2024).
 
