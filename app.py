@@ -750,7 +750,7 @@ with st.sidebar:
 st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">  Magick Board ✨</span><span style="font-weight:200; font-size:12px;">🌍</span></h1>', unsafe_allow_html=True)
 
 # Search Location Box in Dashboard
-st.markdown('<div class="search-container">', unsafe_allow_html=True)
+#st.markdown('<div class="search-container">', unsafe_allow_html=True)
 col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
 
 # Dynamic Select Boxes
@@ -1301,8 +1301,8 @@ if st.session_state.view_data_clicked:
     else: st.info("Map data unavailable.")
     st.markdown("</div>", unsafe_allow_html=True)
 
-#else:
-    #st.info("📊 Please enter API keys, Mapbox Token, and a location in the sidebar, then click 'View Data' to load the dashboard.")
+else:
+    st.info("📊 Please enter API keys, Mapbox Token, and a location in the sidebar, then click 'View Data' to load the dashboard.")
 
 # -----------------------------------------------------------------------------
 # Static Content --- UPDATED About Section ---
