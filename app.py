@@ -136,9 +136,8 @@ st.markdown(f"""<style>
      .mapboxgl-ctrl-attrib a {{ color: {hint_text_color} !important; }}
      .plotly .mapboxgl-marker svg g circle {{ stroke: #FFFFFF !important; }}
      .analytical-note {{ font-size: 0.9rem; color: {hint_text_color}; padding-top: 10px; border-top: 1px dashed #444; margin-top: 15px; }}
-    .search-container {{ background-color: {card_bg}; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #3a3f5a; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: nowrap; max-width: 900px; margin-left: auto; margin-right: auto; min-height: 52px; min-width: 700px; }}
-    div.stButton > button {{ background-color: {primary_button_color}; color: {text_color}; border-radius: 5px; padding: 0.5rem 1.5rem; font-size: 16px; font-weight: bold; border: none; height: 100%; min-height: 52px; display: flex; align-items: center; justify-content: center; }}
-    div.stButton > button:hover {{ background-color: #bf1169; color: {text_color}; }}
+    .search-container {{ background-color: {card_bg}; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #3a3f5a; display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; max-width: 900px; margin-left: auto; margin-right: auto; }}
+    div.stButton > button {{ padding: 0.5rem 1.5rem; font-size: 16px; }}
 </style>""", unsafe_allow_html=True)
 # -----------------------------------------------------------------------------
 # Header (remains the same)
@@ -754,7 +753,7 @@ with st.sidebar:
 st.markdown('<h1 style="text-align:center; color:white; font-size:40px;"><span style="font-weight:500;">  Magick Board </span><span style="font-weight:200; font-size:30px;"> ✨</span></h1>', unsafe_allow_html=True)
 
 # Search Location Box in Dashboard
-#st.markdown('<div class="search-container">', unsafe_allow_html=True)
+st.markdown('<div class="search-container">', unsafe_allow_html=True)
 col1, col2, col3, col4 = st.columns([2, 2, 2, 1.5])
 
 # Dynamic Select Boxes
@@ -837,8 +836,8 @@ if selected_city != st.session_state.city:
 
 # View Data Button
 with col4:
-    st.markdown('<div style="display: flex; justify-content: center; align-items: center; height: 100%; min-height: 52px;">', unsafe_allow_html=True)
-    if st.button("View Data", key="view_data_button", help="Click to load data for the selected location"):
+    st.markdown('<div style="display: flex; align-items: center; height: 100%;">', unsafe_allow_html=True)
+    if st.button("View Data", key="view_data_button"):
         st.session_state.weather_data = None; st.session_state.weather_error = None
         st.session_state.aqi_data = None; st.session_state.aqi_error = None
         st.session_state.coordinates = None; st.session_state.coordinates_error = None
