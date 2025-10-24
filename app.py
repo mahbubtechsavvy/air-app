@@ -1314,11 +1314,11 @@ else:
 # Static Content --- UPDATED About Section ---
 # -----------------------------------------------------------------------------
 #st.markdown('<div class="glass-container"><div class="glass-card">', unsafe_allow_html=True)
-st.header("About Air 30X")
+st.header("About Air 13x")
 st.markdown("""
 Imagine a child in Dhaka struggling to breathe as smog chokes the city — **7 million lives are lost yearly to pollution** (WHO, 2021).
 
-**Air 30X** was born to change that story, delivering **real-time air quality and weather insights** to protect families worldwide, starting in Bangladesh. With **AI and APIs** like **IQAir** and **OpenWeatherMap**, we're rewriting futures, one breath at a time, while our **Voice Call AI Agent** offers hope with **instant medical advice**.
+**Air 13x** was born to change that story, delivering **real-time air quality and weather insights** to protect families worldwide, starting in Bangladesh. With **AI and APIs** like **IQAir** and **OpenWeatherMap**, we're rewriting futures, one breath at a time, while our **Voice Call AI Agent** offers hope with **instant medical advice**.
 
 ✨ Real-Time Insights
 - AQI (Air Quality Index)
