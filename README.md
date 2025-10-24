@@ -1,17 +1,17 @@
 <div style="text-align: center;">
-  <h1>AIR 30X: Realtime Air Quality Analysis and Health Guidance ✨</h1>
+  <h1>AIR 13x: Realtime Air Quality Analysis and Health Guidance ✨</h1>
 </div>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-Air 30X is a Streamlit-powered app delivering real-time air quality and weather insights for cities like Dhaka, empowering users to combat pollution and climate change. Leveraging APIs from IQAir, OpenWeatherMap, and Mapbox, it provides AQI, health recommendations, historical air quality graphs, most polluted locations, 5-day weather and AQI forecasts, top 10 most polluted cities globally, and a world air pollution map. A voice call AI agent (powered by ElevenLabs) offers instant medical advice, such as “drink 2–3 liters of fresh water daily” or “limit outdoor time to 30 minutes at AQI >150,” addressing 7 million annual pollution deaths (WHO, 2021). Supporting all 17 SDGs, Air 30X aims to reach 2.5 billion people in polluted regions by 2030 (UNEP, 2024).
+Air 13x is a Streamlit-powered app delivering real-time air quality and weather insights for cities like Dhaka, empowering users to combat pollution and climate change. Leveraging APIs from IQAir, OpenWeatherMap, and Mapbox, it provides AQI, health recommendations, historical air quality graphs, most polluted locations, 5-day weather and AQI forecasts, top 10 most polluted cities globally, and a world air pollution map. A voice call AI agent (powered by ElevenLabs) offers instant medical advice, such as “drink 2–3 liters of fresh water daily” or “limit outdoor time to 30 minutes at AQI >150,” addressing 7 million annual pollution deaths (WHO, 2021). Supporting all 17 SDGs, Air 13x aims to reach 2.5 billion people in polluted regions by 2030 (UNEP, 2024).
 
 ## **Demo Video**
 
-Click the image below to watch a demo of Air 30X in action, showcasing its dashboard, voice AI, and more:
+Click the image below to watch a demo of Air 13x in action, showcasing its dashboard, voice AI, and more:
 
-[![Air 30X Demo](https://img.youtube.com/vi/ToQgvpcB8O8/maxresdefault.jpg)](https://www.youtube.com/watch?v=ToQgvpcB8O8)
+[![Air 13x Demo](https://img.youtube.com/vi/ToQgvpcB8O8/maxresdefault.jpg)](https://www.youtube.com/watch?v=ToQgvpcB8O8)
 
 ## **Features**
 
